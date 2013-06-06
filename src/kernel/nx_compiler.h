@@ -20,6 +20,11 @@
 #	define NX_CC_GNU
 #endif
 
+/* Using clang? */
+#ifdef __clang__
+#	define NX_CC_CLANG
+#endif
+
 /* Is C90 supported by this compiler? */
 #if defined(__STDC_VERSION__)
 #	define NX_STD_C90
