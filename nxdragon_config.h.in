@@ -1,0 +1,18 @@
+﻿/*
+	NxDragon Game Engine
+
+	Author: Patrik Jeppsson <dacrackerx64@gmail.com>
+
+	License: This source code is proprietary and may not
+			 be used without permission from the author. 
+*/
+
+#ifndef __NXDRAGON_CONFIG_H__
+#define __NXDRAGON_CONFIG_H__
+
+#define NXDRAGON_VERSION_MAJOR  @NXDRAGON_VERSION_MAJOR@
+#define NXDRAGON_VERSION_MINOR  @NXDRAGON_VERSION_MINOR@
+#define NXDRAGON_VERSION_PATCH  @NXDRAGON_VERSION_PATCH@  
+
+#endif
+
