@@ -14,7 +14,10 @@
 #include "nx_compiler.h"
 #include "nx_bool.h"
 
-/** \defgroup nx_linkedlist nx_linkedlist
+/** \ingroup NxKernel
+  * \defgroup nx_linkedlist nx_linkedlist 
+  * \brief generic double-linked list 
+  *
   * A generic linked list. New items can
   * be inserted at the beginning and at
   * the end of the list at O(1). 
@@ -76,5 +79,5 @@ NX_INLINE int nx_linkedlist_size(nx_linkedlist *self)
 NX_INLINE NX_BOOL nx_linkedlist_empty(nx_linkedlist *self)
 { return self->size > 0 ? NX_FALSE : NX_TRUE; }
 
-/** @} */
+/** @}*/
 #endif

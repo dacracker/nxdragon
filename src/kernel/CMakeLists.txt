@@ -13,7 +13,8 @@ set(nxkernel_inc
 	nx_atomic.h
 	nx_types.h
 	nx_linkedlist.h
-	nx_list.h)
+	nx_list.h
+	nx_doc.h)
 			    
 set(nxkernel_src 
 	nx_linkedlist.c

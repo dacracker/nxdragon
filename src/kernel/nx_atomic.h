@@ -13,7 +13,10 @@
 #include "nx_def.h"
 #include "nx_types.h"
 
-/** \defgroup nx_atomic nx_atomic
+/** \ingroup NxKernel
+  * \defgroup nx_atomic nx_atomic 
+  * \brief atomic functions 
+  *
   * A collection of functions guaranteed to perform
   * their operations atomically on all supported platforms. 
   * @{

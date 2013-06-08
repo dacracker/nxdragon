@@ -14,7 +14,10 @@
 #include "nx_compiler.h"
 #include "nx_bool.h"
 
-/** \defgroup nx_list nx_list
+/** \ingroup NxKernel
+  * \defgroup nx_list nx_list
+  * \brief generic list container 
+  *
   * A generic list. This list provides
   * a memory effective and fast list structure
   * with instanst access to any element in the list.
@@ -43,7 +46,7 @@ NX_INLINE int nx_list_size(nx_list *self)
 
 /** Return value indicates if the list is empty or not */
 NX_INLINE NX_BOOL nx_list_empty(nx_list *self)
-{ return nx_list_size(self) > 0 ? NX_TRUE : NX_FALSE; }
+{ return nx_list_size(self) > 0 ? NX_FALSE : NX_TRUE; }
 
 /** Inserts the data at the given position, which must be valid within the list.
 	Performs a resize of the internal array if necessary. */
@@ -86,5 +89,5 @@ NX_INLINE void nx_list_remove_first(nx_list *self)
 NX_INLINE void nx_list_remove_last(nx_list *self)
 { nx_list_remove_at(self,nx_list_size(self)-1); }
 
-/** @} */
+/** @} @} */
 #endif

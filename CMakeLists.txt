@@ -14,10 +14,6 @@ set(NXDRAGON_VERSION_PATCH 0)
 include(cmake/nx_platform.cmake)
 include(cmake/nx_filters.cmake)
 
-# Find Python 3
-# find_package(PythonLibs 3 REQUIRED)
-# include_directories(${PYTHON_INCLUDE_PATH})
-
 # We want to mark all debug binaries with a _d suffix
 set(CMAKE_DEBUG_POSTFIX "_d")
 
@@ -36,5 +32,8 @@ include_directories("${PROJECT_BINARY_DIR}")
 # Include our source directories
 add_subdirectory(src/kernel)
 add_subdirectory(src/utest)
+add_subdirectory(src/py3bind)
 
+# Unit tests 
 add_subdirectory(tests/kernel)
+add_subdirectory(tests/py3bind)
