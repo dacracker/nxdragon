@@ -10,7 +10,8 @@
 #ifndef __NXPY3BIND_PYENGINE_H__
 #define __NXPY3BIND_PYENGINE_H__
 
-#include "nx_pydef.h"
+#include "nx_def.h"
+#include "../kernel/nx_bool.h"
 
 /** \ingroup NxPy3Bind
   * \defgroup nx_pyengine nx_pyengine 
@@ -24,6 +25,12 @@ void NX_PY3BIND_API nx_py3_init();
 
 /** Must be called when you're done using Python 3 to avoid resource leakage. */
 void NX_PY3BIND_API nx_py3_shutdown(); 
+
+/** Runs the given Python 3 script */
+void NX_PY3BIND_API nx_py3_run_script(const char *script);
+
+/** Opens the file and treats it's content as a Python 3 script */
+NX_BOOL NX_PY3BIND_API nx_py3_run_file(const char* filename);
 
 /** @} */
 

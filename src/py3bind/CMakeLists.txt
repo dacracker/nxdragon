@@ -11,7 +11,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(nxpy3bind_inc 
 	nx_pyengine.h
-	nx_pydef.h
+	nx_def.h
 	nx_doc.h)
 			    
 set(nxpy3bind_src 
