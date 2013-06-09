@@ -46,12 +46,7 @@ static int nx_py_atomic_init(nx_py_atomic *self, PyObject *args, PyObject *kwds)
 /*************************************************************/
 static PyObject* nx_py_atomic_value(nx_py_atomic *self)
 {
-	PyObject *const result = Py_BuildValue("i", nx_atomic_value(&self->atomic_value));
-
-	if(result)
-		Py_XDECREF(result);
-
-	return result;
+	return PyLong_FromLong(nx_atomic_value(&self->atomic_value));
 }
 
 /*************************************************************/
@@ -68,8 +63,7 @@ static PyObject* nx_py_atomic_dec(nx_py_atomic *self)
 {
 	nx_atomic_dec(&self->atomic_value);
 	
-	Py_INCREF(Py_None);
-	return Py_None;
+	Py_RETURN_NONE;
 }
 
 /* method table */

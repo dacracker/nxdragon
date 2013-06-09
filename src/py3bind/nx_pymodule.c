@@ -1,8 +1,9 @@
 #include "nx_pymodule.h"
 
-/* Python bindings { */
+/* NxKernel */
 #	include "nx_pykernel_atomic.h"
-/* } */
+#	include "nx_pykernel_list.h"
+
 
 static struct PyModuleDef NxDragonModule = {
 	PyModuleDef_HEAD_INIT,
@@ -24,7 +25,9 @@ PyMODINIT_FUNC PyInit_NxDragon(void)
 	} nxdragon_types[] =
 	{
 		/* Atomic */		
-		{ _nx_pykernel_atomic_init, _nx_pykernel_atomic_reg }
+		{ _nx_pykernel_atomic_init, _nx_pykernel_atomic_reg },
+		/* List */
+		{ _nx_pykernel_list_init, _nx_pykernel_list_reg }
 	};
 
 	/* Initialize all types */

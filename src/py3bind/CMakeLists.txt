@@ -14,12 +14,14 @@ set(nxpy3bind_inc
 	nx_pymodule.h
 	nx_def.h
 	nx_doc.h
-	nx_pykernel_atomic.h)
+	nx_pykernel_atomic.h
+	nx_pykernel_list.h)
 			    
 set(nxpy3bind_src 
 	nx_pyengine.c
 	nx_pymodule.c
-	nx_pykernel_atomic.c)
+	nx_pykernel_atomic.c
+	nx_pykernel_list.c)
 
 add_library(nxpy3bind SHARED 
 			${nxpy3bind_src}
