@@ -29,7 +29,7 @@ NX_KERNEL_API int nx_atomic_inc(volatile nxint32* value);
 NX_KERNEL_API int nx_atomic_dec(volatile nxint32* value);
 
 /** Returns the current value of value */
-NX_KERNEL_API int nx_atomic_read(volatile nxint32* value);
+NX_KERNEL_API int nx_atomic_value(volatile nxint32* value);
 
 /** @} */
 #endif

@@ -12,7 +12,7 @@ void test_atomic_inc(void *status)
 	while(counter < 5)
 		nx_assert_equal(nx_atomic_inc(&value),++counter);
 
-	nx_assert_equal(counter,nx_atomic_read(&value));
+	nx_assert_equal(counter,nx_atomic_value(&value));
 }
 
 /*************************************************************/
@@ -24,5 +24,5 @@ void test_atomic_dec(void *status)
 	while(counter > 0)
 		nx_assert_equal(nx_atomic_dec(&value),--counter);
 
-	nx_assert_equal(counter,nx_atomic_read(&value));
+	nx_assert_equal(counter,nx_atomic_value(&value));
 }

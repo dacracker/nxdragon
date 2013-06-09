@@ -10,9 +10,7 @@ int main(int args, char** argv)
 	NX_UNUSED(args); 
 	NX_UNUSED(argv);
 
-	nx_py3_run_script("print('Hello Python!');");
-
-	nx_py3_run_file("simple.py");
+	nx_py3_run_file("simple.py"); 
 
 	nx_py3_shutdown();
 

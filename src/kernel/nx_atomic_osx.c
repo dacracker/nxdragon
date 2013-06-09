@@ -26,7 +26,7 @@ int nx_atomic_dec(volatile nxint32* value)
 }
 
 /*************************************************************/
-int nx_atomic_read(volatile nxint32* value)
+int nx_atomic_value(volatile nxint32* value)
 {
     /* Not sure if this is the best way to do it but should work.. */
     return OSAtomicAdd32(0, value);

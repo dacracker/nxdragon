@@ -34,7 +34,7 @@ int nx_atomic_dec(volatile nxint32* value)
 }
 
 /*************************************************************/
-int nx_atomic_read(volatile nxint32* value)
+int nx_atomic_value(volatile nxint32* value)
 {
 	return (int)_InterlockedCompareExchange((volatile LONG*)value,0,0);
 }

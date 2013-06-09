@@ -11,11 +11,15 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(nxpy3bind_inc 
 	nx_pyengine.h
+	nx_pymodule.h
 	nx_def.h
-	nx_doc.h)
+	nx_doc.h
+	nx_pykernel_atomic.h)
 			    
 set(nxpy3bind_src 
-	nx_pyengine.c)
+	nx_pyengine.c
+	nx_pymodule.c
+	nx_pykernel_atomic.c)
 
 add_library(nxpy3bind SHARED 
 			${nxpy3bind_src}
@@ -23,4 +27,4 @@ add_library(nxpy3bind SHARED
 
 nx_filter("${nxpy3bind_src};${nxpy3bind_inc}")
 
-target_link_libraries(nxpy3bind ${PYTHON_LIBRARY})
+target_link_libraries(nxpy3bind nxkernel ${PYTHON_LIBRARY})

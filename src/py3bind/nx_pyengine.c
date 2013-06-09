@@ -8,12 +8,13 @@
 */
 
 #include "nx_pyengine.h"
-
-#include <Python.h>
+#include "nx_pymodule.h"
 
 /*************************************************************/
 void nx_py3_init()
 {
+	PyImport_AppendInittab(PY3BIND_MODULE_NAME, PyInit_NxDragon);
+
 	Py_Initialize();
 }
 
@@ -47,6 +48,8 @@ NX_BOOL nx_py3_run_file(const char* filename)
 		PyRun_SimpleFile(file,filename);
 		return NX_TRUE;
 	}
+
+	Py_DECREF(py_filename);
 
 	return NX_FALSE;
 }
