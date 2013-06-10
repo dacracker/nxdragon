@@ -7,8 +7,8 @@
 			 be used without permission from the author. 
 */
 
-#ifndef __NEXUS_KERNEL_PLATFORM_H__
-#define __NEXUS_KERNEL_PLATFORM_H__
+#ifndef __NXDRAGON_KERNEL_PLATFORM_H__
+#define __NXDRAGON_KERNEL_PLATFORM_H__
 
 /*
 	Platform macros
