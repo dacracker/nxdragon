@@ -16,6 +16,6 @@ int main(int args, char** argv)
 
 	NX_UNUSED(args); 
 	NX_UNUSED(argv);
-
+    
 	return nx_run_tests(tests);
 }

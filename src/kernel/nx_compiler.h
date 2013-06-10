@@ -31,12 +31,12 @@
 	/* Is C99 supported by this compiler? */
 #	if(__STDC_VERSION__ >= 199901L)
 #		define NX_STD_C99
-#	    define NX_INLINE inline /* A modern compiler should support inline properly */    
+#	    define NX_INLINE static inline /* A modern compiler should support inline properly */    
 #		if(__STDC_VERSION__ >= 201112L)
 #			define NX_STD_C11	/* This compiler supports C11, fancy! */
 #		endif
 #	else
-#		define NX_INLINE /* inline isn't a keyword in pre-C99 standards */	
+#		define NX_INLINE static /* inline isn't a keyword in pre-C99 standards */	
 #	endif
 #else
 #	define NX_INLINE static /* inline isn't a keyword in pre-C99 standards */
