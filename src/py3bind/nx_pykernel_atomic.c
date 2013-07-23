@@ -15,8 +15,6 @@ static PyObject* nx_py_atomic_new(PyTypeObject *type,PyObject *args, PyObject *k
 {
 	/* Alloc memory for the object */
 	nx_py_atomic *self = (nx_py_atomic*)type->tp_alloc(type,0);
-
-	self = (nx_py_atomic*)type->tp_alloc(type,0);
 	self->atomic_value = 0;
 
 	NX_UNUSED(args)

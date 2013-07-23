@@ -25,7 +25,7 @@
 */
 
 /* Dection of Microsoft Windows */
-#if(defined(WIN32) || defined(_WINDOWS))
+#if(defined(_WIN32) || defined(_WINDOWS))
 #	define NX_OS_WIN32 
 #	if (defined(_WIN64) || defined(_M_X64))
 #		define NX_OS_WIN64

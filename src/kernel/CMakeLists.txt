@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-add_definitions(-DNXDRAGON_BUILD_KERNEL)
-
 # This is needed to find our configuration file
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -37,5 +35,8 @@ set(nxkernel_src
 add_library(nxkernel SHARED 
 			${nxkernel_src}
 			${nxkernel_inc})
+
+set_target_properties(nxkernel PROPERTIES 
+					  		   DEFINE_SYMBOL NXDRAGON_BUILD_KERNEL)
 
 nx_filter("${nxkernel_src};${nxkernel_inc}")

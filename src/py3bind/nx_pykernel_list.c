@@ -16,8 +16,6 @@ static PyObject* nx_py_list_new(PyTypeObject *type,PyObject *args, PyObject *kwd
 	/* Alloc memory for the object */
 	nx_py_list *self = (nx_py_list*)type->tp_alloc(type,0);
 
-	self = (nx_py_list*)type->tp_alloc(type,0);
-
 	NX_UNUSED(args)
 	NX_UNUSED(kwds)
 

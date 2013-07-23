@@ -15,6 +15,7 @@ if(CMAKE_HOST_WIN32)
 	# Always use Warning level 4 when using Visual Studio
 	if(MSVC)
 		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /W4")
+		set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /ZI")
 		add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 	endif()
 endif()
