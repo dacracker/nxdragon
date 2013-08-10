@@ -3,13 +3,11 @@
 from distutils.core import setup, Extension;
 import sys
 
-# Steal the argument containing the nxkernel name
-nxkernel = sys.argv[2]
-sys.argv = sys.argv[:2]
-
 py3bind = Extension('nxdragon',
-					library_dirs = [ '${CMAKE_BINARY_DIR}/bin', '${CMAKE_BINARY_DIR}/bin/Debug', '${CMAKE_BINARY_DIR}/bin/Release' ],
-					libraries = [ nxkernel ],
+					library_dirs = [ '${CMAKE_BINARY_DIR}/bin', 
+									 '${CMAKE_BINARY_DIR}/bin/Debug', 
+									 '${CMAKE_BINARY_DIR}/bin/Release' ],
+					libraries = [ "nxkernel" ],
 					define_macros = [ ('NXDRAGON_BUILD_PY3BIND', None) ],
 					sources = [	'${CMAKE_CURRENT_SOURCE_DIR}/nx_pyengine.c', 
 								'${CMAKE_CURRENT_SOURCE_DIR}/nx_pymodule.c', 

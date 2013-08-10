@@ -16,9 +16,6 @@ option(NXDRAGON_PYTHON3_SUPPORT ON)
 include(cmake/nx_platform.cmake)
 include(cmake/nx_filters.cmake)
 
-# We want to mark all debug binaries with a _d suffix
-set(CMAKE_DEBUG_POSTFIX "_d")
-
 # We want to put all binaries in the same output dir	   
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 

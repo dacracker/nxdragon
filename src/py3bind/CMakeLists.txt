@@ -28,12 +28,10 @@ set(OUTPUT_PY "${CMAKE_BINARY_DIR}/build/timestamp")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in" "${SETUP_PY}")
 
 add_custom_command(OUTPUT ${OUTPUT_PY}
-				   COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} build --build-base=${LIBRARY_OUTPUT_PATH} $<TARGET_FILE:nxkernel>
+				   COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} build --build-base=${LIBRARY_OUTPUT_PATH}
 				   COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PY})
 
 add_custom_target(py3bind ALL DEPENDS ${OUTPUT_PY}
 				  SOURCES ${nxpy3bind_src} ${nxpy3bind_inc})
 
 nx_filter("${nxpy3bind_src};${nxpy3bind_inc}")
-
-#target_link_libraries(nxpy3bind nxkernel)
