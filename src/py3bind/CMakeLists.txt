@@ -23,12 +23,12 @@ set(nxpy3bind_src
 	nx_pykernel_list.c)
 
 set(SETUP_PY "${CMAKE_BINARY_DIR}/setup.py")
-set(OUTPUT_PY "${CMAKE_BINARY_DIR}/build/timestamp")
+set(OUTPUT_PY "${LIBRARY_OUTPUT_PATH}/timestamp")
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in" "${SETUP_PY}")
 
 add_custom_command(OUTPUT ${OUTPUT_PY}
-				   COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} build --build-base=${LIBRARY_OUTPUT_PATH}
+				   COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} build --build-platlib=${LIBRARY_OUTPUT_PATH}
 				   COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PY})
 
 add_custom_target(py3bind ALL DEPENDS ${OUTPUT_PY}
