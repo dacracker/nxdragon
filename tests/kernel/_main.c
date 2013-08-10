@@ -12,7 +12,8 @@ int main(int args, char** argv)
 
 							 /* nx_list */
 							 &test_list_init_delete,
-							 &test_list_append };
+							 &test_list_append,
+							 &test_list_insert };
 
 	NX_UNUSED(args); 
 	NX_UNUSED(argv);

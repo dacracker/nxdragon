@@ -29,6 +29,7 @@ void test_list_append(void *status)
 	nx_list_init(&list);
 
 	nx_assert_equal(list.size,0);
+	nx_assert_equal(nx_list_empty(&list),NX_TRUE);
 
 	/* Append some values */
 	while(counter < 120)
@@ -40,6 +41,32 @@ void test_list_append(void *status)
 
 	while(counter-- > 0)
 		nx_assert_equal((int)nx_list_at(&list,counter),counter+1);
+
+	nx_list_delete(&list);
+}
+
+/*************************************************************/
+void test_list_insert(void *status)
+{
+	nx_list list;
+	int test_values[] = { 20, 57, 12, 89, 39, 24 };
+
+	nx_list_init(&list);
+
+	nx_list_insert(&list,50,(void*)test_values[0]);
+
+	nx_assert_equal((int)nx_list_at(&list,0),test_values[0]);
+
+	nx_list_insert(&list,0,(void*)test_values[1]);
+
+	nx_assert_equal((int)nx_list_at(&list,0),test_values[1]);
+	nx_assert_equal((int)nx_list_at(&list,1),test_values[0]);
+
+	nx_list_insert(&list,1,(void*)test_values[2]);
+
+	nx_assert_equal((int)nx_list_at(&list,0),test_values[1]);
+	nx_assert_equal((int)nx_list_at(&list,1),test_values[2]);
+	nx_assert_equal((int)nx_list_at(&list,2),test_values[0]);
 
 	nx_list_delete(&list);
 }

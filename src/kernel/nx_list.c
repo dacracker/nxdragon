@@ -9,6 +9,8 @@
 			 
 #include "nx_list.h"
 
+#include "../math/nx_math.h"
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -82,13 +84,16 @@ void nx_list_insert(nx_list *self, int position, void *data)
 	/* make sure there's enough memory avalible to store the new item */
 	_nx_list_grow(self,1);
 
+	// Translate position into a valid position within the list, if necessary
+	position = nx_clip(position,0,nx_list_size(self));
+
 	/* move the items following the requested position out of the way */
 	memmove(self->array + position + 1,
 			self->array + position,
 			NX_POINTER_SIZE * (nx_list_size(self) - position));
 
 	self->array[position] = data;
-	++self->size; 
+	++self->size;
 }
 
 /*************************************************************/

@@ -1,5 +1,5 @@
-#ifndef __NX_KERNEL_DOC_H__
-#define __NX_KERNEL_DOC_H__
+#ifndef __NXDRAGON_KERNEL_DOC_H__
+#define __NXDRAGON_KERNEL_DOC_H__
 
 /** @defgroup NxKernel 
  * The kernel module contains commonly used

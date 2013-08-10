@@ -7,4 +7,7 @@ void test_list_init_delete(void *status);
 /* Test list append functionality plus some size checking */
 void test_list_append(void *status);
 
+/* Test list insert functionality */
+void test_list_insert(void *status);
+
 #endif
