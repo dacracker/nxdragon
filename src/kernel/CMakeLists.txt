@@ -28,6 +28,11 @@ if(NX_PLATFORM_MACOSX)
 		nx_atomic_osx.c)
 endif()
 
+if(NX_PLATFORM_UNIX)
+	set(nxkernel_platform_src 
+		nx_atomic_unix.c)
+endif()
+
 set(nxkernel_src 
 	${nxkernel_src}
 	${nxkernel_platform_src})
