@@ -8,13 +8,13 @@
 static struct PyModuleDef NxDragonModule = {
 	PyModuleDef_HEAD_INIT,
 	PY3BIND_MODULE_NAME,
-	"Nexus Game Engine", /* Documentation */
+	"NxDragon Game Engine", /* Documentation */
 	-1,
 	0
 };
 
 /*************************************************************/
-PyMODINIT_FUNC PyInit_NxDragon(void)
+PyMODINIT_FUNC PyInit_nxdragon(void)
 {
 	PyObject *nxdragon_module;
 	int index;

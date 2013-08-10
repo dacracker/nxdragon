@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Find Python 3
+find_package(PythonInterp 3 REQUIRED)
 find_package(PythonLibs 3 REQUIRED)
 include_directories(${PYTHON_INCLUDE_PATH})
 
@@ -21,13 +22,18 @@ set(nxpy3bind_src
 	nx_pykernel_atomic.c
 	nx_pykernel_list.c)
 
-add_library(nxpy3bind SHARED 
-			${nxpy3bind_src}
-			${nxpy3bind_inc})
+set(SETUP_PY "${CMAKE_BINARY_DIR}/setup.py")
+set(OUTPUT_PY "${CMAKE_BINARY_DIR}/build/timestamp")
 
-set_target_properties(nxpy3bind PROPERTIES 
-					  		  	DEFINE_SYMBOL NXDRAGON_BUILD_PY3BIND)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in" "${SETUP_PY}")
+
+add_custom_command(OUTPUT ${OUTPUT_PY}
+				   COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} build --build-base=${LIBRARY_OUTPUT_PATH} $<TARGET_FILE:nxkernel>
+				   COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PY})
+
+add_custom_target(py3bind ALL DEPENDS ${OUTPUT_PY}
+				  SOURCES ${nxpy3bind_src} ${nxpy3bind_inc})
 
 nx_filter("${nxpy3bind_src};${nxpy3bind_inc}")
 
-target_link_libraries(nxpy3bind nxkernel ${PYTHON_LIBRARY})
+#target_link_libraries(nxpy3bind nxkernel)

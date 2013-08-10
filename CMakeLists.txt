@@ -11,6 +11,8 @@ set(NXDRAGON_VERSION_MAJOR 0)
 set(NXDRAGON_VERSION_MINOR 1)
 set(NXDRAGON_VERSION_PATCH 0)
 
+option(NXDRAGON_PYTHON3_SUPPORT ON)
+
 include(cmake/nx_platform.cmake)
 include(cmake/nx_filters.cmake)
 
@@ -32,8 +34,11 @@ include_directories("${PROJECT_BINARY_DIR}")
 # Include our source directories
 add_subdirectory(src/kernel)
 add_subdirectory(src/utest)
-add_subdirectory(src/py3bind)
+
+if(NXDRAGON_PYTHON3_SUPPORT)
+	add_subdirectory(src/py3bind)
+endif()
 
 # Unit tests 
 add_subdirectory(tests/kernel)
-add_subdirectory(tests/py3bind)
+#add_subdirectory(tests/py3bind)

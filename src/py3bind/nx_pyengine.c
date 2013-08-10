@@ -13,7 +13,7 @@
 /*************************************************************/
 void nx_py3_init()
 {
-	PyImport_AppendInittab(PY3BIND_MODULE_NAME, PyInit_NxDragon);
+	PyImport_AppendInittab(PY3BIND_MODULE_NAME, PyInit_nxdragon);
 
 	Py_Initialize();
 }

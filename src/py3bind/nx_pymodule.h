@@ -6,7 +6,7 @@
 
 #define PY3BIND_MODULE_NAME "nxdragon"
 
-PyMODINIT_FUNC PyInit_NxDragon(void);
+PyMODINIT_FUNC PyInit_nxdragon(void);
 
 #ifdef NX_CC_MSVC
 #	pragma warning(disable:4127) /* Disables "Conditional expression is constant" emitted from Py_XDECREF() */
