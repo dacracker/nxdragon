@@ -5,8 +5,7 @@ import sys
 
 py3bind = Extension('nxdragon',
 					library_dirs = [ '${CMAKE_BINARY_DIR}/bin', 
-									 '${CMAKE_BINARY_DIR}/bin/Debug', 
-									 '${CMAKE_BINARY_DIR}/bin/Release' ],
+									 '${CMAKE_BINARY_DIR}/bin/${CMAKE_CFG_INTDIR}'],
 					libraries = [ "nxkernel" ],
 					define_macros = [ ('NXDRAGON_BUILD_PY3BIND', None) ],
 					sources = [	'${CMAKE_CURRENT_SOURCE_DIR}/nx_pyengine.c', 

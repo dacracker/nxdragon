@@ -21,10 +21,10 @@
   */
 
 /** Initialize the Python 3 engine, must be called before all other Python functions! */ 
-void NX_PY3BIND_API nx_py3_init();
+void NX_PY3BIND_API nx_py3_init(void);
 
 /** Must be called when you're done using Python 3 to avoid resource leakage. */
-void NX_PY3BIND_API nx_py3_shutdown(); 
+void NX_PY3BIND_API nx_py3_shutdown(void); 
 
 /** Runs the given Python 3 script */
 void NX_PY3BIND_API nx_py3_run_script(const char *script);

@@ -97,7 +97,7 @@ static PyTypeObject nx_py_atomic_type = {
 };
 
 /*************************************************************/
-NX_BOOL _nx_pykernel_atomic_init()
+NX_BOOL _nx_pykernel_atomic_init(void)
 {
 	if(PyType_Ready(&nx_py_atomic_type) < 0)
 		return NX_FALSE;

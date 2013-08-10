@@ -11,7 +11,7 @@
 #include "nx_pymodule.h"
 
 /*************************************************************/
-void nx_py3_init()
+void nx_py3_init(void)
 {
 	PyImport_AppendInittab(PY3BIND_MODULE_NAME, PyInit_nxdragon);
 
@@ -19,7 +19,7 @@ void nx_py3_init()
 }
 
 /*************************************************************/
-void nx_py3_shutdown()
+void nx_py3_shutdown(void)
 {
 	Py_Finalize();
 } 

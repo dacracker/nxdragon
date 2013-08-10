@@ -121,7 +121,7 @@ static PyTypeObject nx_py_list_type = {
 };
 
 /*************************************************************/
-NX_BOOL _nx_pykernel_list_init()
+NX_BOOL _nx_pykernel_list_init(void)
 {
 	if(PyType_Ready(&nx_py_list_type) < 0)
 		return NX_FALSE;
