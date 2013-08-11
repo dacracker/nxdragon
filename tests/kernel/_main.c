@@ -25,14 +25,16 @@
 /*************************************************************/
 int main(int args, char** argv)
 {
-	nx_unit_test tests[] = { /* nx_atomic */
-							 &test_atomic_inc,
-							 &test_atomic_dec,
-
-							 /* nx_list */
-							 &test_list_init_delete,
-							 &test_list_append,
-							 &test_list_insert };
+	nx_unit_test tests[] = {  /* nx_atomic */
+                            &test_atomic_inc,
+        							      &test_atomic_dec,
+        							 
+                            /* nx_list */
+        							      &test_list_init_delete,
+        							      &test_list_append,
+        							      &test_list_insert,
+                            &test_list_first_last,
+                            &test_list_value };
 
 	NX_UNUSED(args); 
 	NX_UNUSED(argv);

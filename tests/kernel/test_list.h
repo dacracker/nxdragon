@@ -29,4 +29,10 @@ void test_list_append(void *status);
 /* Test list insert functionality */
 void test_list_insert(void *status);
 
+/* Tests the functions nx_list_first and nx_list_last */
+void test_list_first_last(void *status);
+
+/* Tests the nx_list_value function */
+void test_list_value(void *status);
+
 #endif

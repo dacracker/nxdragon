@@ -78,7 +78,7 @@ NX_INLINE void* nx_list_at(nx_list *self,int position)
 
 /** Safe version of nx_list_at() that will return 0 if the position is invalid */
 NX_INLINE void* nx_list_value(nx_list *self, int position)
-{ return position < nx_list_size(self) ? nx_list_at(self,position) : 0; }
+{ return (position >= 0 && position < nx_list_size(self)) ? nx_list_at(self,position) : 0; }
 
 /** Returns the first item in the list, this function is unsafe if the list is empty */
 NX_INLINE void* nx_list_first(nx_list *self)
