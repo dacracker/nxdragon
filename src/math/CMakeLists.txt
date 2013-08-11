@@ -6,10 +6,12 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(nxmath_inc 
 	nx_doc.h
 	nx_def.h
-	nx_math.h)
+	nx_math.h
+	nx_vector2.h)
 
 set(nxmath_src 
-	nx_math.c)
+	nx_math.c
+	nx_vector2.c)
 
 add_library(nxmath SHARED ${nxmath_inc} ${nxmath_src})
 

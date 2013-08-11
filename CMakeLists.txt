@@ -39,4 +39,5 @@ endif()
 
 # Unit tests 
 add_subdirectory(tests/kernel)
+add_subdirectory(tests/math)
 #add_subdirectory(tests/py3bind)
