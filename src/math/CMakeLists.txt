@@ -15,6 +15,9 @@ set(nxmath_src
 
 add_library(nxmath SHARED ${nxmath_inc} ${nxmath_src})
 
+# Link to the math-module
+target_link_libraries(nxmath m)
+
 set_target_properties(nxmath PROPERTIES 
 					  		 DEFINE_SYMBOL NXDRAGON_BUILD_MATH)
 

@@ -25,7 +25,8 @@
 int main(int args, char** argv)
 {
 	nx_unit_test tests[] = {  /* nx_vector2 */
-                            &test_vector2_init };
+                            &test_vector2_init,
+                            &test_vector2_distanceTo };
 
 	NX_UNUSED(args); 
 	NX_UNUSED(argv);

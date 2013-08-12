@@ -39,5 +39,8 @@ typedef struct nx_vector2_t {
 /** Initializes the vector to (0,0). */
 NX_MATH_API void nx_vector2_init(nx_vector2 *self);
 
+/** Messures the distance between 2 vectors. */
+NX_MATH_API nxreal nx_vector2_distanceTo(nx_vector2 *self, nx_vector2 *other);
+
 /** @} @} */
 #endif

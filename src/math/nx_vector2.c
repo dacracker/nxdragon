@@ -18,10 +18,20 @@
 \***************************************************************************/
 
 #include "nx_vector2.h"
+#include "nx_math.h"
 
 /*************************************************************/
 void nx_vector2_init(nx_vector2 *self)
 {
     self->x = 0.0f;
     self->y = 0.0f;
+}
+
+/*************************************************************/
+nxreal nx_vector2_distanceTo(nx_vector2 *self, nx_vector2 *other)
+{
+    double dx = self->x - other->x;
+    double dy = self->y - other->y;
+
+    return nx_sqrt(nx_pow(dx, 2.0) + nx_pow(dy, 2.0));
 }

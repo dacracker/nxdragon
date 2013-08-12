@@ -27,4 +27,7 @@
 
 #define nx_clip(x,min,max) x > max ? max : x < min ? min : x
 
+#define nx_sqrt sqrt
+#define nx_pow pow
+
 #endif

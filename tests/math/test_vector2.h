@@ -20,7 +20,10 @@
 #ifndef __NX_MATH_TEST_VECTOR2_H__
 #define __NX_MATH_TEST_VECTOR2_H__
 
-/* Test basic initialization and destruction of the list */
+/* Test basic initialization and destruction of the vector */
 void test_vector2_init(void *status);
+
+/* Tests that the distanceTo between 2 vectors function works properly. */
+void test_vector2_distanceTo(void *status);
 
 #endif
