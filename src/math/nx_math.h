@@ -20,14 +20,24 @@
 #ifndef __NXDRAGON_MATH_MATH_H__
 #define __NXDRAGON_MATH_MATH_H__
 
-#include <math.h>
+#include "nx_def.h"
+#include "../kernel/nx_types.h"
 
 #define nx_max(x,y) x > y ? x : y
 #define nx_min(x,y) x < y ? x : y
 
 #define nx_clip(x,min,max) x > max ? max : x < min ? min : x
 
-#define nx_sqrt sqrt
-#define nx_pow pow
+/** Calculates the square-root of an integer value. */
+NX_MATH_API nxint32 nx_sqrt(nxint32 value);
+
+/** Calculates the square-root of a float value. */
+NX_MATH_API nxreal nx_sqrtf(nxreal value);
+
+/** Calculates the value of 'base' raised to the power 'power' for integers. */
+NX_MATH_API nxint32 nx_pow(nxint32 base, nxint32 power);
+
+/** Calculates the value of 'base' raised to the power 'power' for floats. */
+NX_MATH_API nxreal nx_powf(nxreal base, nxreal power);
 
 #endif

@@ -28,10 +28,10 @@ void nx_vector2_init(nx_vector2 *self)
 }
 
 /*************************************************************/
-nxreal nx_vector2_distanceTo(nx_vector2 *self, nx_vector2 *other)
+nxreal nx_vector2_distance_to(nx_vector2 *self, nx_vector2 *other)
 {
-    double dx = self->x - other->x;
-    double dy = self->y - other->y;
+    nxreal dx = self->x - other->x;
+    nxreal dy = self->y - other->y;
 
-    return nx_sqrt(nx_pow(dx, 2.0) + nx_pow(dy, 2.0));
+    return nx_sqrtf(nx_powf(dx, 2.0f) + nx_powf(dy, 2.0f));
 }

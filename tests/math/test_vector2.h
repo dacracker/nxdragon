@@ -24,6 +24,6 @@
 void test_vector2_init(void *status);
 
 /* Tests that the distanceTo between 2 vectors function works properly. */
-void test_vector2_distanceTo(void *status);
+void test_vector2_distance_to(void *status);
 
 #endif

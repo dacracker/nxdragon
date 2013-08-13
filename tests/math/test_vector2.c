@@ -20,6 +20,8 @@
 #include "test_vector2.h"
 #include "utest/nx_utest.h"
 #include "math/nx_vector2.h"
+#include "math/nx_math.h"
+  #include <stdio.h>
 
 /*************************************************************/
 void test_vector2_init(void *status)
@@ -32,7 +34,7 @@ void test_vector2_init(void *status)
 }
 
 /*************************************************************/
-void test_vector2_distanceTo(void *status)
+void test_vector2_distance_to(void *status)
 {
     nx_vector2 vector, vector2;
     nx_vector2_init(&vector);
@@ -41,38 +43,38 @@ void test_vector2_distanceTo(void *status)
     vector.x = 4;
     vector.y = 3;
 
-    nx_assert_equal(nx_vector2_distanceTo(&vector, &vector2), 5.0f);
-    nx_assert_equal(nx_vector2_distanceTo(&vector2, &vector), 5.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 5.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 5.0f);
 
     vector2.x = 4;
-    nx_assert_equal(nx_vector2_distanceTo(&vector, &vector2), 3.0f);
-    nx_assert_equal(nx_vector2_distanceTo(&vector2, &vector), 3.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 3.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 3.0f);
 
     vector2.y = 1;
-    nx_assert_equal(nx_vector2_distanceTo(&vector, &vector2), 2.0f);
-    nx_assert_equal(nx_vector2_distanceTo(&vector2, &vector), 2.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 2.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 2.0f);
 
     vector2.y = -3;
-    nx_assert_equal(nx_vector2_distanceTo(&vector, &vector2), 6.0f);
-    nx_assert_equal(nx_vector2_distanceTo(&vector2, &vector), 6.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 6.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 6.0f);
 
     vector2.x = 0;
-    nx_assert_equal(nx_vector2_distanceTo(&vector, &vector2), 7.2111025f);
-    nx_assert_equal(nx_vector2_distanceTo(&vector2, &vector), 7.2111025f);
+    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 7.2111025f);
+    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 7.2111025f);
 
     vector2.x = -4;
-    nx_assert_equal(nx_vector2_distanceTo(&vector, &vector2), 10.0f);
-    nx_assert_equal(nx_vector2_distanceTo(&vector2, &vector), 10.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 10.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 10.0f);
 
     vector2.y = 0;
-    nx_assert_equal(nx_vector2_distanceTo(&vector, &vector2), 8.5440037f);
-    nx_assert_equal(nx_vector2_distanceTo(&vector2, &vector), 8.5440037f);
+    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 8.5440037f);
+    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 8.5440037f);
 
     vector2.y = 3;
-    nx_assert_equal(nx_vector2_distanceTo(&vector, &vector2), 8.0f);
-    nx_assert_equal(nx_vector2_distanceTo(&vector2, &vector), 8.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 8.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 8.0f);
 
     vector2.x = 0;
-    nx_assert_equal(nx_vector2_distanceTo(&vector, &vector2), 4.0f);
-    nx_assert_equal(nx_vector2_distanceTo(&vector2, &vector), 4.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 4.0f);
+    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 4.0f);
 }
