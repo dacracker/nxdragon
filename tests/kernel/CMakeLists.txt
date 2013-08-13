@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 2.8)
 
 include_directories(../../src)
 
+if(NX_CC_GCC)
+	# These warnings can be safely ignored in the this test module
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast")
+endif()
+
 set(utest_kernel_src _main.c
 					 test_atomic.h
 					 test_atomic.c
