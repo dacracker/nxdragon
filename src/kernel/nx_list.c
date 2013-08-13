@@ -89,12 +89,24 @@ void nx_list_delete(nx_list *self)
 }
 
 /*************************************************************/
+int nx_list_size(nx_list *self)
+{ 
+	return self->size; 
+}
+
+/*************************************************************/
+NX_BOOL nx_list_empty(nx_list *self)
+{ 
+	return nx_list_size(self) > 0 ? NX_FALSE : NX_TRUE; 
+}
+
+/*************************************************************/
 void nx_list_insert(nx_list *self, int position, void *data)
 {
 	/* make sure there's enough memory avalible to store the new item */
 	_nx_list_grow(self,1);
 
-	// Translate position into a valid position within the list, if necessary
+	/* Translate position into a valid position within the list, if necessary */
 	position = nx_clip(position,0,nx_list_size(self));
 
 	/* move the items following the requested position out of the way */
@@ -104,6 +116,12 @@ void nx_list_insert(nx_list *self, int position, void *data)
 
 	self->array[position] = data;
 	++self->size;
+}
+
+/*************************************************************/
+void nx_list_prepend(nx_list *self,void *data)
+{ 
+	nx_list_insert(self,0,data); 
 }
 
 /*************************************************************/
@@ -124,4 +142,40 @@ void nx_list_remove_at(nx_list *self, int position)
 			NX_POINTER_SIZE * (nx_list_size(self) - (position + 1)));
 
 	--self->size;
+}
+
+/*************************************************************/
+void* nx_list_at(nx_list *self,int position)
+{ 
+	return self->array[position]; 
+}
+
+/*************************************************************/
+void* nx_list_value(nx_list *self, int position)
+{ 
+	return (position >= 0 && position < nx_list_size(self)) ? nx_list_at(self,position) : 0; 
+}
+
+/*************************************************************/
+void* nx_list_first(nx_list *self)
+{ 
+	return nx_list_at(self,0); 
+}
+
+/*************************************************************/
+void* nx_list_last(nx_list *self)
+{ 
+	return nx_list_at(self,nx_list_size(self)-1); 
+}
+
+/*************************************************************/
+void nx_list_remove_first(nx_list *self)
+{ 
+	nx_list_remove_at(self,0); 
+}
+
+/*************************************************************/
+void nx_list_remove_last(nx_list *self)
+{ 
+	nx_list_remove_at(self,nx_list_size(self)-1); 
 }

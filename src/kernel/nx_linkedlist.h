@@ -74,20 +74,16 @@ NX_KERNEL_API void nx_linkedlist_remove_at(nx_linkedlist *self, int position);
 NX_KERNEL_API void nx_linkedlist_remove_last(nx_linkedlist *self);
 
 /** Returns the first item in the list */
-NX_INLINE nx_linkedlist_node* nx_linkedlist_first(nx_linkedlist *self)
-{ return self->first; }
+NX_KERNEL_API nx_linkedlist_node* nx_linkedlist_first(nx_linkedlist *self);
 
 /** Returns the last item in the list */
-NX_INLINE nx_linkedlist_node* nx_linkedlist_last(nx_linkedlist *self)
-{ return self->last; }
+NX_KERNEL_API nx_linkedlist_node* nx_linkedlist_last(nx_linkedlist *self);
 
 /** Returns the number of elements in the list */
-NX_INLINE int nx_linkedlist_size(nx_linkedlist *self)
-{ return self->size; }
+NX_KERNEL_API int nx_linkedlist_size(nx_linkedlist *self);
 
 /** Returns the number of elements in the list */
-NX_INLINE NX_BOOL nx_linkedlist_empty(nx_linkedlist *self)
-{ return self->size > 0 ? NX_FALSE : NX_TRUE; }
+NX_KERNEL_API NX_BOOL nx_linkedlist_empty(nx_linkedlist *self);
 
 /** @}*/
 #endif

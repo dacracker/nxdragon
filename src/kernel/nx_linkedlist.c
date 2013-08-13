@@ -169,3 +169,27 @@ void nx_linkedlist_remove_last(nx_linkedlist *self)
 
 	free(last);
 }
+
+/*************************************************************/
+nx_linkedlist_node* nx_linkedlist_first(nx_linkedlist *self)
+{ 
+	return self->first; 
+}
+
+/*************************************************************/
+nx_linkedlist_node* nx_linkedlist_last(nx_linkedlist *self)
+{ 
+	return self->last; 
+}
+
+/*************************************************************/
+int nx_linkedlist_size(nx_linkedlist *self)
+{ 
+	return self->size; 
+}
+
+/*************************************************************/
+NX_BOOL nx_linkedlist_empty(nx_linkedlist *self)
+{ 
+	return self->size > 0 ? NX_FALSE : NX_TRUE; 
+}

@@ -21,5 +21,5 @@ if(CMAKE_HOST_WIN32)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCC)
-	set(CMAKE_C_FLAGS "-Wall -pedantic -std=c99 -finline-small-functions -Wunused-function ${CMAKE_C_FLAGS}")
+	set(CMAKE_C_FLAGS "-Wall -pedantic -std=c90 -Wno-long-long -finline-small-functions -Wunused-function ${CMAKE_C_FLAGS}")
 endif()
