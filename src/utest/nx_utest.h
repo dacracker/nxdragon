@@ -38,7 +38,7 @@ typedef struct nx_test_status_t {
 /* Signature for the unit tests */
 typedef void (*nx_unit_test)(void *status);
 
-NX_INTERNAL NX_UTEST_API int _nx_check(nx_test_status *status,NX_BOOL result);
+NX_INTERNAL NX_UTEST_API int _nx_check(nx_test_status *status, nxbool result);
 
 NX_INTERNAL NX_UTEST_API void _nx_report_error(nx_test_status *status,
 											   const char* file,
@@ -51,7 +51,7 @@ NX_INTERNAL NX_UTEST_API int _nx_run_tests(nx_unit_test tests[], int count);
 /* Public API */
 #define nx_run_tests(tests) _nx_run_tests(tests,sizeof(tests)/sizeof(tests[0]));
 
-#define nx_assert(expr) if(_nx_check(status, expr ? NX_TRUE : NX_FALSE) != 0) _nx_report_error(status,__FILE__ ,__FUNCTION__ ,__LINE__);
+#define nx_assert(expr) if(_nx_check(status, expr ? nxtrue : nxfalse) != 0) _nx_report_error(status,__FILE__ ,__FUNCTION__ ,__LINE__);
 #define nx_assert_equal(expr1,expr2) nx_assert(expr1 == expr2)
 #define nx_assert_greater(expr1,expr2) nx_assert(expr1 > expr2)
 #define nx_assert_lesser(expr1,expr2) nx_assert(expr1 < expr2) 

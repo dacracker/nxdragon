@@ -34,9 +34,9 @@ void _nx_report_error(nx_test_status *status,
 }
 
 /*************************************************************/
-int _nx_check(nx_test_status *status, NX_BOOL result)
+int _nx_check(nx_test_status *status, nxbool result)
 {
-	if(result != NX_FALSE)
+	if(result != nxfalse)
 		return 0;
 
 	++status->assert_fail_count;

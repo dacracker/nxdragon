@@ -95,9 +95,9 @@ int nx_list_size(nx_list *self)
 }
 
 /*************************************************************/
-NX_BOOL nx_list_empty(nx_list *self)
+nxbool nx_list_empty(nx_list *self)
 { 
-	return nx_list_size(self) > 0 ? NX_FALSE : NX_TRUE; 
+	return nx_list_size(self) > 0 ? nxfalse : nxtrue; 
 }
 
 /*************************************************************/

@@ -33,7 +33,7 @@ void test_list_init_delete(void *status)
 	nx_assert_equal(list.array,0);
 	nx_assert_equal(list.size,0);
 	nx_assert_equal(list.capacity,0);
-	nx_assert_equal(nx_list_empty(&list),NX_TRUE);
+	nx_assert_equal(nx_list_empty(&list),nxtrue);
 
 	nx_list_delete(&list);
 }
@@ -47,7 +47,7 @@ void test_list_append(void *status)
 	nx_list_init(&list);
 
 	nx_assert_equal(list.size,0);
-	nx_assert_equal(nx_list_empty(&list),NX_TRUE);
+	nx_assert_equal(nx_list_empty(&list),nxtrue);
 
 	/* Append some values */
 	while(counter < 120)
@@ -55,7 +55,7 @@ void test_list_append(void *status)
 
 	/* Is the size of the list correct? */
 	nx_assert_equal(nx_list_size(&list),counter);
-	nx_assert_equal(nx_list_empty(&list),NX_FALSE);
+	nx_assert_equal(nx_list_empty(&list),nxfalse);
 
 	while(counter-- > 0)
 		nx_assert_equal((int)nx_list_at(&list,counter),counter+1);

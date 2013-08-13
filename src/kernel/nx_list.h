@@ -54,7 +54,7 @@ NX_KERNEL_API void nx_list_delete(nx_list *self);
 NX_KERNEL_API int nx_list_size(nx_list *self);
 
 /** Return value indicates if the list is empty or not */
-NX_KERNEL_API NX_BOOL nx_list_empty(nx_list *self);
+NX_KERNEL_API nxbool nx_list_empty(nx_list *self);
 
 /** Inserts the data at the given position, which must be valid within the list.
 	Performs a resize of the internal array if necessary. */

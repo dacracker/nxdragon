@@ -83,7 +83,7 @@ NX_KERNEL_API nx_linkedlist_node* nx_linkedlist_last(nx_linkedlist *self);
 NX_KERNEL_API int nx_linkedlist_size(nx_linkedlist *self);
 
 /** Returns the number of elements in the list */
-NX_KERNEL_API NX_BOOL nx_linkedlist_empty(nx_linkedlist *self);
+NX_KERNEL_API nxbool nx_linkedlist_empty(nx_linkedlist *self);
 
 /** @}*/
 #endif

@@ -189,7 +189,7 @@ int nx_linkedlist_size(nx_linkedlist *self)
 }
 
 /*************************************************************/
-NX_BOOL nx_linkedlist_empty(nx_linkedlist *self)
+nxbool nx_linkedlist_empty(nx_linkedlist *self)
 { 
-	return self->size > 0 ? NX_FALSE : NX_TRUE; 
+	return self->size > 0 ? nxfalse : nxtrue; 
 }
