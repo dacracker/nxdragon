@@ -23,7 +23,19 @@
 /* Test basic initialization and destruction of the vector */
 void test_vector2_init(void *status);
 
+/* Tests the function for assigning values to a vector */
+void test_vector2_assign(void *status);
+
+/* Tests the function for assigning values to a vector from another vector */
+void test_vector2_assign_vector(void *status);
+
 /* Tests that the distanceTo between 2 vectors function works properly. */
 void test_vector2_distance_to(void *status);
+
+/* Tests the function for translating one vector with another */
+void test_vector2_translate(void *status);
+
+/* Tests the funtion for swapping the values of vectors */
+void test_vector2_swap(void *status);
 
 #endif

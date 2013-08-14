@@ -1,7 +1,7 @@
 /***************************************************************************\
   This file is part of the NxDragon Game Engine.
 
-  Copyright 2013 Patrik Jeppsson
+  Copyright 2013 Patrik Jeppsson, Ulf Johnsson
   
   NxDragon is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,23 +21,59 @@
 #define __NXDRAGON_MATH_MATH_H__
 
 #include "nx_def.h"
+
 #include "../kernel/nx_types.h"
+
+#include <math.h>
 
 #define nx_max(x,y) x > y ? x : y
 #define nx_min(x,y) x < y ? x : y
 
 #define nx_clip(x,min,max) x > max ? max : x < min ? min : x
 
-/** Calculates the square-root of an integer value. */
-NX_MATH_API nxint32 nx_sqrt(nxint32 value);
+/** Calculates the square-root of a double value. */
+#define nx_sqrt(value) sqrt(value)
 
 /** Calculates the square-root of a float value. */
-NX_MATH_API nxreal nx_sqrtf(nxreal value);
+#define nx_sqrtf(value) (nxreal)sqrt(value)
 
-/** Calculates the value of 'base' raised to the power 'power' for integers. */
-NX_MATH_API nxint32 nx_pow(nxint32 base, nxint32 power);
+/** Calculates the square-root of an integer value. */
+#define nx_sqrti(value) (nxint32)sqrt(value)
+
+/** Calculates the value of 'base' raised to the power 'power' for doubles. */
+#define nx_pow(base, power) pow(base, power)
 
 /** Calculates the value of 'base' raised to the power 'power' for floats. */
-NX_MATH_API nxreal nx_powf(nxreal base, nxreal power);
+#define nx_powf(base, power) (nxreal)pow(base, power)
+
+/** Calculates the value of 'base' raised to the power 'power' for integers. */
+#define nx_powi(base, power) (nxint32)pow(base, power)
+
+/** Computes cosine of a double value. */
+#define nx_cos(value) cos(value)
+
+/** Computes cosine of a float value. */
+#define nx_cosf(value) (nxreal)cos(value)
+
+/** Computes cosine of an integer value. */
+#define nx_cosi(value) (nxint32)cos(value)
+
+/** Computes sine of a double value. */
+#define nx_sin(value) sin(value)
+
+/** Computes sine of a float value. */
+#define nx_sinf(value) (nxreal)sin(value)
+
+/** Computes sine of an integer value. */
+#define nx_sini(value) (nxint32)sin(value)
+
+/** Computes tangent of a double value. */
+#define nx_tan(value) tan(value)
+
+/** Computes tangent of a float value. */
+#define nx_tanf(value) (nxreal)tan(value)
+
+/** Computes tangent of an integer value. */
+#define nx_tani(value) (nxint32)tan(value)
 
 #endif

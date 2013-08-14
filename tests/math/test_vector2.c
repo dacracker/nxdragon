@@ -21,7 +21,6 @@
 #include "utest/nx_utest.h"
 #include "math/nx_vector2.h"
 #include "math/nx_math.h"
-  #include <stdio.h>
 
 /*************************************************************/
 void test_vector2_init(void *status)
@@ -31,6 +30,35 @@ void test_vector2_init(void *status)
 
     nx_assert_equal(vector.x, 0.0f);
     nx_assert_equal(vector.y, 0.0f);
+}
+
+/*************************************************************/
+void test_vector2_assign(void *status)
+{
+    nx_vector2 vector;
+    nx_vector2_init(&vector);
+
+    nx_vector2_assign(&vector, 5.0f, -10.1f);
+    nx_assert_equal(vector.x, 5.0f);
+    nx_assert_equal(vector.y, -10.1f);
+}
+
+/*************************************************************/
+void test_vector2_assign_vector(void *status)
+{
+    nx_vector2 vector, vector2;
+    nx_vector2_init(&vector);
+    nx_vector2_init(&vector2);
+
+    nx_vector2_assign(&vector, 1, 1);
+    nx_vector2_assign(&vector2, 2, 2);
+
+    nx_vector2_assign_vector(&vector, &vector2);
+
+    nx_assert_equal(vector.x, 2.0f);
+    nx_assert_equal(vector.y, 2.0f);
+    nx_assert_equal(vector2.x, 2.0f);
+    nx_assert_equal(vector2.x, 2.0f);
 }
 
 /*************************************************************/
@@ -77,4 +105,41 @@ void test_vector2_distance_to(void *status)
     vector2.x = 0;
     nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 4.0f);
     nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 4.0f);
+}
+
+/*************************************************************/
+void test_vector2_translate(void *status)
+{
+    nx_vector2 vector, vector2;
+    nx_vector2_init(&vector);
+    nx_vector2_init(&vector2);
+
+    nx_vector2_assign(&vector, 1, 1);
+    nx_vector2_assign(&vector2, 2, 2);
+    nx_vector2_translate(&vector, &vector2);
+    nx_assert_equal(vector.x, 3.0f);
+    nx_assert_equal(vector.y, 3.0f);
+
+    nx_vector2_assign(&vector, 5.5, 3);
+    nx_vector2_assign(&vector2, -3, -1.1);
+    nx_vector2_translate(&vector, &vector2);
+    nx_assert_equal(vector.x, 2.5f);
+    nx_assert_equal(vector.y, 1.9f);
+}
+
+/*************************************************************/
+void test_vector2_swap(void *status)
+{
+    nx_vector2 vector, vector2;
+    nx_vector2_init(&vector);
+    nx_vector2_init(&vector2);
+
+    nx_vector2_assign(&vector, 1, 1);
+    nx_vector2_assign(&vector2, 2, 2);
+    nx_vector2_swap(&vector, &vector2);
+
+    nx_assert_equal(vector.x, 2.0f);
+    nx_assert_equal(vector.y, 2.0f);
+    nx_assert_equal(vector2.x, 1.0f);
+    nx_assert_equal(vector2.y, 1.0f);
 }

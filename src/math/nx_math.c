@@ -18,29 +18,3 @@
 \***************************************************************************/
 
 #include "nx_math.h"
-
-#include <math.h>
-
-/*************************************************************/
-nxint32 nx_sqrt(nxint32 value)
-{
-    return (nxint32)sqrt(value);
-}
-
-/*************************************************************/
-nxreal nx_sqrtf(nxreal value)
-{
-    return (nxreal)sqrt(value);
-}
-
-/*************************************************************/
-nxint32 nx_pow(nxint32 base, nxint32 power)
-{
-    return (nxint32)pow(base, power);
-}
-
-/*************************************************************/
-nxreal nx_powf(nxreal base, nxreal power)
-{
-    return (nxreal)pow(base, power);
-}
