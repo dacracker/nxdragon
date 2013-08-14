@@ -12,7 +12,8 @@ set(nxkernel_inc
 	nx_types.h
 	nx_linkedlist.h
 	nx_list.h
-	nx_doc.h)
+	nx_doc.h
+	nx_timer.h)
 			    
 set(nxkernel_src 
 	nx_linkedlist.c
@@ -30,7 +31,8 @@ endif()
 
 if(NX_PLATFORM_UNIX)
 	set(nxkernel_platform_src 
-		nx_atomic_unix.c)
+		nx_atomic_unix.c
+		nx_timer_unix.c)
 endif()
 
 set(nxkernel_src 
@@ -43,5 +45,9 @@ add_library(nxkernel SHARED
 
 set_target_properties(nxkernel PROPERTIES 
 					  		   DEFINE_SYMBOL NXDRAGON_BUILD_KERNEL)
+
+if(NX_PLATFORM_UNIX)
+	target_link_libraries(nxkernel rt)
+endif()
 
 nx_filter("${nxkernel_src};${nxkernel_inc}")
