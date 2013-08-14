@@ -39,8 +39,20 @@ typedef struct nx_vector2_t {
 /** Initializes the vector to (0,0). */
 NX_MATH_API void nx_vector2_init(nx_vector2 *self);
 
+/** Assigns the vector to (x,y). */
+NX_MATH_API void nx_vector2_assign(nx_vector2 *self, nxreal x, nxreal y);
+
+/** Assigns the vector the value of another vector. */
+NX_MATH_API void nx_vector2_assign_vector(nx_vector2 *self, nx_vector2 *other);
+
 /** Messures the distance between 2 vectors. */
 NX_MATH_API nxreal nx_vector2_distance_to(nx_vector2 *self, nx_vector2 *other);
+
+/** Translates a vector to another vector. */
+NX_MATH_API void nx_vector2_translate(nx_vector2 *self, nx_vector2 *other);
+
+/** Swaps the position of one vector with another. Both vectors will change value with each other. */
+NX_MATH_API void nx_vector2_swap(nx_vector2 *self, nx_vector2 *other);
 
 /** @} @} */
 #endif
