@@ -21,6 +21,7 @@
 
 #include "test_atomic.h"
 #include "test_list.h"
+#include "test_timer.h"
 
 /*************************************************************/
 int main(int args, char** argv)
@@ -34,7 +35,10 @@ int main(int args, char** argv)
         							      &test_list_append,
         							      &test_list_insert,
                             &test_list_first_last,
-                            &test_list_value };
+                            &test_list_value,
+
+                            /* nx_timer */
+                            &test_ticks };
 
 	NX_UNUSED(args); 
 	NX_UNUSED(argv);
