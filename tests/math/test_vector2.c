@@ -121,7 +121,7 @@ void test_vector2_translate(void *status)
     nx_assert_equal(vector.y, 3.0f);
 
     nx_vector2_assign(&vector, 5.5, 3);
-    nx_vector2_assign(&vector2, -3, -1.1);
+    nx_vector2_assign(&vector2, -3, -1.1f);
     nx_vector2_translate(&vector, &vector2);
     nx_assert_equal(vector.x, 2.5f);
     nx_assert_equal(vector.y, 1.9f);
