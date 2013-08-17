@@ -39,7 +39,7 @@ PyMODINIT_FUNC PyInit_nxdragon(void)
 	int index;
 
 	struct {
-		NX_BOOL (*init)(void);
+		nxbool (*init)(void);
 		void (*reg)(PyObject *module);
 	} nxdragon_types[] =
 	{

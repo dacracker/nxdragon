@@ -25,7 +25,7 @@
 #include <Python.h>
 
 /* Initializes types related to the list object in NxKernel*/
-NX_BOOL _nx_pykernel_list_init(void);
+nxbool _nx_pykernel_list_init(void);
 
 /* Registers the list types in the given module */
 void _nx_pykernel_list_reg(PyObject *module);

@@ -71,8 +71,7 @@ static PyObject* nx_py_atomic_inc(nx_py_atomic *self)
 {
 	nx_atomic_inc(&self->atomic_value);
 
-	Py_INCREF(Py_None);
-	return Py_None;
+	Py_RETURN_NONE;
 }
 
 /*************************************************************/
@@ -116,12 +115,12 @@ static PyTypeObject nx_py_atomic_type = {
 };
 
 /*************************************************************/
-NX_BOOL _nx_pykernel_atomic_init(void)
+nxbool _nx_pykernel_atomic_init(void)
 {
 	if(PyType_Ready(&nx_py_atomic_type) < 0)
-		return NX_FALSE;
+		return nxfalse;
 
-	return NX_TRUE;
+	return nxtrue;
 }
 
 /*************************************************************/

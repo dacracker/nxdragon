@@ -40,7 +40,7 @@ void NX_PY3BIND_API nx_py3_shutdown(void);
 void NX_PY3BIND_API nx_py3_run_script(const char *script);
 
 /** Opens the file and treats it's content as a Python 3 script */
-NX_BOOL NX_PY3BIND_API nx_py3_run_file(const char* filename);
+nxbool NX_PY3BIND_API nx_py3_run_file(const char* filename);
 
 /** @} */
 

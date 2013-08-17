@@ -25,7 +25,7 @@
 #include <Python.h>
 
 /* Initializes types related to the atomic functions in NxKernel*/
-NX_BOOL _nx_pykernel_atomic_init(void);
+nxbool _nx_pykernel_atomic_init(void);
 
 /* Registers the types in the given module */
 void _nx_pykernel_atomic_reg(PyObject *module);

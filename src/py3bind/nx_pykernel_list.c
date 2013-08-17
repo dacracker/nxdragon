@@ -38,12 +38,19 @@ static PyObject* nx_py_list_new(PyTypeObject *type,PyObject *args, PyObject *kwd
 	NX_UNUSED(args)
 	NX_UNUSED(kwds)
 
-	return (PyObject*) self;
+	return (PyObject*)self;
 }
 
 /*************************************************************/
 static void nx_py_list_delete(nx_py_list *self)
 {
+	int index = 0;
+	while(index < nx_list_size(&self->list))
+	{
+		Py_XDECREF((PyObject*)nx_list_at(&self->list,index));
+		++index;
+	}
+
 	nx_list_delete(&self->list);
 	Py_TYPE(self)->tp_free((PyObject*)self);
 }
@@ -140,12 +147,12 @@ static PyTypeObject nx_py_list_type = {
 };
 
 /*************************************************************/
-NX_BOOL _nx_pykernel_list_init(void)
+nxbool _nx_pykernel_list_init(void)
 {
 	if(PyType_Ready(&nx_py_list_type) < 0)
-		return NX_FALSE;
+		return nxfalse;
 
-	return NX_TRUE;
+	return nxtrue;
 }
 
 /*************************************************************/
