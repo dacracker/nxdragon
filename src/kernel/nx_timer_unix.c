@@ -18,6 +18,7 @@
 \***************************************************************************/
 
 #include "nx_types.h"
+#include "nx_platform.h"
 
 #include <sys/time.h>
 #include <unistd.h>
@@ -26,10 +27,23 @@
 #define __USE_POSIX199309
 #include <time.h>
 
-/* One of these objects will keep track of the starting point of the application */ 
-static struct timespec _start_ts;
-static struct timeval _start_tv; 
+static struct timeval _start_tv;
 
+#if !defined(NX_OS_MACX)
+static struct timespec _start_ts;
+#endif
+
+/*************************************************************/
+static nxuint32 _nx_time_get_ticks_tod(void)
+{
+	struct timeval now_tv;
+	gettimeofday(&now_tv,0);
+    
+	return (now_tv.tv_sec - _start_tv.tv_sec) * 1000 +
+    (now_tv.tv_usec - _start_tv.tv_usec)/1000;
+}
+
+#if !defined(NX_OS_MACX)
 /*************************************************************/
 static nxuint32 _nx_time_get_ticks_monotonic(void)
 {
@@ -40,36 +54,35 @@ static nxuint32 _nx_time_get_ticks_monotonic(void)
 		   (now_ts.tv_nsec - _start_ts.tv_nsec)/1000000;   
 }
 
-/*************************************************************/
-static nxuint32 _nx_time_get_ticks_tod(void)
-{
-	struct timeval now_tv;
-	gettimeofday(&now_tv,0);
-
-	return (now_tv.tv_sec - _start_tv.tv_sec) * 1000 +
-		   (now_tv.tv_usec - _start_tv.tv_usec)/1000; 
-}
-
 /* Pointer to the internal get tick function */
-static nxuint32 (*_nx_get_ticks)(void) = _nx_time_get_ticks_tod;  
+static nxuint32 (*_nx_get_ticks)(void) = _nx_time_get_ticks_tod;
+
+#endif
+
 
 /*************************************************************/
 void nx_ticks_init(void) 
 {
+#if !defined(NX_OS_MACX)
 	/* The monotonic clock is preferable since it's faster
 	   and more accurate. */
 	if(clock_gettime(CLOCK_MONOTONIC, &_start_ts) == 0) {
 		_nx_get_ticks = &_nx_time_get_ticks_monotonic;
 		return;
 	}
-
+#endif
+    
 	gettimeofday(&_start_tv,0);
 }
 
 /*************************************************************/
 nxuint32 nx_get_ticks(void) 
 {
+#if !defined(NX_OS_MACX)
 	return (*_nx_get_ticks)();
+#else
+    return _nx_time_get_ticks_tod();
+#endif
 } 
 
 /*************************************************************/
