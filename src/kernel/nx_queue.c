@@ -16,14 +16,12 @@
   You should have received a copy of the GNU General Public License
   along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 \***************************************************************************/
-		 
-#include "nx_list.h"
 
-#include "../math/nx_math.h"
+#include "nx_queue.h"
+#include "nx_compiler.h"
 
 #include <stdlib.h>
 #include <string.h>
-
 
 /*************************************************************/
 NX_INLINE int _nx_round_up_to_multiple(int number, int multiple)
@@ -58,14 +56,27 @@ static int _nx_extend_capacity(int size)
 /* Ensures that at least the given number of items can be 
    stored inside the internal array before a new allocation
    must be made. */
-static void _nx_list_grow(nx_list *self, int count)
+static void _nx_queue_grow(nx_queue *self, int count)
 {
-	int size = nx_list_size(self) + count; 
+	int size = self->size + count; 
 
 	/* return if it's already safe to insert the 
 	   requested number of items */
 	if(size <= self->capacity)
 		return; 
+
+	/* We prefer to move the memory back to the front of
+	   the array to doing a reallocation of the entire queue. */
+	if(self->front_index > 0)
+	{
+		memmove(self->array,
+				self->array + self->front_index,
+				(self->size - self->front_index) * NX_POINTER_SIZE);
+
+		self->size -= self->front_index;
+		self->front_index = 0;
+		return;
+	} 
 
 	/* calculate the new capacity of the list */
 	self->capacity = _nx_extend_capacity(size);
@@ -76,106 +87,60 @@ static void _nx_list_grow(nx_list *self, int count)
 }
 
 /*************************************************************/
-void nx_list_init(nx_list *self)
+void nx_queue_init(nx_queue *self)
 {
-	self->size = self->capacity = 0; 
 	self->array = 0;
+	self->front_index = 0;
+    self->size = 0;
+    self->capacity = 0;
 }
 
 /*************************************************************/
-void nx_list_delete(nx_list *self)
+void nx_queue_delete(nx_queue *self)
 {
 	free(self->array);
 }
 
 /*************************************************************/
-int nx_list_size(nx_list *self)
-{ 
-	return self->size; 
-}
-
-/*************************************************************/
-nxbool nx_list_empty(nx_list *self)
-{ 
-	return nx_list_size(self) > 0 ? nxfalse : nxtrue; 
-}
-
-/*************************************************************/
-void nx_list_insert(nx_list *self, int position, void *data)
+void nx_queue_enqueue(nx_queue *self, void *data)
 {
-	/* make sure there's enough memory avalible to store the new item */
-	_nx_list_grow(self,1);
+	_nx_queue_grow(self,1);
 
-	/* Translate position into a valid position within the list, if necessary */
-	position = nx_clip(position,0,nx_list_size(self));
-
-	/* move the items following the requested position out of the way */
-	memmove(self->array + position + 1,
-			self->array + position,
-			NX_POINTER_SIZE * (nx_list_size(self) - position));
-
-	self->array[position] = data;
-	++self->size;
-}
-
-/*************************************************************/
-void nx_list_prepend(nx_list *self,void *data)
-{ 
-	nx_list_insert(self,0,data); 
-}
-
-/*************************************************************/
-void nx_list_append(nx_list *self, void *data)
-{
-	/* make sure there's enough memory avalible to store the new item */
-	_nx_list_grow(self,1);
-
-	/* Now append the new item at the end of the list */
 	self->array[self->size++] = data;
 }
 
 /*************************************************************/
-void nx_list_remove_at(nx_list *self, int position)
+void* nx_queue_dequeue(nx_queue *self)
 {
-	memmove(self->array + position,
-			self->array + position + 1,
-			NX_POINTER_SIZE * (nx_list_size(self) - (position + 1)));
+	void *data;
 
-	--self->size;
+	if(!nx_queue_size(self))
+		return 0;
+
+	data = nx_queue_at(self,0);
+
+	++self->front_index;
+
+	return data;
 }
 
 /*************************************************************/
-void* nx_list_at(nx_list *self,int position)
-{ 
-	return self->array[position]; 
+void* nx_queue_at(nx_queue *self, int index)
+{
+	return self->array[self->front_index + index];
 }
 
 /*************************************************************/
-void* nx_list_value(nx_list *self, int position)
-{ 
-	return (position >= 0 && position < nx_list_size(self)) ? nx_list_at(self,position) : 0; 
+void* nx_queue_value(nx_queue *self, int index)
+{
+	if(index < 0 || index >= nx_queue_size(self))
+		return 0;
+
+	return nx_queue_at(self,index);
 }
 
 /*************************************************************/
-void* nx_list_first(nx_list *self)
-{ 
-	return nx_list_at(self,0); 
-}
-
-/*************************************************************/
-void* nx_list_last(nx_list *self)
-{ 
-	return nx_list_at(self,nx_list_size(self)-1); 
-}
-
-/*************************************************************/
-void nx_list_remove_first(nx_list *self)
-{ 
-	nx_list_remove_at(self,0); 
-}
-
-/*************************************************************/
-void nx_list_remove_last(nx_list *self)
-{ 
-	nx_list_remove_at(self,nx_list_size(self)-1); 
+int nx_queue_size(nx_queue *self)
+{
+	return self->size - self->front_index;
 }

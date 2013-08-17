@@ -21,7 +21,6 @@
 #define __NXDRAGON_KERNEL_LIST_H__
 
 #include "nx_def.h"
-#include "nx_compiler.h"
 #include "nx_bool.h"
 
 /** \ingroup NxKernel
