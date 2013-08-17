@@ -38,4 +38,7 @@ void test_vector2_translate(void *status);
 /* Tests the funtion for swapping the values of vectors */
 void test_vector2_swap(void *status);
 
+/* Tests the funtion for transforming to the absolute-value of the vector */
+void test_vector2_abs(void *status);
+
 #endif

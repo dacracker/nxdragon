@@ -143,3 +143,21 @@ void test_vector2_swap(void *status)
     nx_assert_equal(vector2.x, 1.0f);
     nx_assert_equal(vector2.y, 1.0f);
 }
+
+/*************************************************************/
+void test_vector2_abs(void *status)
+{
+	nx_vector2 vector;
+    nx_vector2_init(&vector);
+	nx_vector2_assign(&vector, -1.0f, -2.2f);
+
+	nx_vector2_abs(&vector);
+	nx_assert_equal(vector.x, 1.0f);
+	nx_assert_equal(vector.y, 2.2f);
+	
+	nx_vector2_assign(&vector, 1.1f, 2.0f);
+
+	nx_vector2_abs(&vector);
+	nx_assert_equal(vector.x, 1.1f);
+	nx_assert_equal(vector.y, 2.0f);
+}

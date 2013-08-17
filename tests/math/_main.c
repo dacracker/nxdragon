@@ -30,7 +30,8 @@ int main(int args, char** argv)
                             &test_vector2_assign_vector,
                             &test_vector2_distance_to,
                             &test_vector2_translate,
-                            &test_vector2_swap };
+                            &test_vector2_swap,
+							&test_vector2_abs };
 
 	NX_UNUSED(args); 
 	NX_UNUSED(argv);

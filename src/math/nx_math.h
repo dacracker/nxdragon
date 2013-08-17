@@ -49,6 +49,9 @@
 /** Calculates the value of 'base' raised to the power 'power' for integers. */
 #define nx_powi(base, power) (nxint32)pow(base, power)
 
+/** Raises a value to the power of 2. */
+#define nx_pow2(value) value*value
+
 /** Computes cosine of a double value. */
 #define nx_cos(value) cos(value)
 

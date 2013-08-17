@@ -47,7 +47,7 @@ nxreal nx_vector2_distance_to(nx_vector2 *self, nx_vector2 *other)
     nxreal dx = self->x - other->x;
     nxreal dy = self->y - other->y;
 
-    return nx_sqrtf(nx_powf(dx, 2.0f) + nx_powf(dy, 2.0f));
+    return nx_sqrtf(nx_pow2(dx) + nx_pow2(dy));
 }
 
 /*************************************************************/
@@ -60,13 +60,28 @@ void nx_vector2_translate(nx_vector2 *self, nx_vector2 *other)
 /*************************************************************/
 void nx_vector2_swap(nx_vector2 *self, nx_vector2 *other)
 {
-    nxreal temp;
+    nxreal temp_x, temp_y;
 
-    temp = self->x;
+    temp_x = self->x;
     self->x = other->x;
-    other->x = temp;
+    other->x = temp_x;
 
-    temp = self->y;
+    temp_y = self->y;
     self->y = other->y;
-    other->y = temp;
+    other->y = temp_y;
+}
+
+/*************************************************************/
+void nx_vector2_abs(nx_vector2 *self)
+{
+	/* TODO: maybe this can be optimized with something like:
+	         if(((int)self->x >> (sizeof(nxreal)*8 - 1)) & 1)
+			 It seems to work for most values, but I don't think
+			 it handles overflows correctly :/
+	*/
+	if(self->x < 0)
+		self->x = -self->x;
+
+	if(self->y < 0)
+		self->y = -self->y;
 }

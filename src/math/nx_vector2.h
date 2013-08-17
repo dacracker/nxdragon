@@ -54,5 +54,8 @@ NX_MATH_API void nx_vector2_translate(nx_vector2 *self, nx_vector2 *other);
 /** Swaps the position of one vector with another. Both vectors will change value with each other. */
 NX_MATH_API void nx_vector2_swap(nx_vector2 *self, nx_vector2 *other);
 
+/** Converts this vector to its absoulute value. */
+NX_MATH_API void nx_vector2_abs(nx_vector2 *self);
+
 /** @} @} */
 #endif
