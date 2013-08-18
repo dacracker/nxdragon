@@ -58,7 +58,7 @@ void test_vector2_assign_vector(void *status)
     nx_assert_equal(vector.x, 2.0f);
     nx_assert_equal(vector.y, 2.0f);
     nx_assert_equal(vector2.x, 2.0f);
-    nx_assert_equal(vector2.x, 2.0f);
+    nx_assert_equal(vector2.y, 2.0f);
 }
 
 /*************************************************************/

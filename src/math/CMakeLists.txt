@@ -7,11 +7,13 @@ set(nxmath_inc
 	nx_doc.h
 	nx_def.h
 	nx_math.h
-	nx_vector2.h)
+	nx_vector2.h
+	nx_point.h)
 
 set(nxmath_src 
 	nx_math.c
-	nx_vector2.c)
+	nx_vector2.c
+	nx_point.c)
 
 add_library(nxmath SHARED ${nxmath_inc} ${nxmath_src})
 

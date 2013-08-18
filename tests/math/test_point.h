@@ -17,33 +17,28 @@
   along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 \***************************************************************************/
   
-#include "utest/nx_utest.h"
+#ifndef __NX_MATH_TEST_POINT_H__
+#define __NX_MATH_TEST_POINT_H__
 
-#include "test_vector2.h"
-#include "test_point.h"
+/* Test basic initialization and destruction of the point */
+void test_point_init(void *status);
 
-/*************************************************************/
-int main(int args, char** argv)
-{
-	nx_unit_test tests[] = {  /* nx_vector2 */
-                            &test_vector2_init,
-                            &test_vector2_assign,
-                            &test_vector2_assign_vector,
-                            &test_vector2_distance_to,
-                            &test_vector2_translate,
-                            &test_vector2_swap,
-							&test_vector2_abs,
-							  /* nx_point */
-							&test_point_init,
-							&test_point_assign,
-							&test_point_assign_point,
-							&test_point_distance_to,
-							&test_point_translate,
-							&test_point_swap,
-							&test_point_abs };
+/* Tests the function for assigning values to a point */
+void test_point_assign(void *status);
 
-	NX_UNUSED(args); 
-	NX_UNUSED(argv);
-    
-	return nx_run_tests(tests);
-}
+/* Tests the function for assigning values to a point from another point */
+void test_point_assign_point(void *status);
+
+/* Tests that the distanceTo between 2 points function works properly. */
+void test_point_distance_to(void *status);
+
+/* Tests the function for translating one point with another */
+void test_point_translate(void *status);
+
+/* Tests the funtion for swapping the values of points */
+void test_point_swap(void *status);
+
+/* Tests the funtion for transforming to the absolute-value of the point */
+void test_point_abs(void *status);
+
+#endif
