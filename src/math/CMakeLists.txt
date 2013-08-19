@@ -8,12 +8,14 @@ set(nxmath_inc
 	nx_def.h
 	nx_math.h
 	nx_vector2.h
-	nx_point.h)
+	nx_point.h
+	nx_rect.h)
 
 set(nxmath_src 
 	nx_math.c
 	nx_vector2.c
-	nx_point.c)
+	nx_point.c
+	nx_rect.c)
 
 add_library(nxmath SHARED ${nxmath_inc} ${nxmath_src})
 
