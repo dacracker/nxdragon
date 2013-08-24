@@ -18,12 +18,15 @@
 \***************************************************************************/
 
 #include "nx_rect.h"
+#include "nx_math.h"
 
 /*************************************************************/
 void nx_rect_init(nx_rect *self)
 {
-	nx_point_init(&self->start);
-	nx_point_init(&self->end);
+	nx_point_init(&self->points[0]);
+	nx_point_init(&self->points[1]);
+	nx_point_init(&self->points[2]);
+	nx_point_init(&self->points[3]);
 }
 
 /*************************************************************/
@@ -33,8 +36,11 @@ void nx_rect_assign(nx_rect *self,
 					nxint32 end_x,
 					nxint32 end_y)
 {
-	nx_point_assign(&self->start, start_x, start_y);
-	nx_point_assign(&self->end, end_x, end_y);
+	nx_point_assign(&self->points[0], start_x, start_y);
+	nx_point_assign(&self->points[2], end_x, end_y);
+
+	nx_point_assign(&self->points[1], start_x, end_y);
+	nx_point_assign(&self->points[3], end_x, start_y);
 }
 
 /*************************************************************/
@@ -42,42 +48,20 @@ void nx_rect_assign_points(nx_rect *self,
 						   nx_point *start_point,
 						   nx_point *end_point)
 {
-	nx_point_assign_point(&self->end, start_point);
-	nx_point_assign_point(&self->end, end_point);
+	nx_rect_assign(self, start_point->x, start_point->y, end_point->x, end_point->y);
 }
 
 /*************************************************************/
 void nx_rect_assign_rect(nx_rect *self, nx_rect *other)
 {
-	nx_rect_assign_points(self, &other->start, &other->end);
+	nx_rect_assign_points(self, &other->points[0], &other->points[2]);
 }
 
 /*************************************************************/
-nxint32 nx_rect_start_x(nx_rect *self)
+nxbool nx_rect_contains(nx_rect *self, nxint32 x, nxint32 y)
 {
-	return self->start.x;
-}
+	nx_point point;
+	nx_point_assign(&point, x, y);
 
-/*************************************************************/
-nxint32 nx_rect_start_y(nx_rect *self)
-{
-	return self->start.y;
-}
-
-/*************************************************************/
-nxint32 nx_rect_end_x(nx_rect *self)
-{
-	return self->end.x;
-}
-
-/*************************************************************/
-nxint32 nx_rect_end_y(nx_rect *self)
-{
-	return self->end.y;
-}
-
-/*************************************************************/
-void nx_rect_contains(nx_rect *self, nx_point *point)
-{
-	// TODO: implement
+	return nx_contains(self->points, 4, &point);
 }

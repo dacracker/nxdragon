@@ -21,6 +21,7 @@
 
 #include "test_vector2.h"
 #include "test_point.h"
+#include "test_rect.h"
 
 /*************************************************************/
 int main(int args, char** argv)
@@ -40,7 +41,10 @@ int main(int args, char** argv)
 							&test_point_distance_to,
 							&test_point_translate,
 							&test_point_swap,
-							&test_point_abs };
+							&test_point_abs,
+							  /* nx_rect */
+							&test_rect_init,
+							&test_rect_contains};
 
 	NX_UNUSED(args); 
 	NX_UNUSED(argv);

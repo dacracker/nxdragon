@@ -21,6 +21,7 @@
 #define __NXDRAGON_MATH_MATH_H__
 
 #include "nx_def.h"
+#include "nx_point.h"
 
 #include "../kernel/nx_types.h"
 
@@ -78,5 +79,9 @@
 
 /** Computes tangent of an integer value. */
 #define nx_tani(value) (nxint32)tan(value)
+
+/** Returns nxtrue if the given point is contained in the polygon formed by points.
+    Points must be ordered in a way that it forms the desired polygon. */
+NX_MATH_API nxbool nx_contains(nx_point *points, nxint32 count, nx_point *point);
 
 #endif
