@@ -63,5 +63,35 @@ nxbool nx_rect_contains(nx_rect *self, nxint32 x, nxint32 y)
 	nx_point point;
 	nx_point_assign(&point, x, y);
 
-	return nx_contains(self->points, 4, &point);
+	return nx_rect_contains_point(self, &point);
+}
+
+/*************************************************************/
+nxbool nx_rect_contains_point(nx_rect *self, nx_point *point)
+{
+    return nx_contains(self->points, 4, point);
+}
+
+/*************************************************************/
+nxbool nx_rect_intersects(nx_rect *self, nx_rect *other)
+{
+	/* TODO: implement */
+    return nxfalse;
+}
+
+/*************************************************************/
+void nx_rect_translate(nx_rect *self, nxint32 x, nxint32 y)
+{
+	nx_point point;
+	nx_point_assign(&point, x, y);
+
+	nx_rect_translate_point(self, &point);
+}
+
+/*************************************************************/
+void nx_rect_translate_point(nx_rect *self, nx_point *point)
+{
+	int index;
+	for(index = 0; index < 4; ++index)
+		nx_point_translate(&self->points[index], point);
 }

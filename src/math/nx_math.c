@@ -25,7 +25,7 @@ nxbool nx_contains(nx_point *points, nxint32 count, nx_point *point)
 	int index1, index2, result = 0;
 	nx_point *p1, *p2;
 
-	// sanity check
+	/* sanity check */
 	if(count < 3)
 		return nxfalse;
 

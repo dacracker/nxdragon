@@ -65,3 +65,32 @@ void test_rect_contains(void *status)
 	nx_assert_equal(nx_rect_contains(&rect, -2, -3), nxfalse);
 	nx_assert_equal(nx_rect_contains(&rect, -3, -2), nxfalse);
 }
+
+/*************************************************************/
+void test_rect_translate(void *status)
+{
+	nx_rect rect;
+	nx_point point;
+
+	nx_rect_init(&rect);
+	nx_rect_assign(&rect, 0,0,5,5);
+	nx_point_init(&point);
+	nx_point_assign(&point, 3, 3);
+
+	nx_assert_equal(nx_rect_contains(&rect, 6,6), nxfalse);
+	nx_assert_equal(nx_rect_contains(&rect, 1,1), nxtrue);
+	
+	nx_rect_translate(&rect, point.x, point.y);
+
+	nx_assert_equal(nx_rect_contains(&rect, 6,6), nxtrue);
+	nx_assert_equal(nx_rect_contains(&rect, 1,1), nxfalse);
+
+	nx_point_assign(&point, -2, -2);
+
+	nx_rect_translate_point(&rect, &point);
+
+	nx_assert_equal(nx_rect_contains(&rect, 2,2), nxtrue);
+	nx_assert_equal(nx_rect_contains(&rect, 5,5), nxtrue);
+	nx_assert_equal(nx_rect_contains(&rect, -1,-1), nxfalse);
+	nx_assert_equal(nx_rect_contains(&rect, 7,7), nxfalse);
+}

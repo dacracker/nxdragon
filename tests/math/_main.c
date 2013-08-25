@@ -33,18 +33,19 @@ int main(int args, char** argv)
                             &test_vector2_distance_to,
                             &test_vector2_translate,
                             &test_vector2_swap,
-							&test_vector2_abs,
-							  /* nx_point */
-							&test_point_init,
-							&test_point_assign,
-							&test_point_assign_point,
-							&test_point_distance_to,
-							&test_point_translate,
-							&test_point_swap,
-							&test_point_abs,
-							  /* nx_rect */
-							&test_rect_init,
-							&test_rect_contains};
+              							&test_vector2_abs,
+              							  /* nx_point */
+              							&test_point_init,
+              							&test_point_assign,
+              							&test_point_assign_point,
+              							&test_point_distance_to,
+              							&test_point_translate,
+              							&test_point_swap,
+              							&test_point_abs,
+              							  /* nx_rect */
+              							&test_rect_init,
+              							&test_rect_contains,
+                            &test_rect_translate };
 
 	NX_UNUSED(args); 
 	NX_UNUSED(argv);

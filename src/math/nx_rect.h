@@ -58,5 +58,17 @@ NX_MATH_API void nx_rect_assign_rect(nx_rect *self, nx_rect *other);
 /** Returns nxtrue if the given coordinate is contained within the rectangle. */
 NX_MATH_API nxbool nx_rect_contains(nx_rect *self, nxint32 x, nxint32 y);
 
+/** Returns nxtrue if the given coordinate is contained within the rectangle. */
+NX_MATH_API nxbool nx_rect_contains_point(nx_rect *self, nx_point *point);
+
+/** Returns nxtrue if the rectangles intesects each other. */
+NX_MATH_API nxbool nx_rect_intersects(nx_rect *self, nx_rect *other);
+
+/** Translates the rectangle to a point. */
+NX_MATH_API void nx_rect_translate(nx_rect *self, nxint32 x, nxint32 y);
+
+/** Translates the rectangle to a point. */
+NX_MATH_API void nx_rect_translate_point(nx_rect *self, nx_point *point);
+
 /** @} @} */
 #endif
