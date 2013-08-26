@@ -29,4 +29,22 @@ void test_rect_contains(void *status);
 /* */
 void test_rect_translate(void *status);
 
+/* */
+void test_rect_width(void *status);
+
+/* */
+void test_rect_height(void *status);
+
+/* */
+void test_rect_top_left(void *status);
+
+/* */
+void test_rect_top_right(void *status);
+
+/* */
+void test_rect_bottom_left(void *status);
+
+/* */
+void test_rect_bottom_right(void *status);
+
 #endif

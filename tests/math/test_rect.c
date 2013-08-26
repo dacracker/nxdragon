@@ -27,7 +27,6 @@
 /*************************************************************/
 void test_rect_init(void *status)
 {
-	nxint32 index;
 	nx_rect *rect = (nx_rect*)malloc(sizeof(nx_rect));
 	nx_rect_init(rect);
 
@@ -93,4 +92,80 @@ void test_rect_translate(void *status)
 	nx_assert_equal(nx_rect_contains(&rect, 5,5), nxtrue);
 	nx_assert_equal(nx_rect_contains(&rect, -1,-1), nxfalse);
 	nx_assert_equal(nx_rect_contains(&rect, 7,7), nxfalse);
+}
+
+/*************************************************************/
+void test_rect_width(void *status)
+{
+	nx_rect rect;
+
+	nx_rect_assign(&rect, 0,0,5,5);
+	nx_assert_equal(nx_rect_width(&rect), 5);
+
+	nx_rect_assign(&rect, -1,-1,5,5);
+	nx_assert_equal(nx_rect_width(&rect), 6);
+}
+
+/*************************************************************/
+void test_rect_height(void *status)
+{
+	nx_rect rect;
+
+	nx_rect_assign(&rect, 0,0,5,5);
+	nx_assert_equal(nx_rect_height(&rect), 5);
+
+	nx_rect_assign(&rect, -1,-1,5,5);
+	nx_assert_equal(nx_rect_height(&rect), 6);
+}
+
+/*************************************************************/
+void test_rect_top_left(void *status)
+{
+	nx_rect rect;
+	nx_point point;
+
+	nx_rect_assign(&rect, 1,1,10,5);
+
+	nx_rect_top_left(&rect, &point);
+	nx_assert_equal(point.x, 1);
+	nx_assert_equal(point.y, 1);
+}
+
+/*************************************************************/
+void test_rect_top_right(void *status)
+{
+	nx_rect rect;
+	nx_point point;
+
+	nx_rect_assign(&rect, 1,1,10,5);
+
+	nx_rect_top_right(&rect, &point);
+	nx_assert_equal(point.x, 10);
+	nx_assert_equal(point.y, 1);
+}
+
+/*************************************************************/
+void test_rect_bottom_left(void *status)
+{
+	nx_rect rect;
+	nx_point point;
+
+	nx_rect_assign(&rect, 1,1,10,5);
+
+	nx_rect_bottom_left(&rect, &point);
+	nx_assert_equal(point.x, 1);
+	nx_assert_equal(point.y, 5);
+}
+
+/*************************************************************/
+void test_rect_bottom_right(void *status)
+{
+	nx_rect rect;
+	nx_point point;
+
+	nx_rect_assign(&rect, 1,1,10,5);
+
+	nx_rect_bottom_right(&rect, &point);
+	nx_assert_equal(point.x, 10);
+	nx_assert_equal(point.y, 5);
 }

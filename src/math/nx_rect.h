@@ -71,5 +71,23 @@ NX_MATH_API void nx_rect_translate(nx_rect *self, nxint32 x, nxint32 y);
 /** Translates the rectangle to a point. */
 NX_MATH_API void nx_rect_translate_point(nx_rect *self, nx_point *point);
 
+/** Returns the width of the rectangle. */
+NX_MATH_API nxint32 nx_rect_width(nx_rect *self);
+
+/** Returns the height of the rectangle. */
+NX_MATH_API nxint32 nx_rect_height(nx_rect *self);
+
+/** Returns the height of the rectangle. */
+NX_MATH_API void nx_rect_top_left(nx_rect *self, nx_point *point_out );
+
+/** Returns the height of the rectangle. */
+NX_MATH_API void nx_rect_top_right(nx_rect *self, nx_point *point_out);
+
+/** Returns the height of the rectangle. */
+NX_MATH_API void nx_rect_bottom_left(nx_rect *self, nx_point *point_out);
+
+/** Returns the height of the rectangle. */
+NX_MATH_API void nx_rect_bottom_right(nx_rect *self, nx_point *point_out);
+
 /** @} @} */
 #endif

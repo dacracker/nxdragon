@@ -95,3 +95,45 @@ void nx_rect_translate_point(nx_rect *self, nx_point *point)
 	nx_point_translate(&self->start, point);
 	nx_point_translate(&self->end, point);
 }
+
+/*************************************************************/
+nxint32 nx_rect_width(nx_rect *self)
+{
+	if(self->start.x > self->end.x)
+		return (self->start.x - self->end.x);
+
+	return (self->end.x - self->start.x);
+}
+
+/*************************************************************/
+nxint32 nx_rect_height(nx_rect *self)
+{
+	if(self->start.y > self->end.y)
+		return (self->start.y - self->end.y);
+
+	return (self->end.y - self->start.y);
+}
+
+/*************************************************************/
+void nx_rect_top_left(nx_rect *self, nx_point *point_out)
+{
+	nx_point_assign_point(point_out, &self->start);
+}
+
+/*************************************************************/
+void nx_rect_top_right(nx_rect *self, nx_point *point_out)
+{
+	nx_point_assign(point_out, self->end.x, self->start.y);
+}
+
+/*************************************************************/
+void nx_rect_bottom_left(nx_rect *self, nx_point *point_out)
+{
+	nx_point_assign(point_out, self->start.x, self->end.y);
+}
+
+/*************************************************************/
+void nx_rect_bottom_right(nx_rect *self, nx_point *point_out)
+{
+	nx_point_assign_point(point_out, &self->end);
+}
