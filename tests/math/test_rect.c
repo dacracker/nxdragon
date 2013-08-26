@@ -31,11 +31,11 @@ void test_rect_init(void *status)
 	nx_rect *rect = (nx_rect*)malloc(sizeof(nx_rect));
 	nx_rect_init(rect);
 
-	for(index = 0; index < 4; ++index)
-	{
-		nx_assert_equal(rect->points[index].x, 0);
-		nx_assert_equal(rect->points[index].y, 0);
-	}
+	nx_assert_equal(rect->start.x, 0);
+	nx_assert_equal(rect->start.y, 0);
+
+	nx_assert_equal(rect->end.x, 0);
+	nx_assert_equal(rect->end.y, 0);
 
 	free(rect);
 }

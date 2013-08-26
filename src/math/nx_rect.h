@@ -34,7 +34,8 @@
   */
 
 typedef struct nx_rect_t {
-    nx_point points[4];
+    nx_point start, /** The rectangles start-point */
+             end;   /** The rectangles end-point */
 } nx_rect;
 
 /** Initializes the rectangle to 0. */

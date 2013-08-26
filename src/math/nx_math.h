@@ -80,8 +80,4 @@
 /** Computes tangent of an integer value. */
 #define nx_tani(value) (nxint32)tan(value)
 
-/** Returns nxtrue if the given point is contained in the polygon formed by points.
-    Points must be ordered in a way that it forms the desired polygon. */
-NX_MATH_API nxbool nx_contains(nx_point *points, nxint32 count, nx_point *point);
-
 #endif

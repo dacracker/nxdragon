@@ -23,10 +23,8 @@
 /*************************************************************/
 void nx_rect_init(nx_rect *self)
 {
-	nx_point_init(&self->points[0]);
-	nx_point_init(&self->points[1]);
-	nx_point_init(&self->points[2]);
-	nx_point_init(&self->points[3]);
+	nx_point_init(&self->start);
+	nx_point_init(&self->end);
 }
 
 /*************************************************************/
@@ -36,11 +34,8 @@ void nx_rect_assign(nx_rect *self,
 					nxint32 end_x,
 					nxint32 end_y)
 {
-	nx_point_assign(&self->points[0], start_x, start_y);
-	nx_point_assign(&self->points[2], end_x, end_y);
-
-	nx_point_assign(&self->points[1], start_x, end_y);
-	nx_point_assign(&self->points[3], end_x, start_y);
+	nx_point_assign(&self->start, start_x, start_y);
+	nx_point_assign(&self->end, end_x, end_y);
 }
 
 /*************************************************************/
@@ -54,7 +49,7 @@ void nx_rect_assign_points(nx_rect *self,
 /*************************************************************/
 void nx_rect_assign_rect(nx_rect *self, nx_rect *other)
 {
-	nx_rect_assign_points(self, &other->points[0], &other->points[2]);
+	nx_rect_assign_points(self, &other->start, &other->end);
 }
 
 /*************************************************************/
@@ -69,7 +64,13 @@ nxbool nx_rect_contains(nx_rect *self, nxint32 x, nxint32 y)
 /*************************************************************/
 nxbool nx_rect_contains_point(nx_rect *self, nx_point *point)
 {
-    return nx_contains(self->points, 4, point);
+	nx_point points[4];
+	points[0] = self->start;
+	nx_point_assign(&points[1], self->start.x, self->end.y);
+	points[2] = self->end;
+    nx_point_assign(&points[3], self->end.x, self->start.y);
+
+    return nx_contains(points, 4, point);
 }
 
 /*************************************************************/
@@ -91,7 +92,6 @@ void nx_rect_translate(nx_rect *self, nxint32 x, nxint32 y)
 /*************************************************************/
 void nx_rect_translate_point(nx_rect *self, nx_point *point)
 {
-	int index;
-	for(index = 0; index < 4; ++index)
-		nx_point_translate(&self->points[index], point);
+	nx_point_translate(&self->start, point);
+	nx_point_translate(&self->end, point);
 }
