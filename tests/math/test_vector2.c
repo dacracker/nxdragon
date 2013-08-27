@@ -39,8 +39,8 @@ void test_vector2_assign(void *status)
     nx_vector2_init(&vector);
 
     nx_vector2_assign(&vector, 5.0f, -10.1f);
-    nx_assert_equal(vector.x, 5.0f);
-    nx_assert_equal(vector.y, -10.1f);
+    nx_assert_float(vector.x, 5.0f, 0.01f);
+    nx_assert_float(vector.y, -10.1f, 0.01f);
 }
 
 /*************************************************************/
@@ -87,16 +87,16 @@ void test_vector2_distance_to(void *status)
     nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 6.0f);
 
     vector2.x = 0;
-    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 7.2111025f);
-    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 7.2111025f);
+    nx_assert_float(nx_vector2_distance_to(&vector, &vector2), 7.21f, 0.01);
+    nx_assert_float(nx_vector2_distance_to(&vector2, &vector), 7.21f, 0.01);
 
     vector2.x = -4;
     nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 10.0f);
     nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 10.0f);
 
     vector2.y = 0;
-    nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 8.5440037f);
-    nx_assert_equal(nx_vector2_distance_to(&vector2, &vector), 8.5440037f);
+    nx_assert_float(nx_vector2_distance_to(&vector, &vector2), 8.54f, 0.01f);
+    nx_assert_float(nx_vector2_distance_to(&vector2, &vector), 8.54f, 0.01f);
 
     vector2.y = 3;
     nx_assert_equal(nx_vector2_distance_to(&vector, &vector2), 8.0f);
@@ -124,7 +124,7 @@ void test_vector2_translate(void *status)
     nx_vector2_assign(&vector2, -3, -1.1f);
     nx_vector2_translate(&vector, &vector2);
     nx_assert_equal(vector.x, 2.5f);
-    nx_assert_equal(vector.y, 1.9f);
+    nx_assert_float(vector.y, 1.9f, 0.01f);
 }
 
 /*************************************************************/
@@ -153,11 +153,11 @@ void test_vector2_abs(void *status)
 
 	nx_vector2_abs(&vector);
 	nx_assert_equal(vector.x, 1.0f);
-	nx_assert_equal(vector.y, 2.2f);
+	nx_assert_float(vector.y, 2.2f, 0.01f);
 	
 	nx_vector2_assign(&vector, 1.1f, 2.0f);
 
 	nx_vector2_abs(&vector);
-	nx_assert_equal(vector.x, 1.1f);
+	nx_assert_float(vector.x, 1.1f, 0.01f);
 	nx_assert_equal(vector.y, 2.0f);
 }
