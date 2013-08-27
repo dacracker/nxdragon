@@ -58,7 +58,7 @@ static int _nx_extend_capacity(int size)
    must be made. */
 static void _nx_queue_grow(nx_queue *self, int count)
 {
-	int size = self->size + count; 
+	unsigned int size = self->size + count; 
 
 	/* return if it's already safe to insert the 
 	   requested number of items */

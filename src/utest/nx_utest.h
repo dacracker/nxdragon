@@ -22,6 +22,7 @@
 
 #include "../kernel/nx_def.h"
 #include "../kernel/nx_bool.h"
+#include "../math/nx_math.h"
 
 #ifdef NXDRAGON_BUILD_UTEST
 #	define NX_UTEST_API NX_EXPORT
@@ -55,5 +56,8 @@ NX_INTERNAL NX_UTEST_API int _nx_run_tests(nx_unit_test tests[], int count);
 #define nx_assert_equal(expr1,expr2) nx_assert(expr1 == expr2)
 #define nx_assert_greater(expr1,expr2) nx_assert(expr1 > expr2)
 #define nx_assert_lesser(expr1,expr2) nx_assert(expr1 < expr2) 
- 
+
+/* Special assertion for floating point numbers (float or double) */
+#define nx_assert_float(num1,num2,epsilon) nx_assert(fabs(num1 - num2) < epsilon)
+
 #endif
