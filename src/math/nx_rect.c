@@ -64,13 +64,17 @@ nxbool nx_rect_contains(nx_rect *self, nxint32 x, nxint32 y)
 /*************************************************************/
 nxbool nx_rect_contains_point(nx_rect *self, nx_point *point)
 {
-	nx_point points[4];
-	points[0] = self->start;
-	nx_point_assign(&points[1], self->start.x, self->end.y);
-	points[2] = self->end;
-    nx_point_assign(&points[3], self->end.x, self->start.y);
+	nxint32 min_x, max_x, min_y, max_y;
 
-    return nx_contains(points, 4, point);
+	min_x = nx_min(self->start.x, self->end.x);
+	max_x = nx_max(self->start.x, self->end.x);
+	min_y = nx_min(self->start.y, self->end.y);
+	max_y = nx_max(self->start.y, self->end.y);
+
+	return (point->x >= min_x &&
+		    point->x <= max_x &&
+		    point->y >= min_y &&
+		    point->y <= max_y);
 }
 
 /*************************************************************/
