@@ -32,6 +32,9 @@
 
 #define nx_clip(x,min,max) x > max ? max : x < min ? min : x
 
+/** Checks if a value is within the given range */
+#define nx_in_range(value, min, max) (value >= min && value <= max)
+
 /** Calculates the square-root of a double value. */
 #define nx_sqrt(value) sqrt(value)
 

@@ -27,6 +27,9 @@ void test_rect_init(void *status);
 void test_rect_contains(void *status);
 
 /* */
+void test_rect_intersects(void *status);
+
+/* */
 void test_rect_translate(void *status);
 
 /* */

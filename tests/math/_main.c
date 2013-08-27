@@ -45,6 +45,7 @@ int main(int args, char** argv)
               							  /* nx_rect */
               							&test_rect_init,
               							&test_rect_contains,
+                            &test_rect_intersects,
                             &test_rect_translate,
                             &test_rect_width,
                             &test_rect_height,
