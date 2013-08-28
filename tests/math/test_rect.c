@@ -66,6 +66,25 @@ void test_rect_contains(void *status)
 }
 
 /*************************************************************/
+void test_rect_contains_other(void *status)
+{
+	nx_rect rect, rect2;
+	nx_rect_assign(&rect, 2,2,5,5);
+	nx_rect_assign(&rect2, 3,3,4,4);
+
+	nx_assert_equal(nx_rect_contains_other(&rect, &rect2), nxtrue);
+	
+	nx_rect_assign(&rect2, 3,3,6,6);
+	nx_assert_equal(nx_rect_contains_other(&rect, &rect2), nxfalse);
+
+	nx_rect_assign(&rect2, 1,1,3,3);
+	nx_assert_equal(nx_rect_contains_other(&rect, &rect2), nxfalse);
+
+	nx_rect_assign(&rect2, 6,6,7,7);
+	nx_assert_equal(nx_rect_contains_other(&rect, &rect2), nxfalse);
+}
+
+/*************************************************************/
 void test_rect_intersects(void *status)
 {
 	nx_rect rect, rect2;

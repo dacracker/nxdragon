@@ -29,7 +29,10 @@
   * \defgroup nx_rect nx_rect
   * \brief A rectangle representation.
   *
-  * TODO 
+  * A two dimensional rectangle that is constructed
+  * from two points, start and end. The order of the
+  * points is arbitrary. The rectangle is implemented
+  * with integer values for optimization reasons. 
   * @{
   */
 
@@ -61,6 +64,9 @@ NX_MATH_API nxbool nx_rect_contains(nx_rect *self, nxint32 x, nxint32 y);
 
 /** Returns nxtrue if the given coordinate is contained within the rectangle. */
 NX_MATH_API nxbool nx_rect_contains_point(nx_rect *self, nx_point *point);
+
+/** Returns nxtrue if the other rectangle is completely contained within the rect. */
+NX_MATH_API nxbool nx_rect_contains_other(const nx_rect *self, const nx_rect *other);
 
 /** Returns nxtrue if the rectangles intesects each other. */
 NX_MATH_API nxbool nx_rect_intersects(nx_rect *self, nx_rect *other);

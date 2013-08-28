@@ -77,6 +77,22 @@ nxbool nx_rect_contains_point(nx_rect *self, nx_point *point)
 }
 
 /*************************************************************/
+nxbool nx_rect_contains_other(const nx_rect *self, const nx_rect *other)
+{
+	nxint32 min_x, max_x, min_y, max_y;
+
+	min_x = nx_min(self->start.x, self->end.x);
+	max_x = nx_max(self->start.x, self->end.x);
+	min_y = nx_min(self->start.y, self->end.y);
+	max_y = nx_max(self->start.y, self->end.y);
+
+	return (nx_in_range(other->start.x, min_x, max_x) &&
+			nx_in_range(other->end.x, min_x, max_x) &&
+			nx_in_range(other->start.y, min_y, max_y) &&
+			nx_in_range(other->end.y, min_y, max_y)) ? nxtrue : nxfalse;	
+}
+
+/*************************************************************/
 nxbool nx_rect_intersects(nx_rect *self, nx_rect *other)
 {
 	nxint32 min_x, max_x, min_y, max_y;
