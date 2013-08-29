@@ -1,7 +1,7 @@
 /***************************************************************************\
   This file is part of the NxDragon Game Engine.
 
-  Copyright 2013 Patrik Jeppsson
+  Copyright 2013 Patrik Jeppsson, Ulf Johnsson
   
   NxDragon is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by

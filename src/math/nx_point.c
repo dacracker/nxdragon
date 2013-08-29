@@ -35,14 +35,14 @@ void nx_point_assign(nx_point *self, nxint32 x, nxint32 y)
 }
 
 /*************************************************************/
-void nx_point_assign_point(nx_point *self, nx_point *other)
+void nx_point_assign_point(nx_point *self, const nx_point *other)
 {
     self->x = other->x;
     self->y = other->y;
 }
 
 /*************************************************************/
-nxint32 nx_point_distance_to(nx_point *self, nx_point *other)
+nxint32 nx_point_distance_to(nx_point *self, const nx_point *other)
 {
     nxint32 dx = self->x - other->x;
     nxint32 dy = self->y - other->y;
@@ -51,7 +51,7 @@ nxint32 nx_point_distance_to(nx_point *self, nx_point *other)
 }
 
 /*************************************************************/
-void nx_point_translate(nx_point *self, nx_point *other)
+void nx_point_translate(nx_point *self, const nx_point *other)
 {
     self->x += other->x;
     self->y += other->y;
