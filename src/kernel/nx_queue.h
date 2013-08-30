@@ -53,13 +53,13 @@ NX_KERNEL_API void nx_queue_enqueue(nx_queue *self, void *data);
 NX_KERNEL_API void* nx_queue_dequeue(nx_queue *self);
 
 /** Returns the index located at the giveń index. This function is unsafe if the given index is invalid */
-NX_KERNEL_API void* nx_queue_at(nx_queue *self, int index);
+NX_KERNEL_API void* nx_queue_at(const nx_queue *self, int index);
 
 /** Safe, but slower version of nx_queue_at. 0 will be returned if the index is invalid. */
-NX_KERNEL_API void* nx_queue_value(nx_queue *self, int index);
+NX_KERNEL_API void* nx_queue_value(const nx_queue *self, int index);
 
 /** Returns the current size of the queue */
-NX_KERNEL_API int nx_queue_size(nx_queue *self);
+NX_KERNEL_API int nx_queue_size(const nx_queue *self);
 
 /** @} @} */
 #endif 

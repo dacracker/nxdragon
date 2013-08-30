@@ -125,13 +125,13 @@ void* nx_queue_dequeue(nx_queue *self)
 }
 
 /*************************************************************/
-void* nx_queue_at(nx_queue *self, int index)
+void* nx_queue_at(const nx_queue *self, int index)
 {
 	return self->array[self->front_index + index];
 }
 
 /*************************************************************/
-void* nx_queue_value(nx_queue *self, int index)
+void* nx_queue_value(const nx_queue *self, int index)
 {
 	if(index < 0 || index >= nx_queue_size(self))
 		return 0;
@@ -140,7 +140,7 @@ void* nx_queue_value(nx_queue *self, int index)
 }
 
 /*************************************************************/
-int nx_queue_size(nx_queue *self)
+int nx_queue_size(const nx_queue *self)
 {
 	return self->size - self->front_index;
 }

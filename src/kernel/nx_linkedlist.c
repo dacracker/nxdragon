@@ -85,7 +85,7 @@ void nx_linkedlist_prepend(nx_linkedlist *self, void *data)
 }
 
 /*************************************************************/
-nx_linkedlist_node* nx_linkedlist_at(nx_linkedlist *self, int index)
+nx_linkedlist_node* nx_linkedlist_at(const nx_linkedlist *self, int index)
 {
 	nx_linkedlist_node *itr = nx_linkedlist_first(self);
 	int i = 0;
@@ -171,25 +171,25 @@ void nx_linkedlist_remove_last(nx_linkedlist *self)
 }
 
 /*************************************************************/
-nx_linkedlist_node* nx_linkedlist_first(nx_linkedlist *self)
+nx_linkedlist_node* nx_linkedlist_first(const nx_linkedlist *self)
 { 
 	return self->first; 
 }
 
 /*************************************************************/
-nx_linkedlist_node* nx_linkedlist_last(nx_linkedlist *self)
+nx_linkedlist_node* nx_linkedlist_last(const nx_linkedlist *self)
 { 
 	return self->last; 
 }
 
 /*************************************************************/
-int nx_linkedlist_size(nx_linkedlist *self)
+int nx_linkedlist_size(const nx_linkedlist *self)
 { 
 	return self->size; 
 }
 
 /*************************************************************/
-nxbool nx_linkedlist_empty(nx_linkedlist *self)
+nxbool nx_linkedlist_empty(const nx_linkedlist *self)
 { 
 	return self->size > 0 ? nxfalse : nxtrue; 
 }

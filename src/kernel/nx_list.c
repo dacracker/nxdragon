@@ -89,13 +89,13 @@ void nx_list_delete(nx_list *self)
 }
 
 /*************************************************************/
-int nx_list_size(nx_list *self)
+int nx_list_size(const nx_list *self)
 { 
 	return self->size; 
 }
 
 /*************************************************************/
-nxbool nx_list_empty(nx_list *self)
+nxbool nx_list_empty(const nx_list *self)
 { 
 	return nx_list_size(self) > 0 ? nxfalse : nxtrue; 
 }
@@ -145,25 +145,25 @@ void nx_list_remove_at(nx_list *self, int position)
 }
 
 /*************************************************************/
-void* nx_list_at(nx_list *self,int position)
+void* nx_list_at(const nx_list *self,int position)
 { 
 	return self->array[position]; 
 }
 
 /*************************************************************/
-void* nx_list_value(nx_list *self, int position)
+void* nx_list_value(const nx_list *self, int position)
 { 
 	return (position >= 0 && position < nx_list_size(self)) ? nx_list_at(self,position) : 0; 
 }
 
 /*************************************************************/
-void* nx_list_first(nx_list *self)
+void* nx_list_first(const nx_list *self)
 { 
 	return nx_list_at(self,0); 
 }
 
 /*************************************************************/
-void* nx_list_last(nx_list *self)
+void* nx_list_last(const nx_list *self)
 { 
 	return nx_list_at(self,nx_list_size(self)-1); 
 }

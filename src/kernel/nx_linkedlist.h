@@ -59,7 +59,7 @@ NX_KERNEL_API void nx_linkedlist_append(nx_linkedlist *self, void *data);
 NX_KERNEL_API void nx_linkedlist_prepend(nx_linkedlist *self, void *data);
 
 /** Returns the value at the give position, the index must be a valid position in the list (index < nx_linkedlist_size()) */
-NX_KERNEL_API nx_linkedlist_node* nx_linkedlist_at(nx_linkedlist *self, int index);
+NX_KERNEL_API nx_linkedlist_node* nx_linkedlist_at(const nx_linkedlist *self, int index);
 
 /** Executes the given function for each item in the list */
 NX_KERNEL_API void nx_linkedlist_foreach(nx_linkedlist *self,void (*pred)(void*));
@@ -74,16 +74,16 @@ NX_KERNEL_API void nx_linkedlist_remove_at(nx_linkedlist *self, int position);
 NX_KERNEL_API void nx_linkedlist_remove_last(nx_linkedlist *self);
 
 /** Returns the first item in the list */
-NX_KERNEL_API nx_linkedlist_node* nx_linkedlist_first(nx_linkedlist *self);
+NX_KERNEL_API nx_linkedlist_node* nx_linkedlist_first(const nx_linkedlist *self);
 
 /** Returns the last item in the list */
-NX_KERNEL_API nx_linkedlist_node* nx_linkedlist_last(nx_linkedlist *self);
+NX_KERNEL_API nx_linkedlist_node* nx_linkedlist_last(const nx_linkedlist *self);
 
 /** Returns the number of elements in the list */
-NX_KERNEL_API int nx_linkedlist_size(nx_linkedlist *self);
+NX_KERNEL_API int nx_linkedlist_size(const nx_linkedlist *self);
 
 /** Returns the number of elements in the list */
-NX_KERNEL_API nxbool nx_linkedlist_empty(nx_linkedlist *self);
+NX_KERNEL_API nxbool nx_linkedlist_empty(const nx_linkedlist *self);
 
 /** @}*/
 #endif

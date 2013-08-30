@@ -50,10 +50,10 @@ NX_KERNEL_API void nx_list_init(nx_list *self);
 NX_KERNEL_API void nx_list_delete(nx_list *self);
 
 /** Returns the current size of the list */
-NX_KERNEL_API int nx_list_size(nx_list *self);
+NX_KERNEL_API int nx_list_size(const nx_list *self);
 
 /** Return value indicates if the list is empty or not */
-NX_KERNEL_API nxbool nx_list_empty(nx_list *self);
+NX_KERNEL_API nxbool nx_list_empty(const nx_list *self);
 
 /** Inserts the data at the given position, which must be valid within the list.
 	Performs a resize of the internal array if necessary. */
@@ -69,16 +69,16 @@ NX_KERNEL_API void nx_list_append(nx_list *self, void *data);
 
 /** Returns the item stored at the given position, the position must be 
 	valid within the list */
-NX_KERNEL_API void* nx_list_at(nx_list *self,int position);
+NX_KERNEL_API void* nx_list_at(const nx_list *self,int position);
 
 /** Safe version of nx_list_at() that will return 0 if the position is invalid */
-NX_KERNEL_API void* nx_list_value(nx_list *self, int position);
+NX_KERNEL_API void* nx_list_value(const nx_list *self, int position);
 
 /** Returns the first item in the list, this function is unsafe if the list is empty */
-NX_KERNEL_API void* nx_list_first(nx_list *self);
+NX_KERNEL_API void* nx_list_first(const nx_list *self);
 
 /** Returns the last item in the list, this function is unsafe if the list is empty */
-NX_KERNEL_API void* nx_list_last(nx_list *self);
+NX_KERNEL_API void* nx_list_last(const nx_list *self);
 
 /** Removes the item at the given position from the list. The position must be valid  */
 NX_KERNEL_API void nx_list_remove_at(nx_list *self, int position);
