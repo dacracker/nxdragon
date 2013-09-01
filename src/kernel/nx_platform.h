@@ -32,6 +32,8 @@
 	Mac OS X: NX_OS_MACX
 	Mac OS X 64-bit: NX_OS_MACX64
 
+	FreeBSD: NX_OS_FREEBSD
+	FreeBSD 64-bit: NX_OS_FREEBSD64
 */
 
 /* Dection of Microsoft Windows */
@@ -66,7 +68,7 @@
 #	endif
 #endif
 
-#if defined(NX_OS_WIN64) || defined(NX_OS_LINUX64) || defined(NX_OS_MACX64)
+#if defined(NX_OS_WIN64) || defined(NX_OS_LINUX64) || defined(NX_OS_MACX64) || defined(NX_OS_FREEBSD64)
 #	define NX_OS_ARCH64
 #else
 #	define NX_OS_ARCH32
