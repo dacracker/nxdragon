@@ -22,10 +22,12 @@
 #include "math/nx_rect.h"
 #include "math/nx_point.h"
 
+#include <stdlib.h>
+
 /*************************************************************/
 void test_rect_init(void *status)
 {
-	nx_rect *rect = (nx_rect*)malloc(sizeof(nx_rect));
+	nx_rect *rect = malloc(sizeof(nx_rect));
 	nx_rect_init(rect);
 
 	nx_assert_equal(rect->start.x, 0);

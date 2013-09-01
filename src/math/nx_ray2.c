@@ -19,6 +19,8 @@
 
 #include "nx_ray2.h"
 
+#include "../kernel/nx_def.h"
+
 /*************************************************************/
 void nx_ray2_init(nx_ray2 *self)
 {
@@ -60,6 +62,9 @@ const nx_point* nx_ray2_origin(const nx_ray2 *self)
 /*************************************************************/
 nxbool intersects(const nx_ray2 *self, nx_point *object)
 {
+	NX_UNUSED(self);
+	NX_UNUSED(object);
+
 	/* TODO */
 	return nxfalse;
 }
@@ -67,6 +72,9 @@ nxbool intersects(const nx_ray2 *self, nx_point *object)
 /*************************************************************/
 nxbool intersection(const nx_ray2 *self, nx_point *point)
 {
+	NX_UNUSED(self);
+	NX_UNUSED(point);
+
 	/* TODO */
 	return nxfalse;
 }
