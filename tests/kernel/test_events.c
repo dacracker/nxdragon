@@ -25,9 +25,9 @@
 
 #include <stdlib.h>
 
-typedef enum test_events {
+typedef enum test_events_t {
 	NX_EVENT_DUMMY1 = NX_EVENT_USER_EVENTS + 1
-};
+} test_events;
 
 typedef struct _nx_event_dummy1_t {
 	nx_event base;

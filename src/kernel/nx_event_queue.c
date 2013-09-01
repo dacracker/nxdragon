@@ -22,14 +22,14 @@
 
 #include <stdlib.h>
 
-typedef struct nx_event_queue_t {
+struct nx_event_queue_t {
 	nx_queue events; /* This structure will probably need a mutex look in the near future */ 
-} nx_event_queue;
+};
 
 /*************************************************************/
 nx_event_queue* nx_event_queue_create(void)
 {
-	nx_event_queue *self = malloc(sizeof(nx_event_queue));
+	struct nx_event_queue_t *self = malloc(sizeof(struct nx_event_queue_t));
 	nx_queue_init(&self->events);
 
 	return self; 

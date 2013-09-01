@@ -28,8 +28,7 @@
   * TODO
   * @{
   */
-
-typedef struct nx_event_queue_t nx_event_queue;
+struct nx_event_queue_t;
 
 /** Creates a new event source */
 NX_KERNEL_API nx_event_source* nx_event_source_create(void);
@@ -38,10 +37,10 @@ NX_KERNEL_API nx_event_source* nx_event_source_create(void);
 NX_KERNEL_API void nx_event_source_delete(nx_event_source *self);
 
 /** Registers a new event queue that will recieve events from this event source */
-NX_KERNEL_API nxbool nx_event_source_register(nx_event_source *self, nx_event_queue *event_queue);
+NX_KERNEL_API nxbool nx_event_source_register(nx_event_source *self, struct nx_event_queue_t *event_queue);
 
 /** Unregisters a current event queue, it will no longer recieve events from this event source */
-NX_KERNEL_API nxbool nx_event_source_unregister(nx_event_source *self, nx_event_queue *event_queue);
+NX_KERNEL_API nxbool nx_event_source_unregister(nx_event_source *self, struct nx_event_queue_t *event_queue);
 
 /** Emits the event to all registered event queues. The event MUST be allocated on the heap */
 NX_KERNEL_API void nx_event_source_emit(nx_event_source *self, nx_event *event);

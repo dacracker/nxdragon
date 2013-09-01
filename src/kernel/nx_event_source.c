@@ -23,14 +23,14 @@
 
 #include <stdlib.h>
 
-typedef struct nx_event_source_t {
+struct nx_event_source_t {
   nx_list listeners; 
-} nx_event_source;
+};
 
 /*************************************************************/
 nx_event_source* nx_event_source_create(void)
 {	
-	nx_event_source *self = malloc(sizeof(nx_event_source));
+	struct nx_event_source_t *self = malloc(sizeof(struct nx_event_source_t));
 	nx_list_init(&self->listeners);
 
 	return self;
