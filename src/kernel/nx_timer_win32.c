@@ -22,22 +22,30 @@
 #include "nx_types.h"
 #include "nx_def.h"
 
+#include <windows.h>
+
+/*
+	The current tick impl. on Windows systems
+	is rather low res. I'll add a high res version
+	if it turns out there's a need for it. 
+*/
+
+static DWORD _tick_start;
+
 /*************************************************************/
 void nx_ticks_init(void) 
 {
-	// TODO: add implementation for windows
+	_tick_start = GetTickCount();
 }
 
 /*************************************************************/
 nxuint32 nx_get_ticks(void) 
 {
-	// TODO: add implementation for windows
-	return 0;
+	return _tick_start - GetTickCount();
 } 
 
 /*************************************************************/
 void nx_sleep(nxuint32 ms)
 {
-	NX_UNUSED(ms);
-	// TODO: add implementation for windows
+	Sleep(ms);
 }
