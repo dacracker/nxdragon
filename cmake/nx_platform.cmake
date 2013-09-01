@@ -12,10 +12,16 @@ endif()
 
 
 if(CMAKE_HOST_UNIX)
-	if(CMAKE_HOST_APPLE)
+	if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	  set(NX_PLATFORM_MACOSX 1)
 	else()
 	  set(NX_PLATFORM_UNIX 1)
+
+	  if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	  	set(NX_PLATFORM_LINUX 1)
+	  elseif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+	  	set(NX_PLATFORM_FREEBSD 1)
+	  endif()
 	endif()
 endif()
 

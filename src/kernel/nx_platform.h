@@ -50,11 +50,19 @@
 #	endif
 #endif
 
-/* Detection of Apple Mac OS X */
+/* Detection of Apple OS X */
 #if defined(__APPLE__)
 #	define NX_OS_MACX
 #	ifdef __LP64__
 #		define NX_OS_MACX64
+#	endif
+#endif
+
+/* Detection of FreeBSD */
+#if defined(__FreeBSD__)
+#	define NX_OS_FREEBSD
+#	ifdef __x86_64__
+#		define NX_OS_FREEBSD64
 #	endif
 #endif
 
