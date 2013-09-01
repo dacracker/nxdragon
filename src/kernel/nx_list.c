@@ -48,7 +48,8 @@ static int _nx_extend_capacity(int size)
 {
 	if(size < 20)
 		return _nx_round_up_to_multiple(size,4);
-	else if(size < 4084)
+
+	if(size < 4084)
 		return _nx_upper_power_of_two(size);
 	
 	return _nx_round_up_to_multiple(size,4096);
@@ -98,6 +99,22 @@ int nx_list_size(const nx_list *self)
 nxbool nx_list_empty(const nx_list *self)
 { 
 	return nx_list_size(self) > 0 ? nxfalse : nxtrue; 
+}
+
+/*************************************************************/
+nxbool nx_list_contains(const nx_list *self, void *value)
+{
+	int index = 0;
+
+	while(index < nx_list_size(self))
+	{
+		if(nx_list_at(self,index) == value)
+			return nxtrue;
+
+		++index;
+	}
+
+	return nxfalse;
 }
 
 /*************************************************************/

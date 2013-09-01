@@ -46,7 +46,8 @@ static int _nx_extend_capacity(int size)
 {
 	if(size < 20)
 		return _nx_round_up_to_multiple(size,4);
-	else if(size < 4084)
+	
+	if(size < 4084)
 		return _nx_upper_power_of_two(size);
 	
 	return _nx_round_up_to_multiple(size,4096);

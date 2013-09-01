@@ -55,6 +55,9 @@ NX_KERNEL_API int nx_list_size(const nx_list *self);
 /** Return value indicates if the list is empty or not */
 NX_KERNEL_API nxbool nx_list_empty(const nx_list *self);
 
+/** Returns nxtrue if the list contains the value, nxfalse if not */
+NX_KERNEL_API nxbool nx_list_contains(const nx_list *self, void *value);
+
 /** Inserts the data at the given position, which must be valid within the list.
 	Performs a resize of the internal array if necessary. */
 NX_KERNEL_API void nx_list_insert(nx_list *self,int position, void *data);

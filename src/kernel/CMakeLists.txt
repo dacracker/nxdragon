@@ -14,12 +14,18 @@ set(nxkernel_inc
 	nx_list.h
 	nx_queue.h
 	nx_doc.h
-	nx_timer.h)
+	nx_timer.h
+	nx_event.h
+	nx_event_source.h
+	nx_event_queue.h)
 			    
 set(nxkernel_src 
 	nx_linkedlist.c
 	nx_list.c
-	nx_queue.c)
+	nx_queue.c
+	nx_event.c
+	nx_event_source.c
+	nx_event_queue.c)
 
 if(NX_PLATFORM_WIN32)
 	set(nxkernel_platform_src 
