@@ -23,38 +23,40 @@
 #include "test_point.h"
 #include "test_rect.h"
 
+nx_unit_test tests[] = {  
+	/* nx_vector2 */
+	&test_vector2_init,
+	&test_vector2_assign,
+	&test_vector2_assign_vector,
+	&test_vector2_distance_to,
+	&test_vector2_translate,
+	&test_vector2_swap,
+	&test_vector2_abs,
+	/* nx_point */
+	&test_point_init,
+	&test_point_assign,
+	&test_point_assign_point,
+	&test_point_distance_to,
+	&test_point_translate,
+	&test_point_swap,
+	&test_point_abs,
+	/* nx_rect */
+	&test_rect_init,
+	&test_rect_contains,
+	&test_rect_contains_other,
+	&test_rect_intersects,
+	&test_rect_translate,
+	&test_rect_width,
+	&test_rect_height,
+	&test_rect_top_left,
+	&test_rect_top_right,
+	&test_rect_bottom_left,
+	&test_rect_bottom_right 
+};
+
 /*************************************************************/
 int main(int args, char** argv)
 {
-	nx_unit_test tests[] = {  /* nx_vector2 */
-                            &test_vector2_init,
-                            &test_vector2_assign,
-                            &test_vector2_assign_vector,
-                            &test_vector2_distance_to,
-                            &test_vector2_translate,
-                            &test_vector2_swap,
-              							&test_vector2_abs,
-              							  /* nx_point */
-              							&test_point_init,
-              							&test_point_assign,
-              							&test_point_assign_point,
-              							&test_point_distance_to,
-              							&test_point_translate,
-              							&test_point_swap,
-              							&test_point_abs,
-              							  /* nx_rect */
-              							&test_rect_init,
-              							&test_rect_contains,
-                            &test_rect_contains_other,
-                            &test_rect_intersects,
-                            &test_rect_translate,
-                            &test_rect_width,
-                            &test_rect_height,
-                            &test_rect_top_left,
-                            &test_rect_top_right,
-                            &test_rect_bottom_left,
-                            &test_rect_bottom_right };
-
 	NX_UNUSED(args); 
 	NX_UNUSED(argv);
     

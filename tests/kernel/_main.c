@@ -25,25 +25,24 @@
 #include "test_queue.h" 
 
 static nx_unit_test tests[] = {  
+	/* nx_atomic */
+	&test_atomic_inc,
+	&test_atomic_dec,
 
-  /* nx_atomic */
-  &test_atomic_inc,
-  &test_atomic_dec,
+	/* nx_list */
+	&test_list_init_delete,
+	&test_list_append,
+	&test_list_insert,
+	&test_list_first_last,
+	&test_list_value,
 
-  /* nx_list */
-  &test_list_init_delete,
-  &test_list_append,
-  &test_list_insert,
-  &test_list_first_last,
-  &test_list_value,
+	/* nx_timer */
+	&test_ticks,
 
-  /* nx_timer */
-  &test_ticks,
-
-  /* nx_queue */
-  &test_queue_init,
-  &test_queue_enqueue_dequeue,
-  &test_queue_bounds 
+	/* nx_queue */
+	&test_queue_init,
+	&test_queue_enqueue_dequeue,
+	&test_queue_bounds 
 };
 
 /*************************************************************/
