@@ -22,6 +22,7 @@
 #include "test_vector2.h"
 #include "test_point.h"
 #include "test_rect.h"
+#include "test_ray2.h"
 
 nx_unit_test tests[] = {  
 	/* nx_vector2 */
@@ -51,7 +52,11 @@ nx_unit_test tests[] = {
 	&test_rect_top_left,
 	&test_rect_top_right,
 	&test_rect_bottom_left,
-	&test_rect_bottom_right 
+	&test_rect_bottom_right,
+	/* nx_ray2 */
+	&test_ray2_init,
+	&test_ray2_origin,
+	&test_ray2_direction
 };
 
 /*************************************************************/
