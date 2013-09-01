@@ -15,7 +15,9 @@ set(utest_kernel_src _main.c
 					 test_timer.h
 					 test_timer.c
 					 test_queue.h
-					 test_queue.c)
+					 test_queue.c
+					 test_events.h
+					 test_events.c)
 
 add_executable(utest_kernel ${utest_kernel_src})
 target_link_libraries(utest_kernel nxkernel nxutest)

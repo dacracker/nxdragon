@@ -22,6 +22,13 @@
 
 #include "nx_event.h"
 
+/** \ingroup NxKernel
+  * \defgroup nx_event_source nx_event_source
+  * \brief Event source  
+  * TODO
+  * @{
+  */
+
 typedef struct nx_event_queue_t nx_event_queue;
 
 /** Creates a new event source */
@@ -36,7 +43,9 @@ NX_KERNEL_API nxbool nx_event_source_register(nx_event_source *self, nx_event_qu
 /** Unregisters a current event queue, it will no longer recieve events from this event source */
 NX_KERNEL_API nxbool nx_event_source_unregister(nx_event_source *self, nx_event_queue *event_queue);
 
-/** Emits the event to all registered event queues */
+/** Emits the event to all registered event queues. The event MUST be allocated on the heap */
 NX_KERNEL_API void nx_event_source_emit(nx_event_source *self, nx_event *event);
+
+/** @} @} */
 
 #endif

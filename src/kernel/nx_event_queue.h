@@ -22,6 +22,13 @@
 
 #include "nx_event.h"
 
+/** \ingroup NxKernel
+  * \defgroup nx_event_queue nx_event_queue
+  * \brief FIFO event queue 
+  * TODO
+  * @{
+  */
+
 typedef struct nx_event_queue_t nx_event_queue;
 
 /** Creates a new event queue */
@@ -36,4 +43,5 @@ NX_KERNEL_API void nx_event_queue_insert(nx_event_queue *self, nx_event *event);
 /** Checks if there are any pending events in the queue and returns the next event, if any. The caller is responsible for invoking nx_event_release() on the event */ 
 NX_KERNEL_API nx_event* nx_event_queue_peek_next(nx_event_queue *self);
 
+/** @} @} */
 #endif

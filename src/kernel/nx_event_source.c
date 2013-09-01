@@ -84,6 +84,9 @@ void nx_event_source_emit(nx_event_source *self, nx_event *event)
 
 	nx_event_ref(event); 
 
+	/* Register the event source as the emitter of the event */
+	event->event_source = self;
+
 	while(index < nx_list_size(&self->listeners))
 	{
 		nx_event_queue_insert(nx_list_at(&self->listeners,index),event);

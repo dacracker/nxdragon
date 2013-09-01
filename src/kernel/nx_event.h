@@ -23,6 +23,14 @@
 #include "nx_bool.h"
 #include "nx_def.h"
 
+
+/** \ingroup NxKernel
+  * \defgroup nx_event nx_event
+  * \brief Base event object
+  * TODO
+  * @{
+  */
+
 typedef enum nx_event_type_t {
 	NX_EVENT_KERNEL_EVENTS = 0, /* Meta event */
 	NX_EVENT_QUIT, /* Symbolizes a quit notification */
@@ -43,6 +51,8 @@ typedef struct nx_event_t {
 	void (*destructor)(struct nx_event_t*); /* The destructor is responsible for freeing all the data occupied by the event */ 
 } nx_event;
 
+typedef void (*nx_event_dtor)(struct nx_event_t*);
+
 /** Initializes the event. the destructor may be set to 0 if no custom allocations are made by the event */
 NX_KERNEL_API void nx_event_init(nx_event *self, nx_event_type type, void (*destructor)(struct nx_event_t*));
 
@@ -51,5 +61,7 @@ NX_KERNEL_API void nx_event_ref(nx_event *self);
 
 /** Decreasess reference count of the event by 1. The event will be destroyed when the reference count turns 0*/
 NX_KERNEL_API void nx_event_release(nx_event *self);
+
+/** @} @} */
 
 #endif
