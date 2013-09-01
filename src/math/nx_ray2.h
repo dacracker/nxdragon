@@ -23,6 +23,8 @@
 #include "nx_def.h"
 #include "nx_point.h"
 
+#include "../kernel/nx_bool.h"
+
 /** \ingroup NxMath
   * \defgroup nx_ray2 nx_ray2
   * \brief A 2d ray.
@@ -43,6 +45,24 @@ NX_MATH_API void nx_ray2_init(nx_ray2 *self);
 NX_MATH_API void nx_ray2_assign(nx_ray2 *self, 
                                 const nx_point *origin, 
                                 const nx_point *direction);
+
+/** Sets the direction. */
+NX_MATH_API void nx_ray2_set_direction(nx_ray2 *self, const nx_point *direction);
+
+/** Sets the origin. */
+NX_MATH_API void nx_ray2_set_origin(nx_ray2 *self, const nx_point *origin);
+
+/** Returns the rays direction. */
+NX_MATH_API const nx_point* nx_ray2_direction(const nx_ray2 *self);
+
+/** Returns the rays origin. */
+NX_MATH_API const nx_point* nx_ray2_origin(const nx_ray2 *self);
+
+/** Returns nxtrue if any of the sides created by the points in object is intersected. */
+NX_MATH_API nxbool intersects(const nx_ray2 *self, nx_point *object);
+
+/** Returns nxtrue if there is an intersection, in that case 'point' will be assigned the intersection value. */
+NX_MATH_API nxbool intersection(const nx_ray2 *self, nx_point *point);
 
 /** @} @} */
 #endif

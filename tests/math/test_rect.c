@@ -22,8 +22,6 @@
 #include "math/nx_rect.h"
 #include "math/nx_point.h"
 
-#include <stdlib.h>
-
 /*************************************************************/
 void test_rect_init(void *status)
 {

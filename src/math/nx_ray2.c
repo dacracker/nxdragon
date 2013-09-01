@@ -32,3 +32,41 @@ void nx_ray2_assign(nx_ray2 *self, const nx_point *origin, const nx_point *direc
     nx_point_assign_point(&self->origin, origin);
     nx_point_assign_point(&self->direction, direction);
 }
+
+/*************************************************************/
+void nx_ray2_set_direction(nx_ray2 *self, const nx_point *direction)
+{
+	nx_point_assign_point(&self->direction, direction);
+}
+
+/*************************************************************/
+void nx_ray2_set_origin(nx_ray2 *self, const nx_point *origin)
+{
+	nx_point_assign_point(&self->origin, origin);
+}
+
+/*************************************************************/
+const nx_point* nx_ray2_direction(const nx_ray2 *self)
+{
+	return &self->direction;
+}
+
+/*************************************************************/
+const nx_point* nx_ray2_origin(const nx_ray2 *self)
+{
+	return &self->origin;
+}
+
+/*************************************************************/
+nxbool intersects(const nx_ray2 *self, nx_point *object)
+{
+	/* TODO */
+	return nxfalse;
+}
+
+/*************************************************************/
+nxbool intersection(const nx_ray2 *self, nx_point *point)
+{
+	/* TODO */
+	return nxfalse;
+}
