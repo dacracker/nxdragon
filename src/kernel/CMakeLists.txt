@@ -17,7 +17,8 @@ set(nxkernel_inc
 	nx_timer.h
 	nx_event.h
 	nx_event_source.h
-	nx_event_queue.h)
+	nx_event_queue.h
+	nx_mutex.h)
 			    
 set(nxkernel_src 
 	nx_linkedlist.c
@@ -30,7 +31,8 @@ set(nxkernel_src
 if(NX_PLATFORM_WIN32)
 	set(nxkernel_platform_src 
 		nx_atomic_win32.c
-		nx_timer_win32.c)
+		nx_timer_win32.c
+		nx_mutex_win32.c)
 endif()
 
 if(NX_PLATFORM_MACOSX)
