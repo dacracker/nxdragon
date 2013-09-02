@@ -39,13 +39,15 @@ endif()
 if(NX_PLATFORM_MACOSX)
 	set(nxkernel_platform_src 
 		nx_atomic_osx.c
-        nx_timer_unix.c)
+        nx_timer_unix.c
+    	nx_mutex_unix.c)
 endif()
 
 if(NX_PLATFORM_UNIX)
 	set(nxkernel_platform_src 
 		nx_atomic_unix.c
-		nx_timer_unix.c)
+		nx_timer_unix.c
+		nx_mutex_unix.c)
 endif()
 
 set(nxkernel_src 
@@ -59,8 +61,12 @@ add_library(nxkernel SHARED
 set_target_properties(nxkernel PROPERTIES 
 					  		   DEFINE_SYMBOL NXDRAGON_BUILD_KERNEL)
 
+if(NX_PLATFORM_MACOSX)
+	target_link_libraries(nxkernel pthread)
+endif()
+
 if(NX_PLATFORM_UNIX)
-	target_link_libraries(nxkernel rt)
+	target_link_libraries(nxkernel rt pthread)
 endif()
 
 nx_filter("${nxkernel_src};${nxkernel_inc}")
