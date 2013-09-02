@@ -9,3 +9,6 @@ OS X 10.8
 GNU/Debian 7
 
 License: GPLv3 
+
+Doxygen generated documentation is available here:
+http://www.nxdragon.se 
