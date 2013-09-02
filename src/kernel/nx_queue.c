@@ -20,7 +20,7 @@
 #include "nx_queue.h"
 #include "nx_compiler.h"
 
-#include <stdlib.h>
+#include "nx_memory.h"
 #include <string.h>
 
 /*************************************************************/
@@ -83,8 +83,8 @@ static void _nx_queue_grow(nx_queue *self, int count)
 	self->capacity = _nx_extend_capacity(size);
 
 	/* resize the internal array */
-	self->array = realloc(self->array, 
-						  self->capacity * NX_POINTER_SIZE);	
+	self->array = nx_realloc(self->array, 
+							 self->capacity * NX_POINTER_SIZE);	
 }
 
 /*************************************************************/
@@ -99,7 +99,7 @@ void nx_queue_init(nx_queue *self)
 /*************************************************************/
 void nx_queue_delete(nx_queue *self)
 {
-	free(self->array);
+	nx_free(self->array);
 }
 
 /*************************************************************/

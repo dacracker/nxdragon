@@ -21,7 +21,7 @@
 #include "nx_event_queue.h"
 #include "nx_list.h"
 
-#include <stdlib.h>
+#include "nx_memory.h"
 
 struct nx_event_source_t {
   nx_list listeners; 
@@ -30,7 +30,7 @@ struct nx_event_source_t {
 /*************************************************************/
 nx_event_source* nx_event_source_create(void)
 {	
-	struct nx_event_source_t *self = malloc(sizeof(struct nx_event_source_t));
+	struct nx_event_source_t *self = nx_malloc(sizeof(struct nx_event_source_t));
 	nx_list_init(&self->listeners);
 
 	return self;
@@ -40,7 +40,7 @@ nx_event_source* nx_event_source_create(void)
 void nx_event_source_delete(nx_event_source *self)
 {
 	nx_list_delete(&self->listeners);
-	free(self);
+	nx_free(self);
 }
 
 /*************************************************************/

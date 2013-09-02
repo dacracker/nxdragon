@@ -18,7 +18,8 @@ set(nxkernel_inc
 	nx_event.h
 	nx_event_source.h
 	nx_event_queue.h
-	nx_mutex.h)
+	nx_mutex.h
+	nx_memory.h)
 			    
 set(nxkernel_src 
 	nx_linkedlist.c

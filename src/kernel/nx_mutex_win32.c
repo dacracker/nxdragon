@@ -22,7 +22,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include <stdlib.h>
+#include "nx_memory.h"
 
 struct nx_mutex_t {
 	CRITICAL_SECTION critSection;
@@ -31,7 +31,7 @@ struct nx_mutex_t {
 /*************************************************************/
 nx_mutex* nx_mutex_create()
 {
-	struct nx_mutex_t *self = malloc(sizeof(struct nx_mutex_t));
+	struct nx_mutex_t *self = nx_malloc(sizeof(struct nx_mutex_t));
 	InitializeCriticalSectionEx(&self->critSection,
 								1200, /* HACK: Run this spin count through some profiling tests */
 								CRITICAL_SECTION_NO_DEBUG_INFO);
@@ -42,7 +42,7 @@ nx_mutex* nx_mutex_create()
 void nx_mutex_destroy(nx_mutex *self)
 {
 	DeleteCriticalSection(&self->critSection);
-	free(self);
+	nx_free(self);
 }
 
 /*************************************************************/

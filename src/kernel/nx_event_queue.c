@@ -20,7 +20,7 @@
 #include "nx_event_queue.h"
 #include "nx_queue.h"
 
-#include <stdlib.h>
+#include "nx_memory.h"
 
 struct nx_event_queue_t {
 	nx_queue events; /* This structure will probably need a mutex look in the near future */ 
@@ -29,7 +29,7 @@ struct nx_event_queue_t {
 /*************************************************************/
 nx_event_queue* nx_event_queue_create(void)
 {
-	struct nx_event_queue_t *self = malloc(sizeof(struct nx_event_queue_t));
+	struct nx_event_queue_t *self = nx_malloc(sizeof(struct nx_event_queue_t));
 	nx_queue_init(&self->events);
 
 	return self; 
@@ -39,7 +39,7 @@ nx_event_queue* nx_event_queue_create(void)
 void nx_event_queue_delete(nx_event_queue *self)
 {
 	nx_queue_delete(&self->events);
-	free(self);
+	nx_free(self);
 }
 
 /*************************************************************/

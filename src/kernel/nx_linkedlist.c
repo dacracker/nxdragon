@@ -19,14 +19,14 @@
 
 #include "nx_linkedlist.h"
 
-#include <stdlib.h>
+#include "nx_memory.h"
 
 /*************************************************************/
 static nx_linkedlist_node* nx_create_node(nx_linkedlist_node *prev,
 										  nx_linkedlist_node *next,
 										  void *data)
 {
-	nx_linkedlist_node *const node = malloc(sizeof(nx_linkedlist_node));
+	nx_linkedlist_node *const node = nx_malloc(sizeof(nx_linkedlist_node));
 	
 	if((node->prev = prev) != 0)
 		prev->next = node;

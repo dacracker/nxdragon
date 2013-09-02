@@ -20,7 +20,7 @@
 #include "nx_event.h"
 #include "nx_atomic.h"
 
-#include <stdlib.h>
+#include "nx_memory.h"
 
 /*************************************************************/
 void nx_event_init(nx_event *self, nx_event_type type, void (*destructor)(struct nx_event_t*))
@@ -47,7 +47,7 @@ void nx_event_release(nx_event *self)
 			(*self->destructor)(self);
 		}
 		else {
-			free(self);
+			nx_free(self);
 		}
 	}
 }

@@ -21,7 +21,7 @@
 
 #include "../math/nx_math.h"
 
-#include <stdlib.h>
+#include "nx_memory.h"
 #include <string.h>
 
 
@@ -72,8 +72,8 @@ static void _nx_list_grow(nx_list *self, int count)
 	self->capacity = _nx_extend_capacity(size);
 
 	/* resize the internal array */
-	self->array = realloc(self->array, 
-						  self->capacity * NX_POINTER_SIZE);	
+	self->array = nx_realloc(self->array, 
+							 self->capacity * NX_POINTER_SIZE);	
 }
 
 /*************************************************************/
@@ -86,7 +86,7 @@ void nx_list_init(nx_list *self)
 /*************************************************************/
 void nx_list_delete(nx_list *self)
 {
-	free(self->array);
+	nx_free(self->array);
 }
 
 /*************************************************************/
