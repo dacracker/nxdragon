@@ -63,4 +63,10 @@ NX_MATH_API void nx_point_abs(nx_point *self);
     Points must be ordered in a way that it forms the desired polygon. */
 NX_MATH_API nxbool nx_contains(nx_point *points, nxint32 count, nx_point *point);
 
+/** Calculates the angle between the line formed by the two point and the x-axis in radians. */
+NX_MATH_API nxreal angle_rad(const nx_point *p1, const nx_point *p2);
+
+/** Calculates the angle between the line formed by the two point and the x-axis in degrees. */
+NX_MATH_API nxint32 angle_deg(const nx_point *p1, const nx_point *p2);
+
 #endif

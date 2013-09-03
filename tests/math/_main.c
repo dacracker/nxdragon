@@ -41,6 +41,7 @@ nx_unit_test tests[] = {
 	&test_point_translate,
 	&test_point_swap,
 	&test_point_abs,
+	&test_angle_deg,
 	/* nx_rect */
 	&test_rect_init,
 	&test_rect_contains,

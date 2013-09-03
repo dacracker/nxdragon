@@ -41,4 +41,7 @@ void test_point_swap(void *status);
 /* Tests the funtion for transforming to the absolute-value of the point */
 void test_point_abs(void *status);
 
+/* Test the angle_deg function */
+void test_angle_deg(void *status);
+
 #endif

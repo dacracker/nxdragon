@@ -107,3 +107,48 @@ nxbool nx_contains(nx_point *points, nxint32 count, nx_point *point)
 
   return result ? nxtrue : nxfalse;
 }
+
+/*************************************************************/
+nxreal angle_rad(const nx_point *p1, const nx_point *p2)
+{
+    nxint32 dX = 0, dY = 0;
+    nxreal angle = 0;
+  
+    dX = p2->x - p1->x;
+    dY = p2->y - p1->y;
+
+    if(dX == 0)
+    {
+        if(dY == 0)
+            angle = 0;
+        else if(dY > 0)
+            angle = nx_pi/2;
+        else
+            angle = -nx_pi/2;
+    }
+    else
+    {
+        angle = nx_atanf((nxreal)dY/(nxreal)dX);
+        if(dX < 0)
+        {
+            if(dY > 0)
+                angle += nx_pi;
+            else if(dY < 0)
+                angle -= nx_pi;
+            else
+                angle = nx_pi;
+        }
+    }
+
+    if(angle < 0)
+        angle = 2*nx_pi + angle;
+
+    return angle;
+}
+
+/*************************************************************/
+nxint32 angle_deg(const nx_point *p1, const nx_point *p2)
+{
+    const nxreal angle = angle_rad(p1, p2);
+    return angle*180/nx_pi;
+}
