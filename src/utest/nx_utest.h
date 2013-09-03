@@ -60,4 +60,7 @@ NX_INTERNAL NX_UTEST_API int _nx_run_tests(nx_unit_test tests[], int count);
 /* Special assertion for floating point numbers (float or double) */
 #define nx_assert_float(num1,num2,epsilon) nx_assert(fabs(num1 - num2) < epsilon)
 
+/* Assertion for integers where the value can vary by epsilon */
+#define nx_assert_int(num1, num2, epsilon) nx_assert_float(num1, num2, epsilon)
+
 #endif

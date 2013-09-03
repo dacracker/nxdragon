@@ -161,3 +161,57 @@ void test_point_abs(void *status)
 	nx_assert_equal(point.x, 10);
 	nx_assert_equal(point.y, 12);
 }
+
+/*************************************************************/
+void test_angle_deg(void *status)
+{
+    nx_point p1,p2;
+    nxint32 deg;
+
+    nx_point_assign(&p1, 1,1);
+
+    nx_point_assign(&p2, 2,1);
+    /* deg == 0 */
+    deg = angle_deg(&p1, &p2);
+    nx_assert_equal(deg, 0);
+
+    nx_point_assign(&p2, 4,3);
+    /* deg ~ 33 */
+    deg = angle_deg(&p1, &p2);
+    nx_assert_equal(deg, 33);
+
+    nx_point_assign(&p2, 2,2);
+    /* deg ~ 45 */
+    deg = angle_deg(&p1, &p2);
+    nx_assert_equal(deg, 44);
+
+    nx_point_assign(&p2, 1,2);
+    /* deg == 90 */
+    deg = angle_deg(&p1, &p2);
+    nx_assert_int(deg, 90, 2);
+
+    nx_point_assign(&p2, 0,2);
+    /* deg == 135 */
+    deg = angle_deg(&p1, &p2);
+    nx_assert_int(deg, 135, 2);
+
+    nx_point_assign(&p2, 0,1);
+    /* deg == 180 */
+    deg = angle_deg(&p1, &p2);
+    nx_assert_int(deg, 180, 2);
+
+    nx_point_assign(&p2, 0,0);
+    /* deg == 225 */
+    deg = angle_deg(&p1, &p2);
+    nx_assert_int(deg, 225, 2);
+
+    nx_point_assign(&p2, 1,0);
+    /* deg == 270 */
+    deg = angle_deg(&p1, &p2);
+    nx_assert_int(deg, 270, 2);
+
+    nx_point_assign(&p2, 2,0);
+    /* deg == 315 */
+    deg = angle_deg(&p1, &p2);
+    nx_assert_equal(deg, 315);
+}

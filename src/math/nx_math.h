@@ -30,6 +30,9 @@
 #define nx_max(x,y) x > y ? x : y
 #define nx_min(x,y) x < y ? x : y
 
+/** PI defined to six places. */
+#define nx_pi 3.141593
+
 #define nx_clip(x,min,max) x > max ? max : x < min ? min : x
 
 /** Checks if a value is within the given range */
@@ -82,5 +85,8 @@
 
 /** Computes tangent of an integer value. */
 #define nx_tani(value) (nxint32)tan(value)
+
+/** Computes arc tangent of a float value. */
+#define nx_atanf(value) (nxreal)atan(value)
 
 #endif
