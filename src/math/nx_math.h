@@ -31,7 +31,7 @@
 #define nx_min(x,y) x < y ? x : y
 
 /** PI defined to six places. */
-#define nx_pi 3.141593
+#define nx_pi 3.141593f
 
 #define nx_clip(x,min,max) x > max ? max : x < min ? min : x
 

@@ -150,5 +150,5 @@ nxreal angle_rad(const nx_point *p1, const nx_point *p2)
 nxint32 angle_deg(const nx_point *p1, const nx_point *p2)
 {
     const nxreal angle = angle_rad(p1, p2);
-    return angle*180/nx_pi;
+    return (nxint32)(angle*180/nx_pi);
 }
