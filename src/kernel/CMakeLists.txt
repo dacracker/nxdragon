@@ -66,6 +66,7 @@ if(NX_PLATFORM_MACOSX)
 endif()
 
 if(NX_PLATFORM_UNIX)
+	add_definitions(-D_GNU_SOURCE)
 	target_link_libraries(nxkernel rt pthread)
 endif()
 
