@@ -109,7 +109,7 @@ nxbool nx_contains(nx_point *points, nxint32 count, nx_point *point)
 }
 
 /*************************************************************/
-nxreal angle_rad(const nx_point *p1, const nx_point *p2)
+nxreal nx_angle_rad(const nx_point *p1, const nx_point *p2)
 {
     nxint32 dX = 0, dY = 0;
     nxreal angle = 0;
@@ -147,8 +147,8 @@ nxreal angle_rad(const nx_point *p1, const nx_point *p2)
 }
 
 /*************************************************************/
-nxint32 angle_deg(const nx_point *p1, const nx_point *p2)
+nxint32 nx_angle_deg(const nx_point *p1, const nx_point *p2)
 {
-    const nxreal angle = angle_rad(p1, p2);
+    const nxreal angle = nx_angle_rad(p1, p2);
     return (nxint32)(angle*180/nx_pi);
 }
