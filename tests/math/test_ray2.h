@@ -29,4 +29,7 @@ void test_ray2_origin(void *status);
 /* Tests the set-/get-functions of the direction property. */
 void test_ray2_direction(void *status);
 
+/*  */
+void test_ray2_intersects(void *status);
+
 #endif

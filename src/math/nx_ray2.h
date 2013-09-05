@@ -59,10 +59,15 @@ NX_MATH_API const nx_point* nx_ray2_direction(const nx_ray2 *self);
 NX_MATH_API const nx_point* nx_ray2_origin(const nx_ray2 *self);
 
 /** Returns nxtrue if any of the sides created by the points in object is intersected. */
-NX_MATH_API nxbool intersects(const nx_ray2 *self, nx_point *object);
+NX_MATH_API nxbool nx_ray2_intersects(const nx_ray2 *self, 
+                                      const nx_point *object, 
+                                      const int count);
 
 /** Returns nxtrue if there is an intersection, in that case 'point' will be assigned the intersection value. */
-NX_MATH_API nxbool intersection(const nx_ray2 *self, nx_point *point);
+NX_MATH_API nxbool nx_ray2_intersection(const nx_ray2 *self, 
+                                        const nx_point *object, 
+                                        const int count, 
+                                        nx_point *point);
 
 /** @} @} */
 #endif

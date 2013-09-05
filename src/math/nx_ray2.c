@@ -19,6 +19,8 @@
 
 #include "nx_ray2.h"
 
+#include "nx_math.h"
+
 #include "../kernel/nx_def.h"
 
 /*************************************************************/
@@ -60,21 +62,50 @@ const nx_point* nx_ray2_origin(const nx_ray2 *self)
 }
 
 /*************************************************************/
-nxbool intersects(const nx_ray2 *self, nx_point *object)
+nxbool nx_ray2_intersects(const nx_ray2 *self, 
+                          const nx_point *object, 
+                          const int count)
 {
-	NX_UNUSED(self);
-	NX_UNUSED(object);
+    nxreal selfAngle, angle1, angle2;
+    const nx_point *p1, *p2;
+    nxint32 index;
 
-	/* TODO */
-	return nxfalse;
+    /* sanity check */
+    if(count < 2)
+        return nxfalse;
+
+    selfAngle = nx_angle_rad(&self->origin, &self->direction);
+    
+    p1 = &object[count-1];
+    angle1 = nx_angle_rad(&self->origin, p1);
+    
+    for(index = 0; index < count; ++index)
+    {
+        p2 = &object[index];
+        angle2 = nx_angle_rad(&self->origin, p2);
+
+        if(nx_in_range(selfAngle, (nx_min(angle1, angle2)), (nx_max(angle1, angle2))))
+            return nxtrue;
+
+        p1 = p2;
+        angle1 = angle2;
+    }
+    
+
+    return nxfalse;
 }
 
 /*************************************************************/
-nxbool intersection(const nx_ray2 *self, nx_point *point)
+nxbool nx_ray2_intersection(const nx_ray2 *self, 
+                            const nx_point *object, 
+                            const int count,
+                            nx_point *point)
 {
-	NX_UNUSED(self);
-	NX_UNUSED(point);
+    /* TODO */
+    NX_UNUSED(self);
+    NX_UNUSED(object);
+    NX_UNUSED(count);
+    NX_UNUSED(point);
 
-	/* TODO */
-	return nxfalse;
+    return nxfalse;
 }

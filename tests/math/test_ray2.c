@@ -85,3 +85,52 @@ void test_ray2_direction(void *status)
 	nx_assert_equal(org->x, 5);
 	nx_assert_equal(org->y, 4);
 }
+
+/*************************************************************/
+void test_ray2_intersects(void *status)
+{
+	nx_ray2 ray;
+	nx_point origin, direction;
+	nx_point figure[4];
+
+	nx_point_assign(&origin, 1,1);
+	nx_point_assign(&direction, 2,2);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_point_assign(&figure[0], 0,2);
+	nx_point_assign(&figure[1], 4,2);
+	nx_point_assign(&figure[2], 4,3);
+	nx_point_assign(&figure[3], 0,3);
+
+	nx_assert_equal(nx_ray2_intersects(&ray, figure, 4), nxtrue);
+
+	nx_point_assign(&direction, 2,4);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_assert_equal(nx_ray2_intersects(&ray, figure, 4), nxtrue);
+
+	nx_point_assign(&direction, -1,2);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_assert_equal(nx_ray2_intersects(&ray, figure, 4), nxfalse);
+
+	nx_point_assign(&direction, 5,2);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_assert_equal(nx_ray2_intersects(&ray, figure, 4), nxfalse);
+
+	nx_point_assign(&direction, 5,3);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_assert_equal(nx_ray2_intersects(&ray, figure, 4), nxtrue);
+
+	nx_point_assign(&direction, 1,3);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_assert_equal(nx_ray2_intersects(&ray, figure, 4), nxtrue);
+
+	nx_point_assign(&direction, 0,1);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_assert_equal(nx_ray2_intersects(&ray, figure, 4), nxfalse);
+}
