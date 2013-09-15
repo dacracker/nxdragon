@@ -11,11 +11,13 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(nxsound_inc
 	nx_doc.h
 	nx_def.h
-	nx_sound.h)
+	nx_sound.h
+	nx_wav.h)
 
 # source-files			    
 set(nxsound_src
-	nx_sound.c)
+	nx_sound.c
+	nx_wav.c)
 			   
 add_library(nxsound SHARED ${nxsound_src} ${nxsound_inc})
 

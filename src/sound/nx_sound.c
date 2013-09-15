@@ -21,78 +21,12 @@ along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 
 #include "../kernel/nx_def.h"
 
-#include <stdio.h>
-
 /*************************************************************/
-static nxbool nx_sound_set_error(const nx_sound_error error_value, nx_sound_error *error_target)
+nx_sound_type nx_sound_get_type(const char *name, nx_sound_error *error)
 {
-	*error_target = error_value;
-	return nxfalse;
-}
+	/* TODO */
+	NX_UNUSED(name);
+	NX_UNUSED(error);
 
-/*************************************************************/
-static nx_sound_error nx_sound_verify_wav(FILE *file)
-{
-	/* TODO: implement */
-	NX_UNUSED(file);
-	return NX_SOUND_UNKNOWN_ERROR;
-}
-
-/*************************************************************/
-static nx_sound_error nx_sound_read_wav(FILE *file, nx_sound_buffer **buffer)
-{
-	/* TODO: implement */
-	NX_UNUSED(file);
-	NX_UNUSED(buffer);
-	return NX_SOUND_UNKNOWN_ERROR;
-}
-
-/*************************************************************/
-static nx_sound_error nx_sound_verify_type(const nx_sound_type type, FILE *file)
-{
-	switch(type)
-	{
-	case NX_WAV:
-		return nx_sound_verify_wav(file);
-	default:
-		return NX_SOUND_UNKNOWN_FORMAT;
-	}
-}
-
-/*************************************************************/
-static nx_sound_error nx_sound_read_data(const nx_sound_type type, FILE *file, nx_sound_buffer **buffer)
-{
-	switch(type)
-	{
-	case NX_WAV:
-		return nx_sound_read_wav(file, buffer);
-	default:
-		return NX_SOUND_UNKNOWN_FORMAT;
-	}
-}
-
-/*************************************************************/
-nxbool nx_sound_open_file(const char *name,
-						  const nx_sound_type type,
-						  nx_sound_buffer **buffer /* out */,
-						  nx_sound_error *error /* out */)
-{
-	FILE *file = 0;
-	
-	/* try to open file */
-	file = fopen(name, "rb");
-	if(!file)
-		return nx_sound_set_error(NX_SOUND_FILE_ACCESS_DENIED, error);
-
-	/* verify that the file is off expected type */
-	*error = nx_sound_verify_type(type, file);
-	if(*error != NX_SOUND_NO_ERROR)
-		return nxfalse;
-
-	/* read the actual data */
-	*error = nx_sound_read_data(type, file, buffer);
-	if(*error != NX_SOUND_NO_ERROR)
-		return nxfalse;
-
-	return nxtrue;
+	return NX_UNKNOWN_TYPE;
 }

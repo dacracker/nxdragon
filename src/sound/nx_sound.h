@@ -24,27 +24,27 @@
 
 #include "../kernel/nx_bool.h"
 
-/** Macro that identifier a raw sound data buffer. */
+/** Macro that identifies a raw sound data buffer. */
 #define nx_sound_buffer unsigned char
 
 /** Enum that defines all the sound errors. */
 typedef enum nx_sound_error_t {
 	NX_SOUND_NO_ERROR = 0,
 	NX_SOUND_UNKNOWN_ERROR,
-	NX_SOUND_FILE_ACCESS_DENIED,
+	NX_SOUND_RESOURCE_UNACCESSIBLE,
 	NX_SOUND_UNKNOWN_FORMAT,
-	NX_SOUND_DIFFERENT_FORMAT
+	NX_SOUND_INCOMPLETE_HEADER,
+	NX_SOUND_DIFFERENT_FORMAT,
+	NX_SOUND_EMPTY
 } nx_sound_error;
 
 /** Enum that defines all the supported sound-versions. */
 typedef enum nx_sound_type_t {
-	NX_WAV = 0
+	NX_UNKNOWN_TYPE = 0,
+	NX_WAV
 } nx_sound_type;
 
-/** Attempts to open a file. Returns true if successful. */
-NX_SOUND_API nxbool nx_sound_open_file(const char *name,
-									   const nx_sound_type type,
-									   nx_sound_buffer **buffer /* out */,
-									   nx_sound_error *error /* out */);
+/** Returns of what type a resource is or unknown if the format wasn't recognized */
+NX_SOUND_API nx_sound_type nx_sound_get_type(const char *name, nx_sound_error *error);
 
 #endif
