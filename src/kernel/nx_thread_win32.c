@@ -117,16 +117,16 @@ void nx_thread_quit(nx_thread *self)
 }
 
 /*************************************************************/
-nxbool nx_thread_wait(nx_thread *self, nxuint32 timeoutMs)
+nxbool nx_thread_wait(nx_thread *self, nxuint32 timeout_ms)
 {
 	if(nx_thread_is_running(self) != nxtrue)
 		return nxtrue; 
 
-	return WaitForSingleObject((HANDLE)self->handle,timeoutMs) == WAIT_OBJECT_0 ? nxtrue : nxfalse; 
+	return WaitForSingleObject((HANDLE)self->handle,timeout_ms) == WAIT_OBJECT_0 ? nxtrue : nxfalse; 
 }
 
 /*************************************************************/
-nxuint32 nx_current_thread_id()
+nxuint32 nx_current_thread_id(void)
 {
 	return GetCurrentThreadId(); 
 }

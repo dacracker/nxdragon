@@ -60,7 +60,7 @@ NX_KERNEL_API void nx_thread_quit(nx_thread *self);
 NX_KERNEL_API nxbool nx_thread_wait(nx_thread *self, nxuint32 timeoutMs); 
 
 /** Returns the thread id of the currently running thread */
-NX_KERNEL_API nxuint32 nx_current_thread_id(); 
+NX_KERNEL_API nxuint32 nx_current_thread_id(void); 
 
 /** @} @} */
 #endif
