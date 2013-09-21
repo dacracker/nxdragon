@@ -24,7 +24,10 @@
 #include <unistd.h>
 #include <errno.h>
 
-#define __USE_POSIX199309
+#ifndef __USE_POSIX199309
+#	define __USE_POSIX199309
+#endif
+
 #include <time.h>
 
 static struct timeval _start_tv;

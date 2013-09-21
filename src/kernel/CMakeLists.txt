@@ -49,7 +49,8 @@ if(NX_PLATFORM_UNIX)
 	set(nxkernel_platform_src 
 		nx_atomic_unix.c
 		nx_timer_unix.c
-		nx_mutex_unix.c)
+		nx_mutex_unix.c
+		nx_library_unix.c)
 endif()
 
 set(nxkernel_src 
@@ -69,7 +70,7 @@ endif()
 
 if(NX_PLATFORM_UNIX)
 	add_definitions(-D_GNU_SOURCE)
-	target_link_libraries(nxkernel rt pthread)
+	target_link_libraries(nxkernel rt pthread dl)
 endif()
 
 nx_filter("${nxkernel_src};${nxkernel_inc}")
