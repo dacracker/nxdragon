@@ -45,7 +45,8 @@ if(NX_PLATFORM_MACOSX)
 		nx_atomic_osx.c
         nx_timer_unix.c
     	nx_mutex_unix.c
-    	nx_library_unix.c)
+    	nx_library_unix.c
+    	nx_thread_unix.c)
 endif()
 
 if(NX_PLATFORM_UNIX)

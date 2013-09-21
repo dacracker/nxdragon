@@ -19,6 +19,7 @@
 
 #include "nx_thread.h"
 #include "nx_memory.h"
+#include "nx_platform.h"
 
 #include <pthread.h>
 #include <sys/types.h>
@@ -125,12 +126,14 @@ nxbool nx_thread_wait(nx_thread *self, nxuint32 timeout_ms)
 		return nxfalse;
 	}
 
+#ifndef NX_OS_MACX
 	timeout_spec.tv_sec = timeout_ms / 1000;
 	timeout_spec.tv_nsec = (timeout_ms % 1000) * 1000;
 
 	if(!pthread_timedjoin_np(self->handle, 0, &timeout_spec))
 		return nxtrue;
-
+#endif
+	
 	return nxfalse;
 }
 
