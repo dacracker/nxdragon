@@ -71,6 +71,12 @@ struct nx_thread_t* nx_thread_begin(nx_thread_proc proc, void *param)
 									0,
 									&thread->threadId);
 
+	if(!thread->handle)
+	{
+		nx_free(thread);
+		return 0;
+	}
+
 	return thread;
 }
 
