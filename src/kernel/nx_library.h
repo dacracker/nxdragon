@@ -20,6 +20,8 @@
 #ifndef __NX_KERNEL_LIBRARY_H__
 #define __NX_KERNEL_LIBRARY_H__
 
+#include "nx_def.h"
+
 /** \ingroup NxKernel
   * \defgroup nx_library nx_library
   * \brief Library object for lazy initialization of shared object files 
@@ -32,18 +34,18 @@ typedef struct nx_library_t nx_library;
 /** Attempts to load the library specified by path. A new library object is 
   * returned if the library could be loaded
   */
-nx_library* nx_library_load(const char *path); 
+NX_KERNEL_API nx_library* nx_library_load(const char *path); 
 
 /** Unloads a library and deallocates the library object. The library
   * object is invalid after this calls has been made. 
   */
-void nx_library_unload(nx_library *self); 
+NX_KERNEL_API void nx_library_unload(nx_library *self); 
 
 /** Resolves a symbol from the provided library. The symbol can be
   * any visible function in the library. A invalid pointer (0)
   * is returned if the symbol could not be found. 
   */
-void* nx_library_resolve(nx_library *self, const char *symbol); 
+NX_KERNEL_API void* nx_library_resolve(nx_library *self, const char *symbol); 
 
 /** @} @} */
 
