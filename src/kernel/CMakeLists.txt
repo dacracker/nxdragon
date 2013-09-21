@@ -44,7 +44,8 @@ if(NX_PLATFORM_MACOSX)
 	set(nxkernel_platform_src 
 		nx_atomic_osx.c
         nx_timer_unix.c
-    	nx_mutex_unix.c)
+    	nx_mutex_unix.c
+    	nx_library_unix.c)
 endif()
 
 if(NX_PLATFORM_UNIX)
