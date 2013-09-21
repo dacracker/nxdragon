@@ -53,7 +53,8 @@ if(NX_PLATFORM_UNIX)
 		nx_atomic_unix.c
 		nx_timer_unix.c
 		nx_mutex_unix.c
-		nx_library_unix.c)
+		nx_library_unix.c
+		nx_thread_unix.c)
 endif()
 
 set(nxkernel_src 

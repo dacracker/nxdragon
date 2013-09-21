@@ -33,7 +33,7 @@
 typedef struct nx_thread_t nx_thread;
 typedef void (*nx_thread_proc)(nx_thread *self, void*); 
 
-/** Starts a new thread */
+/** Starts a new thread. Returns 0 if function fails. */
 NX_KERNEL_API nx_thread* nx_thread_begin(nx_thread_proc proc, void *param); 
 
 /** Deletes the thread object. This function will wait for the thread
@@ -57,7 +57,7 @@ NX_KERNEL_API void nx_thread_quit(nx_thread *self);
   * that the caller should wait no matter how long it takes.
   * The timeout it specified in milliseconds. 
   */ 
-NX_KERNEL_API nxbool nx_thread_wait(nx_thread *self, nxuint32 timeoutMs); 
+NX_KERNEL_API nxbool nx_thread_wait(nx_thread *self, nxuint32 timeout_ms); 
 
 /** Returns the thread id of the currently running thread */
 NX_KERNEL_API nxuint32 nx_current_thread_id(void); 
