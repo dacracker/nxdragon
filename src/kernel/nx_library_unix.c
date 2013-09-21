@@ -22,8 +22,6 @@
 
 #include <dlfcn.h>
 
-#include <stdio.h>
-
 struct nx_library_t {
     void *handle; 
 };
