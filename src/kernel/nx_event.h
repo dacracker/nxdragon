@@ -45,7 +45,7 @@ typedef struct nx_event_source_t nx_event_source;
 #define nx_is_user_event(event_type) (event_type > NX_EVENT_USER_EVENTS) ? nxtrue : nxfalse
 
 typedef struct nx_event_t {
-	nx_event_type type; /* Describes the type of the event */ 
+	int type; /* Describes the type of the event */ 
 	int ref; /* Reference count */
 	nx_event_source *event_source; /* Pointer to the event source that generated the event */
 	void (*destructor)(struct nx_event_t*); /* The destructor is responsible for freeing all the data occupied by the event */ 

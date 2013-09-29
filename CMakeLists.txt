@@ -50,3 +50,6 @@ endif()
 add_subdirectory(tests/kernel)
 add_subdirectory(tests/math)
 #add_subdirectory(tests/py3bind)
+
+# Examples
+add_subdirectory(examples/gui/simple_window)

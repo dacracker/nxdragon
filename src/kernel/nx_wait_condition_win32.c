@@ -58,5 +58,5 @@ nxbool nx_wait_condtion_wait(nx_wait_condition *self, nx_mutex *mutex, int timeo
 {
 	return (SleepConditionVariableCS(&self->cond,
 									 (CRITICAL_SECTION*)mutex,
-									 timeout < 0 ? INFINITE : timeout)) != 0 ? nxtrue  : nxfalse; 
+									 timeout < 1 ? INFINITE : timeout)) != 0 ? nxtrue  : nxfalse; 
 }

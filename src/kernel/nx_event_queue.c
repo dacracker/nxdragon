@@ -24,7 +24,7 @@
 #include "nx_memory.h"
 
 struct nx_event_queue_t {
-	nx_queue events; /* This structure will probably need a mutex look in the near future */ 
+	nx_queue events; 
 	nx_mutex *mutex;
 };
 
