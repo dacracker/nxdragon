@@ -13,9 +13,6 @@ set(NXDRAGON_VERSION_PATCH 0)
 
 option(NXDRAGON_PYTHON3_SUPPORT ON)
 
-# Option for using the built in sound-engine
-option(NXDRAGON_SOUND_SUPPORT ON)
-
 include(cmake/nx_platform.cmake)
 include(cmake/nx_filters.cmake)
 
@@ -38,11 +35,6 @@ add_subdirectory(src/utest)
 
 if(NXDRAGON_PYTHON3_SUPPORT)
 	add_subdirectory(src/py3bind)
-endif()
-
-if(NXDRAGON_SOUND_SUPPORT)
-	add_subdirectory(src/sound)
-	add_subdirectory(tests/sound)
 endif()
 
 # Unit tests 
