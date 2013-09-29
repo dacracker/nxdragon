@@ -2,7 +2,7 @@
   This file is part of the NxDragon Game Engine.
 
   Copyright 2013 Patrik Jeppsson
-  
+
   NxDragon is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -17,42 +17,46 @@
   along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 \***************************************************************************/
 
-#include "nx_mutex.h"
+#include "nx_wait_condition.h"
+#include "nx_memory.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include "nx_memory.h"
-
-struct nx_mutex_t {
-	CRITICAL_SECTION critSection; /* NOTE: this MUST be the fist member, otherwise the nx_wait_condition will break!  */
+struct nx_wait_condition_t {
+	CONDITION_VARIABLE cond; 
 };
 
 /*************************************************************/
-nx_mutex* nx_mutex_create()
+nx_wait_condition* nx_wait_condition_create()
 {
-	struct nx_mutex_t *self = nx_malloc(sizeof(struct nx_mutex_t));
-	InitializeCriticalSectionEx(&self->critSection,
-								1200, /* HACK: Run this spin count through some profiling tests */
-								CRITICAL_SECTION_NO_DEBUG_INFO);
-	return self;
+	nx_wait_condition *wait_condition = nx_malloc(sizeof(nx_wait_condition));
+	InitializeConditionVariable(&wait_condition->cond);
+	return wait_condition;
 }
 
 /*************************************************************/
-void nx_mutex_destroy(nx_mutex *self)
+void nx_wait_condition_delete(nx_wait_condition *self)
 {
-	DeleteCriticalSection(&self->critSection);
-	nx_free(self);
+	nx_free(self); 
 }
 
 /*************************************************************/
-void nx_mutex_lock(nx_mutex *self)
+void nx_wait_condition_wake_one(nx_wait_condition *self)
 {
-	EnterCriticalSection(&self->critSection);
+	WakeConditionVariable(&self->cond);
 }
 
 /*************************************************************/
-void nx_mutex_unlock(nx_mutex *self)
+void nx_wait_condition_wake_all(nx_wait_condition *self)
 {
-	LeaveCriticalSection(&self->critSection);
+	WakeAllConditionVariable(&self->cond);
+}
+
+/*************************************************************/
+nxbool nx_wait_condtion_wait(nx_wait_condition *self, nx_mutex *mutex, int timeout)
+{
+	return (SleepConditionVariableCS(&self->cond,
+									 (CRITICAL_SECTION*)mutex,
+									 timeout < 0 ? INFINITE : timeout)) != 0 ? nxtrue  : nxfalse; 
 }
