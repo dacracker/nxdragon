@@ -49,10 +49,10 @@ NX_KERNEL_API void nx_wait_condition_wake_all(nx_wait_condition *self);
 /** Waits for the wait condition to be signaled via nx_wait_condition_wake_one() or nx_wait_condition_wake_all().
   * If a timeout of <= 0 is given that means that there's no timeout and the function will only return if it's
   * signaled, if ever. The timeout is measured in milliseconds. 
-  * This function returns nxtrue if it succeeds, nxfalse is return if the function fails or
+  * This function returns 1 if it succeeds, -1 if it timed out and 0 if it fails.  
   * the time-out interval elapsed. 
   */
-NX_KERNEL_API nxbool nx_wait_condtion_wait(nx_wait_condition *self, nx_mutex *mutex, int timeout); 
+NX_KERNEL_API int nx_wait_condition_wait(nx_wait_condition *self, nx_mutex *mutex, int timeout); 
 
 /** @} @} */
 

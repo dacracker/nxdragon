@@ -54,9 +54,15 @@ void nx_wait_condition_wake_all(nx_wait_condition *self)
 }
 
 /*************************************************************/
-nxbool nx_wait_condtion_wait(nx_wait_condition *self, nx_mutex *mutex, int timeout)
+int nx_wait_condition_wait(nx_wait_condition *self, nx_mutex *mutex, int timeout)
 {
-	return (SleepConditionVariableCS(&self->cond,
-									 (CRITICAL_SECTION*)mutex,
-									 timeout < 1 ? INFINITE : timeout)) != 0 ? nxtrue  : nxfalse; 
+	const BOOL result = SleepConditionVariableCS(&self->cond,
+												(CRITICAL_SECTION*)mutex,
+												 timeout < 1 ? INFINITE : timeout); 
+
+	if(result != FALSE)
+		return 1; /* 1 means success */
+
+	/* -1 means timeout and 0 means "other error" */
+	return GetLastError() == ERROR_TIMEOUT ? -1 : 0;
 }

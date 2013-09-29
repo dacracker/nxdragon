@@ -57,15 +57,15 @@ void nx_wait_condition_wake_all(nx_wait_condition *self)
 }
 
 /*************************************************************/
-nxbool nx_wait_condtion_wait(nx_wait_condition *self, nx_mutex *mutex, int timeout)
+int nx_wait_condition_wait(nx_wait_condition *self, nx_mutex *mutex, int timeout)
 {
     struct timespec timeout_spec;
 
-    if(timeout < 0)
-        return (pthread_cond_wait(&self->cond, (pthread_mutex_t*)mutex) == 0) ? nxtrue : nxfalse;
+    if(timeout < 1)
+        return (pthread_cond_wait(&self->cond, (pthread_mutex_t*)mutex) == 0) ? 1 : 0;
 
     timeout_spec.tv_sec = timeout / 1000;
     timeout_spec.tv_nsec = (timeout % 1000) * 1000;
 
-	return (pthread_cond_timedwait(&self->cond, (pthread_mutex_t*)mutex, &timeout_spec) == 0) ? nxtrue : nxfalse;
+	return (pthread_cond_timedwait(&self->cond, (pthread_mutex_t*)mutex, &timeout_spec) == 0) ? 1 : 0;
 }

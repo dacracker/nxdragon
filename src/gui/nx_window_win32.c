@@ -197,9 +197,9 @@ nx_window *nx_window_create(const char *title, int width, int height)
 
 	/* Wait for the window creation process to finish */
 	while(window->handle == 0)
-		nx_wait_condtion_wait(window->wait_cond,
-							  window->mutex,
-							  -1); /* There's no reason to continue before the window has been created */
+		nx_wait_condition_wait(window->wait_cond,
+							   window->mutex,
+							   -1); /* There's no reason to continue before the window has been created */
 
 	nx_mutex_unlock(window->mutex);
 
@@ -209,6 +209,9 @@ nx_window *nx_window_create(const char *title, int width, int height)
 /*************************************************************/
 void nx_window_delete(nx_window *self)
 {
+	if(nx_thread_is_running(self->thread))
+		nx_window_close(self);
+
 	nx_thread_end(self->thread);
 
 	nx_event_source_delete(self->event_source);

@@ -43,5 +43,10 @@ NX_KERNEL_API void nx_event_queue_insert(nx_event_queue *self, nx_event *event);
 /** Checks if there are any pending events in the queue and returns the next event, if any. The caller is responsible for invoking nx_event_release() on the event */ 
 NX_KERNEL_API nx_event* nx_event_queue_peek_next(nx_event_queue *self);
 
+/** Waits up to the given time span (in milliseconds) for a new event to occur, returns 0 if no new event occured. 
+  * A timeout of < 0 means that the function should wait until a new event is available. 
+  */
+NX_KERNEL_API nx_event* nx_event_queue_wait_next(nx_event_queue *self, int timeout);
+
 /** @} @} */
 #endif

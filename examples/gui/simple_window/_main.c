@@ -40,15 +40,15 @@ int main(int args, char **argv)
 
 	while(!time_to_quit)
 	{
-		if((event = nx_event_queue_peek_next(event_queue)) != 0)
+		/* Wait at most 20ms for a new event to occur */
+		if((event = nx_event_queue_wait_next(event_queue,20)) != 0)
 		{
 			if(event->type == NX_EVENT_WINDOW_CLOSED)
 				time_to_quit = nxtrue;
 
+			/* Any event we recieve must be released, otherwise we'll have a memory leak on our hands */
 			nx_event_release(event);
 		}
-		else
-			nx_sleep(20);
 	}
 
 	nx_window_delete(window);
