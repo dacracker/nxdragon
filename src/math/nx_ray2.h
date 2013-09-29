@@ -69,5 +69,14 @@ NX_MATH_API nxbool nx_ray2_intersection(const nx_ray2 *self,
                                         const int count, 
                                         nx_point *point);
 
+/** Extends the ray by given units and sets the resulting position in 'result'. */
+NX_MATH_API void nx_ray2_extend(const nx_ray2 *self,
+							    const nxint32 units,
+							    nx_point *result);
+
+/** Translates the ray to given position. */
+NX_MATH_API void nx_ray2_translate(nx_ray2 *self,
+							       const nx_point *point);
+
 /** @} @} */
 #endif

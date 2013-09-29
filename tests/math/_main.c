@@ -58,7 +58,9 @@ nx_unit_test tests[] = {
 	&test_ray2_init,
 	&test_ray2_origin,
 	&test_ray2_direction,
-	&test_ray2_intersects
+	&test_ray2_intersects,
+	&test_ray2_extend,
+	&test_ray2_translate
 };
 
 /*************************************************************/

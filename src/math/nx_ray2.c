@@ -109,3 +109,46 @@ nxbool nx_ray2_intersection(const nx_ray2 *self,
 
     return nxfalse;
 }
+
+/*************************************************************/
+void nx_ray2_extend(const nx_ray2 *self, const nxint32 units, nx_point *result)
+{
+	nxreal angle;
+	nxint32 adjacent, opposite;
+
+	/* x-axis parallel */
+	if(self->origin.y == self->direction.y)
+	{
+		result->y = self->origin.y;
+		result->x = (self->origin.x < self->direction.x) ? self->origin.x + units :
+														   self->origin.x - units;
+
+		return;
+	}
+	
+	/* y-axis parallel */
+	if(self->origin.x == self->direction.x)
+	{
+		result->x = self->origin.x;
+		result->y = (self->origin.y < self->direction.y) ? self->origin.y + units :
+														   self->origin.y - units;
+		return;
+	}
+	
+	/*	sin(d) = Opposite / Hypotenuse
+		cos(d) = Adjacent / Hypotenuse
+		tan(d) = Opposite / Adjacent */
+	angle = nx_angle_rad(&self->origin, &self->direction);
+	opposite = (nxint32)(nx_sinf(angle) * units);
+	adjacent = (nxint32)(nx_cosf(angle) * units);
+
+	result->x = self->origin.x + adjacent;
+	result->y = self->origin.y + opposite;
+}
+
+/*************************************************************/
+void nx_ray2_translate(nx_ray2 *self, const nx_point *point)
+{
+	nx_point_translate(&self->origin, point);
+	nx_point_translate(&self->direction, point);
+}

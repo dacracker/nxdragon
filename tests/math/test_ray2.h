@@ -32,4 +32,10 @@ void test_ray2_direction(void *status);
 /*  */
 void test_ray2_intersects(void *status);
 
+/*  */
+void test_ray2_extend(void *status);
+
+/*  */
+void test_ray2_translate(void *status);
+
 #endif

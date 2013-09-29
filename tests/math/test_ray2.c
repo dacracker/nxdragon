@@ -134,3 +134,65 @@ void test_ray2_intersects(void *status)
 
 	nx_assert_equal(nx_ray2_intersects(&ray, figure, 4), nxfalse);
 }
+
+/*************************************************************/
+void test_ray2_extend(void *status)
+{
+	nx_ray2 ray;
+	nx_point origin, direction, result;
+
+	/* x-parallel */
+	nx_point_assign(&origin, 1,1);
+	nx_point_assign(&direction, 4,1);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_ray2_extend(&ray, 10, &result);
+	nx_assert_equal(result.x, 11);
+	nx_assert_equal(result.y, 1);
+
+	/* y-parallel */
+	nx_point_assign(&origin, 1,1);
+	nx_point_assign(&direction, 1,8);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_ray2_extend(&ray, 10, &result);
+	nx_assert_equal(result.x, 1);
+	nx_assert_equal(result.y, 11);
+
+	/* angled 45 degrees */
+	nx_point_assign(&origin, 1,1);
+	nx_point_assign(&direction, 2,2);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_ray2_extend(&ray, 10, &result);
+	nx_assert_int(result.x, 8, 0.1);
+	nx_assert_int(result.y, 8, 0.1);
+
+	/* angled 135 degrees */
+	nx_point_assign(&origin, 10,1);
+	nx_point_assign(&direction, 9,2);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_ray2_extend(&ray, 10, &result);
+	nx_assert_int(result.x, 3, 0.1);
+	nx_assert_int(result.y, 8, 0.1);
+}
+
+/*************************************************************/
+void test_ray2_translate(void *status)
+{
+	nx_ray2 ray;
+	nx_point origin, direction;
+	nx_point trans;
+
+	nx_point_assign(&origin, 1,1);
+	nx_point_assign(&direction, 2,2);
+	nx_point_assign(&trans, 10,10);
+	nx_ray2_assign(&ray, &origin, &direction);
+
+	nx_ray2_translate(&ray, &trans);
+	nx_assert_equal(ray.origin.x, 11);
+	nx_assert_equal(ray.origin.y, 11);
+	nx_assert_equal(ray.direction.x, 12);
+	nx_assert_equal(ray.direction.y, 12);
+}
