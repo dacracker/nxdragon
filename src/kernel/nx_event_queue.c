@@ -19,11 +19,13 @@
 
 #include "nx_event_queue.h"
 #include "nx_queue.h"
+#include "nx_mutex.h"
 
 #include "nx_memory.h"
 
 struct nx_event_queue_t {
-	nx_queue events; /* This structure will probably need a mutex look in the near future */ 
+	nx_queue events; 
+	nx_mutex *mutex;
 };
 
 /*************************************************************/
@@ -32,12 +34,15 @@ nx_event_queue* nx_event_queue_create(void)
 	struct nx_event_queue_t *self = nx_malloc(sizeof(struct nx_event_queue_t));
 	nx_queue_init(&self->events);
 
+	self->mutex = nx_mutex_create();
+
 	return self; 
 }
 
 /*************************************************************/
 void nx_event_queue_delete(nx_event_queue *self)
 {
+	nx_mutex_delete(self->mutex);
 	nx_queue_delete(&self->events);
 	nx_free(self);
 }
@@ -48,13 +53,25 @@ void nx_event_queue_insert(nx_event_queue *self, nx_event *event)
 	/* Increase the event's reference count */ 
 	nx_event_ref(event);
 
+	nx_mutex_lock(self->mutex);
+
 	/* Engueue the event in our internal queue */
 	nx_queue_enqueue(&self->events,event); 
+
+	nx_mutex_unlock(self->mutex);
 }
 
 /*************************************************************/
 nx_event* nx_event_queue_peek_next(nx_event_queue *self)
 {
+	nx_event *event;
+
+	nx_mutex_lock(self->mutex);
+
 	/* The caller is responsible for calling nx_event_release() on the event */
-	return nx_queue_dequeue(&self->events);
+	event = nx_queue_dequeue(&self->events);
+
+	nx_mutex_unlock(self->mutex);
+
+	return event;
 }

@@ -30,6 +30,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 # Include our source directories
 add_subdirectory(src/kernel)
+add_subdirectory(src/gui)
 add_subdirectory(src/math)
 add_subdirectory(src/utest)
 
@@ -41,3 +42,6 @@ endif()
 add_subdirectory(tests/kernel)
 add_subdirectory(tests/math)
 #add_subdirectory(tests/py3bind)
+
+# Examples
+add_subdirectory(examples/gui/simple_window)

@@ -17,36 +17,35 @@
   along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 \***************************************************************************/
 
-#ifndef __NX_KERNEL_MUTEX_H__
-#define __NX_KERNEL_MUTEX_H__
+#ifndef __NX_GUI_WINDOW_H__
+#define __NX_GUI_WINDOW_H__
 
 #include "nx_def.h"
+#include "nx_window_events.h"
 
-/** \ingroup NxKernel
-  * \defgroup nx_mutex nx_mutex
-  * \brief Mutex syncronization object 
-  * Lightweight synconization primitive. It's primary purpose
-  * is to protect a piece of code that must not be run by
-  * multiple threads at once. 
-  * It's possible to aquire the mutex lock recursively. 
+/** \ingroup NxGui
+  * \defgroup nx_window nx_window
+  * \brief Window base object 
+  * This object represents a basic window. It's main functionality
+  * is to provide a cross-platform API for creating basic window
+  * and to provide a event source for them. Every nx_window instace
+  * will run it's message queue in it's own background thread. 
   * @{
   */
 
-typedef struct nx_mutex_t nx_mutex; 
+typedef struct nx_window_t nx_window; 
 
-/** Creates a new mutex object */
-NX_KERNEL_API nx_mutex* nx_mutex_create();
+/** Creates a new window */
+NX_GUI_API nx_window *nx_window_create(const char *title, int width, int height); 
 
-/** Destroys the mutex */
-NX_KERNEL_API void nx_mutex_delete(nx_mutex *self);
+/** Deletes the window */
+NX_GUI_API void nx_window_delete(nx_window *self); 
 
-/** Locks the mutex. Every call to this function must be paired with 
-  * corresponding call to nx_mutex_unlock() with the same mutex as argument 
-  */
-NX_KERNEL_API void nx_mutex_lock(nx_mutex *self);
+/** Closes a window */
+NX_GUI_API void nx_window_close(nx_window *self);
 
-/** Unlocks the mutex. The mutex _must_ be locked before an attempt to unlock it is made. */
-NX_KERNEL_API void nx_mutex_unlock(nx_mutex *self);
+/** Returns the window's event source */
+NX_GUI_API struct nx_event_source_t* nx_window_event_source(nx_window *self);
 
 /** @} @} */
 
