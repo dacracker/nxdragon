@@ -38,7 +38,7 @@ typedef struct nx_mutex_t nx_mutex;
 NX_KERNEL_API nx_mutex* nx_mutex_create();
 
 /** Destroys the mutex */
-NX_KERNEL_API void nx_mutex_destroy(nx_mutex *self);
+NX_KERNEL_API void nx_mutex_delete(nx_mutex *self);
 
 /** Locks the mutex. Every call to this function must be paired with 
   * corresponding call to nx_mutex_unlock() with the same mutex as argument 

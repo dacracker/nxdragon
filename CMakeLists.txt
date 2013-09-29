@@ -33,6 +33,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 # Include our source directories
 add_subdirectory(src/kernel)
+add_subdirectory(src/gui)
 add_subdirectory(src/math)
 add_subdirectory(src/utest)
 
