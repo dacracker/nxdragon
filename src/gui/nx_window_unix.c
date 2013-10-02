@@ -1,0 +1,158 @@
+/***************************************************************************\
+  This file is part of the NxDragon Game Engine.
+
+  Copyright 2013 Patrik Jeppsson, Ulf Johnsson
+  
+  NxDragon is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  NxDragon is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
+\***************************************************************************/
+
+#include "nx_window.h"
+
+#include "../kernel/nx_types.h"
+#include "../kernel/nx_memory.h"
+#include "../kernel/nx_mutex.h"
+#include "../kernel/nx_wait_condition.h"
+#include "../kernel/nx_event_source.h"
+#include "../kernel/nx_thread.h"
+
+#include <stdio.h>
+#include <string.h>
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xos.h>
+#include <X11/Xatom.h>
+#include <X11/keysym.h>
+
+/* There seems to be a bug where gcc does not realize that strdup is defined... */
+extern char* strdup (const char *); 
+
+struct nx_window_t {
+	Window handle;
+	Display *display;
+	char *title; 
+	int width,
+		height; 
+	nx_event_source *event_source;
+	nx_mutex *mutex; 
+	nx_wait_condition *wait_cond;
+	nx_thread *thread;
+};
+
+/*************************************************************/
+static nxbool _nx_setup_window(nx_window *window)
+{
+	int screen;
+
+	/* Try to open the display */
+	window->display = XOpenDisplay(0);
+	if(window->display == 0)
+		return nxfalse;
+
+	screen = DefaultScreen(window->display);
+
+	/* Create the window */
+	window->handle = XCreateSimpleWindow(window->display, 
+										 RootWindow(window->display, 0), 
+										 1, 1, 
+										 window->width, window->height,
+										 0, 
+										 BlackPixel(window->display, screen), 
+										 BlackPixel(window->display, screen));
+
+	/* Set the title */
+	XStoreName(window->display, window->handle, window->title);
+
+	/* Map to the display */
+	XMapWindow(window->display, window->handle);
+
+	/* Flush */
+	XFlush(window->display);
+
+	return nxtrue;
+}
+
+/*************************************************************/
+static void _nx_window_thread_proc(nx_thread *thread, nx_window *self)
+{
+	NX_UNUSED(thread);
+
+	/* Create the window itself */
+	if(_nx_setup_window(self) != nxtrue)
+	{
+		nx_wait_condition_wake_one(self->wait_cond);
+		return;
+	}
+
+	/* Let nx_window_create() proceed since the window has been created */
+	nx_wait_condition_wake_one(self->wait_cond);
+
+	/* TODO: Start the message loop */
+}
+
+/*************************************************************/
+nx_window *nx_window_create(const char *title, int width, int height)
+{
+	nx_window *window;
+
+	/* Allocate the structure */
+	window = nx_malloc(sizeof(nx_window));
+
+	window->title = strdup(title); 
+	window->width = width;
+	window->height = height; 
+	window->mutex = nx_mutex_create();
+	window->wait_cond = nx_wait_condition_create();
+	window->event_source = nx_event_source_create();
+
+	nx_mutex_lock(window->mutex);
+
+	window->thread = nx_thread_begin((nx_thread_proc)&_nx_window_thread_proc,
+									 window);
+
+	nx_mutex_unlock(window->mutex);
+
+	return window;	
+}
+
+/*************************************************************/
+void nx_window_delete(nx_window *self)
+{
+	if(nx_thread_is_running(self->thread))
+		nx_window_close(self);
+
+	nx_thread_end(self->thread);
+
+	nx_event_source_delete(self->event_source);
+
+	nx_mutex_delete(self->mutex);
+
+	nx_wait_condition_delete(self->wait_cond);
+
+	nx_free(self->title);
+
+	nx_free(self);
+}
+
+/*************************************************************/
+void nx_window_close(nx_window *self)
+{
+	XCloseDisplay(self->display);
+}
+
+/*************************************************************/
+nx_event_source* nx_window_event_source(nx_window *self)
+{
+	return self->event_source;
+}

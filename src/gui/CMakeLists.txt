@@ -16,6 +16,11 @@ if(NX_PLATFORM_WIN32)
 		nx_window_win32.c)
 endif()
 
+if(NX_PLATFORM_UNIX)
+	set(nxgui_platform_src
+		nx_window_unix.c)
+endif()
+
 set(nxgui_src 
 	${nxgui_src}
 	${nxgui_platform_src})
@@ -23,6 +28,11 @@ set(nxgui_src
 add_library(nxgui SHARED 
 			${nxgui_src}
 			${nxgui_inc})
+
+if(NX_PLATFORM_UNIX)
+	find_package(X11 REQUIRED) 
+	target_link_libraries(nxgui ${X11_LIBRARIES})
+endif()
 
 set_target_properties(nxgui PROPERTIES 
 					  		DEFINE_SYMBOL NXDRAGON_BUILD_GUI)
