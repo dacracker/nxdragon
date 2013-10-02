@@ -21,6 +21,10 @@
 #include "nx_memory.h"
 
 #include <pthread.h>
+#include <errno.h>
+
+#include <sys/time.h>
+
 
 struct nx_wait_condition_t {
 	pthread_cond_t cond; 
@@ -60,12 +64,27 @@ void nx_wait_condition_wake_all(nx_wait_condition *self)
 int nx_wait_condition_wait(nx_wait_condition *self, nx_mutex *mutex, int timeout)
 {
     struct timespec timeout_spec;
+    struct timeval current_time;
+    int status;
 
     if(timeout < 1)
         return (pthread_cond_wait(&self->cond, (pthread_mutex_t*)mutex) == 0) ? 1 : 0;
 
-    timeout_spec.tv_sec = timeout / 1000;
-    timeout_spec.tv_nsec = (timeout % 1000) * 1000;
+    if(gettimeofday(&current_time, 0) != 0)
+        return 0;
 
-	return (pthread_cond_timedwait(&self->cond, (pthread_mutex_t*)mutex, &timeout_spec) == 0) ? 1 : 0;
+    timeout_spec.tv_sec = current_time.tv_sec + timeout / 1000;
+    timeout_spec.tv_nsec = current_time.tv_usec + (timeout % 1000) * 1000;
+
+	status = (pthread_cond_timedwait(&self->cond, (pthread_mutex_t*)mutex, &timeout_spec) == 0) ? 1 : 0;
+
+    switch(status)
+    {
+        case ETIMEDOUT:
+            return -1;
+        case 0:
+            return 1;
+        default:
+            return 0;
+    }
 }

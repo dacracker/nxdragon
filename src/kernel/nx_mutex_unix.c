@@ -45,7 +45,7 @@ nx_mutex* nx_mutex_create()
 }
 
 /*************************************************************/
-void nx_mutex_destroy(nx_mutex *self)
+void nx_mutex_delete(nx_mutex *self)
 {
 	pthread_mutex_destroy(&self->mtx);
 	free(self);
