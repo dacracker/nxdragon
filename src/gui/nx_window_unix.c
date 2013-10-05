@@ -39,6 +39,7 @@
 extern char* strdup (const char *); 
 
 struct nx_window_t {
+	Atom wm_delete_window;
 	Window handle;
 	Display *display;
 	char *title; 
@@ -62,7 +63,7 @@ static nxbool _nx_setup_window(nx_window *window)
 
 	screen = DefaultScreen(window->display);
 
-	/* Create the window */
+    /* Create the window */
 	window->handle = XCreateSimpleWindow(window->display, 
 										 RootWindow(window->display, 0), 
 										 1, 1, 
@@ -73,6 +74,9 @@ static nxbool _nx_setup_window(nx_window *window)
 
 	/* Set the title */
 	XStoreName(window->display, window->handle, window->title);
+
+	window->wm_delete_window = XInternAtom(window->display, "WM_DELETE_WINDOW", 0);
+	XSetWMProtocols(window->display, window->handle, &window->wm_delete_window, 1);
 
 	/* Map to the display */
 	XMapWindow(window->display, window->handle);
@@ -86,19 +90,41 @@ static nxbool _nx_setup_window(nx_window *window)
 /*************************************************************/
 static void _nx_window_thread_proc(nx_thread *thread, nx_window *self)
 {
-	NX_UNUSED(thread);
+    XEvent event;
+    window_closed_event *window_closed_event;
+    nxbool running = nxtrue;
 
-	/* Create the window itself */
-	if(_nx_setup_window(self) != nxtrue)
-	{
-		nx_wait_condition_wake_one(self->wait_cond);
-		return;
-	}
+    NX_UNUSED(thread);
 
-	/* Let nx_window_create() proceed since the window has been created */
-	nx_wait_condition_wake_one(self->wait_cond);
+    /* Create the window itself */
+    if(_nx_setup_window(self) != nxtrue)
+    {
+        nx_wait_condition_wake_one(self->wait_cond);
+        return;
+    }
 
-	/* TODO: Start the message loop */
+    /* Let nx_window_create() proceed since the window has been created */
+    nx_wait_condition_wake_one(self->wait_cond);
+
+    while(running == nxtrue)
+    {
+        XNextEvent(self->display, &event);
+
+        switch(event.type)
+        {
+        case ClientMessage:
+        {
+            /* close-event */
+            if(event.xclient.data.l[0] == self->wm_delete_window)
+            {
+                running = nxfalse;
+                window_closed_event = _nx_create_window_closed_event(self);
+                nx_event_source_emit(self->event_source, &window_closed_event->base);
+                break;
+            }
+        }
+        }
+    }
 }
 
 /*************************************************************/
@@ -118,8 +144,13 @@ nx_window *nx_window_create(const char *title, int width, int height)
 
 	nx_mutex_lock(window->mutex);
 
-	window->thread = nx_thread_begin((nx_thread_proc)&_nx_window_thread_proc,
-									 window);
+    window->thread = nx_thread_begin((nx_thread_proc)&_nx_window_thread_proc, window);
+
+    /* Wait for the window creation process to finish */
+    while(window->handle == 0)
+          nx_wait_condition_wait(window->wait_cond,
+                                 window->mutex,
+                                 -1); /* There's no reason to continue before the window has been created */
 
 	nx_mutex_unlock(window->mutex);
 
