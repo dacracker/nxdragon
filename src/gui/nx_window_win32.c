@@ -31,13 +31,17 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+#define _NX_DEFAULT_WINDOW_STYLE WS_CAPTION | WS_POPUPWINDOW | WS_VISIBLE
+#define _NX_DEFAULT_FULLSCREEN_WINDOW_STYLE WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE
+
 struct nx_window_t {
 	HWND handle;
 	LPCSTR className;
 	char *title; 
 	int width,
-		height; 
-    nxbool frameless;
+		height,
+		windowed_width,
+		windowed_height; 
 	nx_event_source *event_source;
 	nx_mutex *mutex; 
 	nx_wait_condition *wait_cond;
@@ -54,6 +58,17 @@ LRESULT CALLBACK _nx_win32_proc(HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 	case WM_CREATE:
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,(LONG_PTR)((CREATESTRUCT*)lparam)->lpCreateParams);
 		break;
+	case WM_SIZE:
+		{
+			nx_mutex_lock(window->mutex);
+
+			window->width = LOWORD(lparam);
+			window->height = HIWORD(lparam);
+
+			nx_mutex_unlock(window->mutex); 
+
+			return DefWindowProc(hwnd,message,wparam,lparam);
+		}
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
 
@@ -66,7 +81,6 @@ LRESULT CALLBACK _nx_win32_proc(HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
-
 		break; 
 	default:
 		return DefWindowProc(hwnd,message,wparam,lparam);
@@ -81,7 +95,7 @@ static nxbool _nx_setup_window(WNDCLASSEX *wcex, nx_window *window)
 	window->handle = CreateWindowEx(WS_EX_APPWINDOW,
 									wcex->lpszClassName,
 									window->title,
-									WS_OVERLAPPEDWINDOW,
+									_NX_DEFAULT_WINDOW_STYLE,
 									CW_USEDEFAULT,
 									CW_USEDEFAULT,
 									window->width,
@@ -185,9 +199,8 @@ nx_window *nx_window_create(const char *title, int width, int height)
 	ZeroMemory(window,sizeof(nx_window));
 
 	window->title = _strdup(title); 
-	window->width = width;
-	window->height = height; 
-    window->frameless = nxfalse;
+	window->width = window->windowed_width =  width;
+	window->height = window->windowed_height = height; 
 	window->mutex = nx_mutex_create();
 	window->wait_cond = nx_wait_condition_create();
 	window->event_source = nx_event_source_create();
@@ -240,26 +253,112 @@ nx_event_source* nx_window_event_source(nx_window *self)
 }
 
 /*************************************************************/
-void nx_window_resize(nx_window *self, nxint32 width, nxint32 height)
+nxhandle nx_window_handle(nx_window *self)
 {
-    /* TODO: implement */
-
-    NX_UNUSED(self);
-    NX_UNUSED(width);
-    NX_UNUSED(height);
+	return self->handle;
 }
 
 /*************************************************************/
-void nx_window_set_frameless(nx_window *self, nxbool on)
+int nx_window_width(nx_window *self)
 {
-    /* TODO: implement */
+	int width;
 
-    NX_UNUSED(self);
-    NX_UNUSED(on);
+	nx_mutex_lock(self->mutex);
+
+	width = self->width; 
+
+	nx_mutex_unlock(self->mutex);
+
+	return width; 
 }
 
 /*************************************************************/
-nxbool nx_window_frameless(nx_window *self)
+int nx_window_height(nx_window *self)
 {
-    return self->frameless;
+	int height;
+
+	nx_mutex_lock(self->mutex);
+
+	height = self->height; 
+
+	nx_mutex_unlock(self->mutex);
+
+	return height;
+}
+
+/*************************************************************/
+void nx_window_resize(nx_window *self, int width, int height)
+{
+	SetWindowPos(self->handle,
+				 0,
+				 0,0, /* We don't want to reposition the window */
+				 width,
+				 height,
+				 SWP_NOREPOSITION | SWP_NOZORDER | SWP_ASYNCWINDOWPOS);
+}
+
+/*************************************************************/
+void nx_window_set_fullscreen(nx_window *self, nxbool on)
+{
+	if(nx_window_fullscreen(self) == on)
+		return;
+
+	if(on)
+	{
+		nx_mutex_lock(self->mutex); 
+		
+		/* 
+		   Save the current window size in case we should 
+		   switch back to windowed mode later on 
+		*/
+		self->windowed_height = self->height; 
+		self->windowed_width = self->width;
+
+		nx_mutex_unlock(self->mutex); 
+
+		SetWindowLongPtr(self->handle,
+						 GWL_STYLE,
+						 _NX_DEFAULT_FULLSCREEN_WINDOW_STYLE);
+
+		{
+			MONITORINFO monitor_info;
+			RECT win_rect;
+
+			monitor_info.cbSize = sizeof(monitor_info);
+			GetMonitorInfo(MonitorFromWindow(self->handle, MONITOR_DEFAULTTONEAREST),
+						   &monitor_info);
+
+			win_rect = monitor_info.rcMonitor;
+
+			SetWindowPos(self->handle,0,
+						 0,0, 
+						 win_rect.right, 
+						 win_rect.bottom, 
+						 SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED | SWP_ASYNCWINDOWPOS);
+		}
+	}
+	else
+	{	
+		SetWindowLongPtr(self->handle,
+						 GWL_STYLE,
+						 _NX_DEFAULT_WINDOW_STYLE);
+
+		nx_mutex_lock(self->mutex); 
+
+		SetWindowPos(self->handle,
+					 0,
+					 0,
+					 0,
+					 self->windowed_width,
+					 self->windowed_height,
+					 SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED | SWP_ASYNCWINDOWPOS);
+
+		nx_mutex_unlock(self->mutex); 
+	}
+}
+
+/*************************************************************/
+nxbool nx_window_fullscreen(nx_window *self)
+{
+	return (GetWindowLongPtr(self->handle,GWL_STYLE) & WS_CAPTION) ? nxfalse : nxtrue; 
 }
