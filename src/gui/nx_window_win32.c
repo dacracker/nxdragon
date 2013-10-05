@@ -37,6 +37,7 @@ struct nx_window_t {
 	char *title; 
 	int width,
 		height; 
+    nxbool frameless;
 	nx_event_source *event_source;
 	nx_mutex *mutex; 
 	nx_wait_condition *wait_cond;
@@ -186,6 +187,7 @@ nx_window *nx_window_create(const char *title, int width, int height)
 	window->title = _strdup(title); 
 	window->width = width;
 	window->height = height; 
+    window->frameless = nxfalse;
 	window->mutex = nx_mutex_create();
 	window->wait_cond = nx_wait_condition_create();
 	window->event_source = nx_event_source_create();
@@ -235,4 +237,29 @@ void nx_window_close(nx_window *self)
 nx_event_source* nx_window_event_source(nx_window *self)
 {
 	return self->event_source;
+}
+
+/*************************************************************/
+void nx_window_resize(nx_window *self, nxint32 width, nxint32 height)
+{
+    /* TODO: implement */
+
+    NX_UNUSED(self);
+    NX_UNUSED(width);
+    NX_UNUSED(height);
+}
+
+/*************************************************************/
+void nx_window_set_frameless(nx_window *self, nxbool on)
+{
+    /* TODO: implement */
+
+    NX_UNUSED(self);
+    NX_UNUSED(on);
+}
+
+/*************************************************************/
+nxbool nx_window_frameless(nx_window *self)
+{
+    return self->frameless;
 }

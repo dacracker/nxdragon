@@ -23,6 +23,8 @@
 #include "nx_def.h"
 #include "nx_window_events.h"
 
+#include "../kernel/nx_types.h"
+
 /** \ingroup NxGui
   * \defgroup nx_window nx_window
   * \brief Window base object 
@@ -33,10 +35,10 @@
   * @{
   */
 
-typedef struct nx_window_t nx_window; 
+typedef struct nx_window_t nx_window;
 
 /** Creates a new window */
-NX_GUI_API nx_window *nx_window_create(const char *title, int width, int height); 
+NX_GUI_API nx_window *nx_window_create(const char *title, int width, int height);
 
 /** Deletes the window */
 NX_GUI_API void nx_window_delete(nx_window *self); 
@@ -46,6 +48,15 @@ NX_GUI_API void nx_window_close(nx_window *self);
 
 /** Returns the window's event source */
 NX_GUI_API struct nx_event_source_t* nx_window_event_source(nx_window *self);
+
+/** Resizes the window */
+NX_GUI_API void nx_window_resize(nx_window *self, nxint32 width, nxint32 height);
+
+/** Either removes or adds a frame to the window, depending on 'on' */
+NX_GUI_API void nx_window_set_frameless(nx_window *self, nxbool on);
+
+/** Returns nxtrue it the window is frameless */
+NX_GUI_API nxbool nx_window_frameless(nx_window *self);
 
 /** @} @} */
 

@@ -39,52 +39,66 @@
 extern char* strdup (const char *); 
 
 struct nx_window_t {
-	Atom wm_delete_window;
-	Window handle;
-	Display *display;
-	char *title; 
-	int width,
-		height; 
-	nx_event_source *event_source;
-	nx_mutex *mutex; 
-	nx_wait_condition *wait_cond;
-	nx_thread *thread;
+    Atom wm_delete_window,
+         wm_hints;
+    Window handle;
+    Display *display;
+    char *title;
+    int width,
+        height;
+    nxbool frameless;
+    nx_event_source *event_source;
+    nx_mutex *mutex;
+    nx_wait_condition *wait_cond;
+    nx_thread *thread;
 };
+
+typedef struct {
+    unsigned long flags,
+                  functions,
+                  decorations;
+    long inputMode;
+    unsigned long status;
+} window_hints;
 
 /*************************************************************/
 static nxbool _nx_setup_window(nx_window *window)
 {
-	int screen;
+    int screen;
 
-	/* Try to open the display */
-	window->display = XOpenDisplay(0);
-	if(window->display == 0)
-		return nxfalse;
+    /* Try to open the display */
+    window->display = XOpenDisplay(0);
+    if(window->display == 0)
+        return nxfalse;
 
-	screen = DefaultScreen(window->display);
+    screen = DefaultScreen(window->display);
 
     /* Create the window */
-	window->handle = XCreateSimpleWindow(window->display, 
-										 RootWindow(window->display, 0), 
-										 1, 1, 
-										 window->width, window->height,
-										 0, 
-										 BlackPixel(window->display, screen), 
-										 BlackPixel(window->display, screen));
+    window->handle = XCreateSimpleWindow(window->display,
+                                         RootWindow(window->display, 0),
+                                         1, 1,
+                                         window->width, window->height,
+                                         20,
+                                         BlackPixel(window->display, screen),
+                                         BlackPixel(window->display, screen));
 
-	/* Set the title */
-	XStoreName(window->display, window->handle, window->title);
+    window->wm_hints = XInternAtom(window->display,"_MOTIF_WM_HINTS",True);
 
-	window->wm_delete_window = XInternAtom(window->display, "WM_DELETE_WINDOW", 0);
-	XSetWMProtocols(window->display, window->handle, &window->wm_delete_window, 1);
+    /* Set the title */
+    XStoreName(window->display, window->handle, window->title);
 
-	/* Map to the display */
-	XMapWindow(window->display, window->handle);
+    window->wm_delete_window = XInternAtom(window->display, "WM_DELETE_WINDOW", 0);
+    XSetWMProtocols(window->display, window->handle, &window->wm_delete_window, 1);
 
-	/* Flush */
-	XFlush(window->display);
+    XSelectInput(window->display, window->handle, ExposureMask);
 
-	return nxtrue;
+    /* Map to the display */
+    XMapWindow(window->display, window->handle);
+
+    /* Flush */
+    XFlush(window->display);
+
+    return nxtrue;
 }
 
 /*************************************************************/
@@ -112,17 +126,17 @@ static void _nx_window_thread_proc(nx_thread *thread, nx_window *self)
 
         switch(event.type)
         {
-        case ClientMessage:
-        {
-            /* close-event */
-            if(event.xclient.data.l[0] == self->wm_delete_window)
+            case ClientMessage:
             {
-                running = nxfalse;
-                window_closed_event = _nx_create_window_closed_event(self);
-                nx_event_source_emit(self->event_source, &window_closed_event->base);
-                break;
+                /* close-event */
+                if(event.xclient.data.l[0] == self->wm_delete_window)
+                {
+                    running = nxfalse;
+                    window_closed_event = _nx_create_window_closed_event(self);
+                    nx_event_source_emit(self->event_source, &window_closed_event->base);
+                    break;
+                }
             }
-        }
         }
     }
 }
@@ -130,31 +144,32 @@ static void _nx_window_thread_proc(nx_thread *thread, nx_window *self)
 /*************************************************************/
 nx_window *nx_window_create(const char *title, int width, int height)
 {
-	nx_window *window;
+    nx_window *window;
 
-	/* Allocate the structure */
-	window = nx_malloc(sizeof(nx_window));
+    /* Allocate the structure */
+    window = nx_malloc(sizeof(nx_window));
 
-	window->title = strdup(title); 
-	window->width = width;
-	window->height = height; 
-	window->mutex = nx_mutex_create();
-	window->wait_cond = nx_wait_condition_create();
-	window->event_source = nx_event_source_create();
+    window->frameless = nxfalse;
+    window->title = strdup(title);
+    window->width = width;
+    window->height = height;
+    window->mutex = nx_mutex_create();
+    window->wait_cond = nx_wait_condition_create();
+    window->event_source = nx_event_source_create();
 
-	nx_mutex_lock(window->mutex);
+    nx_mutex_lock(window->mutex);
 
     window->thread = nx_thread_begin((nx_thread_proc)&_nx_window_thread_proc, window);
 
     /* Wait for the window creation process to finish */
     while(window->handle == 0)
-          nx_wait_condition_wait(window->wait_cond,
-                                 window->mutex,
-                                 -1); /* There's no reason to continue before the window has been created */
+        nx_wait_condition_wait(window->wait_cond,
+                               window->mutex,
+                               -1); /* There's no reason to continue before the window has been created */
 
-	nx_mutex_unlock(window->mutex);
+    nx_mutex_unlock(window->mutex);
 
-	return window;	
+    return window;
 }
 
 /*************************************************************/
@@ -186,4 +201,43 @@ void nx_window_close(nx_window *self)
 nx_event_source* nx_window_event_source(nx_window *self)
 {
 	return self->event_source;
+}
+
+/*************************************************************/
+void nx_window_resize(nx_window *self, nxint32 width, nxint32 height)
+{
+    XResizeWindow(self->display, self->handle, width, height);
+    XFlush(self->display);
+}
+
+/*************************************************************/
+void nx_window_set_frameless(nx_window *self, nxbool on)
+{
+    window_hints hints;
+
+    /* if uesr is trying to set the frameless-status ro something it already is, we abort */
+    if(on == self->frameless)
+        return;
+
+    self->frameless = on;
+
+    hints.flags = 2;
+    hints.decorations = on ? 0 : 1;
+
+    XChangeProperty(self->display,
+                    self->handle,
+                    self->wm_hints,
+                    self->wm_hints,
+                    32,
+                    PropModeReplace,
+                    (unsigned char *)&hints,
+                    5);
+
+    XFlush(self->display);
+}
+
+/*************************************************************/
+nxbool nx_window_frameless(nx_window *self)
+{
+    return self->frameless;
 }
