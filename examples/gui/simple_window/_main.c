@@ -18,6 +18,7 @@
 \***************************************************************************/
 
 #include "gui/nx_window.h"
+#include "gui/nx_init.h"
 #include "kernel/nx_event_queue.h"
 #include "kernel/nx_event_source.h"
 #include "kernel/nx_timer.h"
@@ -32,14 +33,19 @@ int main(int args, char **argv)
 	NX_UNUSED(args);
 	NX_UNUSED(argv);
 
-	window = nx_window_create("Simple window",800,600);
+    /* For now the example will have to initialize the gui-module,
+       later the application-module will take care of this. */
+    if(nx_gui_init() == nxfalse)
+        return 0;
+
+    window = nx_window_create("Simple window",800,600);
 	event_queue = nx_event_queue_create();
 
 	/* Connect the event queue to the window */
 	nx_event_source_register(nx_window_event_source(window),event_queue);
 
 	while(!time_to_quit)
-	{
+    {
 		/* Wait at most 20ms for a new event to occur */
 		if((event = nx_event_queue_wait_next(event_queue,20)) != 0)
 		{
@@ -48,12 +54,15 @@ int main(int args, char **argv)
 
 			/* Any event we recieve must be released, otherwise we'll have a memory leak on our hands */
 			nx_event_release(event);
-		}
+        }
 	}
 
 	nx_window_delete(window);
 
 	nx_event_queue_delete(event_queue);
+
+    /* Shut down the module */
+    nx_gui_shutdown();
 
 	return 0;
 }

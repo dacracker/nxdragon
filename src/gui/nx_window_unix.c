@@ -62,6 +62,32 @@ typedef struct {
 } window_hints;
 
 /*************************************************************/
+static void _nx_window_set_frameless(nx_window *self, nxbool on)
+{
+    window_hints hints;
+
+    /* if uesr is trying to set the frameless-status ro something it already is, we abort */
+    if(on == self->frameless)
+        return;
+
+    self->frameless = on;
+
+    hints.flags = 2;
+    hints.decorations = on ? 0 : 1;
+
+    XChangeProperty(self->display,
+                    self->handle,
+                    self->wm_hints,
+                    self->wm_hints,
+                    32,
+                    PropModeReplace,
+                    (unsigned char *)&hints,
+                    5);
+
+    XFlush(self->display);
+}
+
+/*************************************************************/
 static nxbool _nx_setup_window(nx_window *window)
 {
     int screen;
@@ -149,6 +175,7 @@ nx_window *nx_window_create(const char *title, int width, int height)
     /* Allocate the structure */
     window = nx_malloc(sizeof(nx_window));
 
+    window->handle = 0;
     window->frameless = nxfalse;
     window->title = strdup(title);
     window->width = width;
@@ -178,6 +205,8 @@ void nx_window_delete(nx_window *self)
 	if(nx_thread_is_running(self->thread))
 		nx_window_close(self);
 
+    XCloseDisplay(self->display);
+
 	nx_thread_end(self->thread);
 
 	nx_event_source_delete(self->event_source);
@@ -194,7 +223,8 @@ void nx_window_delete(nx_window *self)
 /*************************************************************/
 void nx_window_close(nx_window *self)
 {
-	XCloseDisplay(self->display);
+    XDestroyWindow(self->display, self->handle);
+    XFlush(self->display);
 }
 
 /*************************************************************/
@@ -204,40 +234,54 @@ nx_event_source* nx_window_event_source(nx_window *self)
 }
 
 /*************************************************************/
-void nx_window_resize(nx_window *self, nxint32 width, nxint32 height)
+int nx_window_width(nx_window *self)
 {
+    int width;
+
+    nx_mutex_lock(self->mutex);
+
+    width = self->width;
+
+    nx_mutex_unlock(self->mutex);
+
+    return width;
+}
+
+/*************************************************************/
+int nx_window_height(nx_window *self)
+{
+    int height;
+
+    nx_mutex_lock(self->mutex);
+
+    height = self->height;
+
+    nx_mutex_unlock(self->mutex);
+
+    return height;
+}
+
+/*************************************************************/
+void nx_window_resize(nx_window *self, int width, int height)
+{
+    nx_mutex_lock(self->mutex);
+
     XResizeWindow(self->display, self->handle, width, height);
     XFlush(self->display);
+
+    nx_mutex_unlock(self->mutex);
 }
 
 /*************************************************************/
-void nx_window_set_frameless(nx_window *self, nxbool on)
+void nx_window_set_fullscreen(nx_window *self, nxbool on)
 {
-    window_hints hints;
-
-    /* if uesr is trying to set the frameless-status ro something it already is, we abort */
-    if(on == self->frameless)
-        return;
-
-    self->frameless = on;
-
-    hints.flags = 2;
-    hints.decorations = on ? 0 : 1;
-
-    XChangeProperty(self->display,
-                    self->handle,
-                    self->wm_hints,
-                    self->wm_hints,
-                    32,
-                    PropModeReplace,
-                    (unsigned char *)&hints,
-                    5);
-
-    XFlush(self->display);
+    /* TODO: implement */
+    NX_UNUSED(self);
+    NX_UNUSED(on);
 }
 
 /*************************************************************/
-nxbool nx_window_frameless(nx_window *self)
+nxbool nx_window_fullscreen(nx_window *self)
 {
-    return self->frameless;
+    return nxfalse;
 }
