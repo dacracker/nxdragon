@@ -61,13 +61,13 @@ LRESULT CALLBACK _nx_win32_proc(HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 	case WM_SIZE:
 		{
 			nx_mutex_lock(window->mutex);
-
-			window->width = LOWORD(lparam);
-			window->height = HIWORD(lparam);
-
+			{
+				window->width = LOWORD(lparam);
+				window->height = HIWORD(lparam);
+			} 
 			nx_mutex_unlock(window->mutex); 
 
-			return DefWindowProc(hwnd,message,wparam,lparam);
+			break;
 		}
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
@@ -83,23 +83,33 @@ LRESULT CALLBACK _nx_win32_proc(HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		PostQuitMessage(0);
 		break; 
 	default:
-		return DefWindowProc(hwnd,message,wparam,lparam);
+		break;
 	}
 
-	return 0;
+	return DefWindowProc(hwnd,message,wparam,lparam);
 }
 
 /*************************************************************/
 static nxbool _nx_setup_window(WNDCLASSEX *wcex, nx_window *window)
 {
+	RECT real_win_size;
+	
+	real_win_size.left = 0;
+	real_win_size.top = 0;
+
+	real_win_size.right = window->width;
+	real_win_size.bottom = window->height;
+
+	AdjustWindowRectEx(&real_win_size,_NX_DEFAULT_WINDOW_STYLE,FALSE,WS_EX_APPWINDOW);
+
 	window->handle = CreateWindowEx(WS_EX_APPWINDOW,
 									wcex->lpszClassName,
 									window->title,
 									_NX_DEFAULT_WINDOW_STYLE,
-									CW_USEDEFAULT,
-									CW_USEDEFAULT,
-									window->width,
-									window->height,
+									(GetSystemMetrics(SM_CXSCREEN) - real_win_size.right)/2,
+									(GetSystemMetrics(SM_CYSCREEN) - real_win_size.bottom)/2,
+									real_win_size.right - real_win_size.left,
+									real_win_size.bottom - real_win_size.top,
 									0,
 									0,
 									GetModuleHandle(0),
@@ -134,7 +144,7 @@ static nxbool _nx_setup_wcex(WNDCLASSEX *wcex)
 	wcex->hInstance = GetModuleHandle(0);
 	wcex->hIcon = LoadIcon(0, IDI_APPLICATION);
 	wcex->hCursor = LoadCursor(0,IDC_ARROW);
-	wcex->hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+	wcex->hbrBackground = CreateSolidBrush(RGB(0,0,0));
 	wcex->lpszMenuName = 0;
 	wcex->hIconSm = LoadIcon(0, IDI_APPLICATION);
 
