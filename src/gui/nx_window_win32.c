@@ -100,7 +100,16 @@ static nxbool _nx_setup_window(WNDCLASSEX *wcex, nx_window *window)
 	real_win_size.right = window->width;
 	real_win_size.bottom = window->height;
 
-	AdjustWindowRectEx(&real_win_size,_NX_DEFAULT_WINDOW_STYLE,FALSE,WS_EX_APPWINDOW);
+	/* 
+		This function will calculate how big the actual window
+		must be depending on the current theme style, border sizes
+		etc etc. The size given to nx_window_create() represents
+		the drawing area, not the actual window size. 
+	*/
+	AdjustWindowRectEx(&real_win_size,
+					   _NX_DEFAULT_WINDOW_STYLE,
+					   FALSE,
+					   WS_EX_APPWINDOW);
 
 	window->handle = CreateWindowEx(WS_EX_APPWINDOW,
 									wcex->lpszClassName,

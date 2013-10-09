@@ -37,7 +37,10 @@
 
 typedef struct nx_window_t nx_window;
 
-/** Creates a new window */
+/** Creates a new window. The width and height properties represents the
+  * paint area of the window. The actual window size will be a bit bigger 
+  * than the size specified here. (how much depends on the current OS and theme) 
+  */
 NX_GUI_API nx_window *nx_window_create(const char *title, int width, int height);
 
 /** Deletes the window */
