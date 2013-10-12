@@ -59,16 +59,14 @@ LRESULT CALLBACK _nx_win32_proc(HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,(LONG_PTR)((CREATESTRUCT*)lparam)->lpCreateParams);
 		break;
 	case WM_SIZE:
+		nx_mutex_lock(window->mutex);
 		{
-			nx_mutex_lock(window->mutex);
-			{
-				window->width = LOWORD(lparam);
-				window->height = HIWORD(lparam);
-			} 
-			nx_mutex_unlock(window->mutex); 
+			window->width = LOWORD(lparam);
+			window->height = HIWORD(lparam);
+		} 
+		nx_mutex_unlock(window->mutex); 
 
-			break;
-		}
+		break;
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
 
@@ -90,15 +88,13 @@ LRESULT CALLBACK _nx_win32_proc(HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 }
 
 /*************************************************************/
-static nxbool _nx_setup_window(WNDCLASSEX *wcex, nx_window *window)
+static void _nx_adjust_window_size(int width, int height, RECT *adjusted_size)
 {
-	RECT real_win_size;
-	
-	real_win_size.left = 0;
-	real_win_size.top = 0;
+	adjusted_size->left = 0;
+	adjusted_size->top = 0;
 
-	real_win_size.right = window->width;
-	real_win_size.bottom = window->height;
+	adjusted_size->right = width;
+	adjusted_size->bottom = height;
 
 	/* 
 		This function will calculate how big the actual window
@@ -106,10 +102,19 @@ static nxbool _nx_setup_window(WNDCLASSEX *wcex, nx_window *window)
 		etc etc. The size given to nx_window_create() represents
 		the drawing area, not the actual window size. 
 	*/
-	AdjustWindowRectEx(&real_win_size,
+	AdjustWindowRectEx(adjusted_size,
 					   _NX_DEFAULT_WINDOW_STYLE,
 					   FALSE,
 					   WS_EX_APPWINDOW);
+}
+
+/*************************************************************/
+static nxbool _nx_setup_window(WNDCLASSEX *wcex, nx_window *window)
+{
+	RECT real_win_size;
+	_nx_adjust_window_size(window->width,
+						   window->height, 
+						   &real_win_size);
 
 	window->handle = CreateWindowEx(WS_EX_APPWINDOW,
 									wcex->lpszClassName,
@@ -195,7 +200,7 @@ static void _nx_window_thread_proc(nx_thread *thread, nx_window *self)
 	nx_wait_condition_wake_one(self->wait_cond);
 
 	/* Start the message loop */
-	while(GetMessage(&message,0,0,0) > 0)
+	while(GetMessage(&message,self->handle,0,0) > 0)
 	{
 		TranslateMessage(&message);
 		DispatchMessage(&message);
@@ -308,11 +313,14 @@ int nx_window_height(nx_window *self)
 /*************************************************************/
 void nx_window_resize(nx_window *self, int width, int height)
 {
+	RECT real_window_size; 
+	_nx_adjust_window_size(width,height,&real_window_size); 
+
 	SetWindowPos(self->handle,
 				 0,
 				 0,0, /* We don't want to reposition the window */
-				 width,
-				 height,
+				 real_window_size.right - real_window_size.left,
+				 real_window_size.bottom - real_window_size.top,
 				 SWP_NOREPOSITION | SWP_NOZORDER | SWP_ASYNCWINDOWPOS);
 }
 
@@ -325,14 +333,19 @@ void nx_window_set_fullscreen(nx_window *self, nxbool on)
 	if(on)
 	{
 		nx_mutex_lock(self->mutex); 
-		
-		/* 
-		   Save the current window size in case we should 
-		   switch back to windowed mode later on 
-		*/
-		self->windowed_height = self->height; 
-		self->windowed_width = self->width;
+		{
+			RECT real_window_size; 
+			_nx_adjust_window_size(self->width,
+								   self->height,
+								   &real_window_size); 
 
+			/* 
+			   Save the current window size in case we should 
+			   switch back to windowed mode later on 
+			*/
+			self->windowed_width = real_window_size.right - real_window_size.left; 
+			self->windowed_height = real_window_size.bottom - real_window_size.top;
+		}
 		nx_mutex_unlock(self->mutex); 
 
 		SetWindowLongPtr(self->handle,
@@ -350,7 +363,8 @@ void nx_window_set_fullscreen(nx_window *self, nxbool on)
 			win_rect = monitor_info.rcMonitor;
 
 			SetWindowPos(self->handle,0,
-						 0,0, 
+						 win_rect.top,
+						 win_rect.left, 
 						 win_rect.right, 
 						 win_rect.bottom, 
 						 SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED | SWP_ASYNCWINDOWPOS);
