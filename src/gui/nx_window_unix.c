@@ -180,11 +180,15 @@ static void _nx_window_thread_proc(nx_thread *thread, nx_window *self)
         case ConfigureNotify:
         {
             /* This event may occur for att kinds of intents, so we have to check if it is for a rezise */
+            nx_mutex_lock(self->mutex);
+
             if(self->width != event.xconfigure.width)
                 self->width = event.xconfigure.width;
 
             if(self->height != event.xconfigure.height)
                 self->height = event.xconfigure.height;
+
+            nx_mutex_unlock(self->mutex);
 
             break;
         }
@@ -259,7 +263,7 @@ nx_event_source* nx_window_event_source(nx_window *self)
 }
 
 /*************************************************************/
-int nx_window_width(nx_window *self)
+int nx_window_width(const nx_window *self)
 {
     int width;
 
@@ -273,7 +277,7 @@ int nx_window_width(nx_window *self)
 }
 
 /*************************************************************/
-int nx_window_height(nx_window *self)
+int nx_window_height(const nx_window *self)
 {
     int height;
 
@@ -306,7 +310,7 @@ void nx_window_set_fullscreen(nx_window *self, nxbool on)
 }
 
 /*************************************************************/
-nxbool nx_window_fullscreen(nx_window *self)
+nxbool nx_window_fullscreen(const nx_window *self)
 {
     return nxfalse;
 }

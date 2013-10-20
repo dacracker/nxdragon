@@ -283,7 +283,7 @@ nxhandle nx_window_handle(nx_window *self)
 }
 
 /*************************************************************/
-int nx_window_width(nx_window *self)
+int nx_window_width(const nx_window *self)
 {
 	int width;
 
@@ -297,7 +297,7 @@ int nx_window_width(nx_window *self)
 }
 
 /*************************************************************/
-int nx_window_height(nx_window *self)
+int nx_window_height(const nx_window *self)
 {
 	int height;
 
@@ -391,7 +391,7 @@ void nx_window_set_fullscreen(nx_window *self, nxbool on)
 }
 
 /*************************************************************/
-nxbool nx_window_fullscreen(nx_window *self)
+nxbool nx_window_fullscreen(const nx_window *self)
 {
 	return (GetWindowLongPtr(self->handle,GWL_STYLE) & WS_CAPTION) ? nxfalse : nxtrue; 
 }
