@@ -11,7 +11,11 @@ set(NXDRAGON_VERSION_MAJOR 0)
 set(NXDRAGON_VERSION_MINOR 1)
 set(NXDRAGON_VERSION_PATCH 0)
 
+# Should Lua support be included? 
 option(NXDRAGON_LUA_SUPPORT ON)
+
+# Do you wish to build the provided examples? 
+option(NXDRAGON_BUILD_EXAMPLES ON)
 
 include(cmake/nx_platform.cmake)
 include(cmake/nx_filters.cmake)
@@ -47,8 +51,12 @@ if(NXDRAGON_LUA_SUPPORT)
 	include(cmake/nx_lua.cmake) # Custom "find lua" cMake module  
 	add_subdirectory(bindings/nxlua) # Lua 5.2 bindings 
 
-	add_subdirectory(examples/lua/parse_file)
+	if(NXDRAGON_BUILD_EXAMPLES)
+		add_subdirectory(examples/lua/parse_file)
+	endif()
 endif() 
 
 # Example code
-add_subdirectory(examples/gui/simple_window)
+if(NXDRAGON_BUILD_EXAMPLES)
+	add_subdirectory(examples/gui/simple_window)
+endif()
