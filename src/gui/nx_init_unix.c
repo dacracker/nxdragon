@@ -22,14 +22,14 @@
 #include <X11/Xlib.h>
 
 /*************************************************************/
-nxbool nx_gui_init()
+nxbool nx_gui_init(void)
 {
     /* Initialize X as threaded */
     return XInitThreads() == 0 ? nxfalse : nxtrue;
 }
 
 /*************************************************************/
-void nx_gui_shutdown()
+void nx_gui_shutdown(void)
 {
 
 }

@@ -17,31 +17,26 @@
   along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 \***************************************************************************/
 
-#ifndef __NXPY3BIND_PYENGINE_H__
-#define __NXPY3BIND_PYENGINE_H__
+#include "kernel/nx_def.h"
+#include "nxlua/nx_init.h"
+#include "nxlua/nx_lua.h"
 
-#include "nx_def.h"
-#include "../kernel/nx_bool.h"
+int main(int args, char **argv)
+{
+	NX_UNUSED(args); 
+	NX_UNUSED(argv); 
 
-/** \ingroup NxPy3Bind
-  * \defgroup nx_pyengine nx_pyengine 
-  * API for initialization and high-level
-  * usage of the Python API. 
-  * @{
-  */
+	/** Initialize the Lua module */
+	if(!nx_lua_init())
+		return 1; 
+	
+	/** Run a Lua script */
+	if(!nx_lua_run("hello.lua"))
+		return 2; 
 
-/** Initialize the Python 3 engine, must be called before all other Python functions! */ 
-void NX_PY3BIND_API nx_py3_init(void);
+	/** Shutdown the Lua module */
+	if(!nx_lua_shutdown())
+		return 3; 
 
-/** Must be called when you're done using Python 3 to avoid resource leakage. */
-void NX_PY3BIND_API nx_py3_shutdown(void); 
-
-/** Runs the given Python 3 script */
-void NX_PY3BIND_API nx_py3_run_script(const char *script);
-
-/** Opens the file and treats it's content as a Python 3 script */
-nxbool NX_PY3BIND_API nx_py3_run_file(const char* filename);
-
-/** @} */
-
-#endif
+	return 0;
+}

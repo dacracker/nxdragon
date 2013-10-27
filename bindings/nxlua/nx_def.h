@@ -16,19 +16,16 @@
   You should have received a copy of the GNU General Public License
   along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 \***************************************************************************/
-  
-#ifndef __NXPY3BIND_PYMODULE_H__
-#define __NXPY3BIND_PYMODULE_H__
 
-#include <Python.h>
-#include "../kernel/nx_compiler.h"
+#ifndef __NXDRAGON_LUA_DEF_H__
+#define __NXDRAGON_LUA_DEF_H__
 
-#define PY3BIND_MODULE_NAME "nxdragon"
+#include "kernel/nx_platform.h"
 
-PyMODINIT_FUNC PyInit_nxdragon(void);
-
-#ifdef NX_CC_MSVC
-#	pragma warning(disable:4127) /* Disables "Conditional expression is constant" emitted from Py_XDECREF() */
+#ifdef NXDRAGON_BUILD_LUA
+#	define NX_LUA_API NX_EXPORT
+#else
+#	define NX_LUA_API NX_IMPORT
 #endif
 
 #endif

@@ -17,15 +17,25 @@
   along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 \***************************************************************************/
 
-#ifndef __NXPY3BIND_DEF_H__
-#define __NXPY3BIND_DEF_H__
+#ifndef __NX_LUA_H__
+#define __NX_LUA_H__
 
-#include "../kernel/nx_def.h"
+#include "nx_def.h"
+#include "kernel/nx_bool.h"
 
-#ifdef NXDRAGON_BUILD_PY3BIND 
-#	define NX_PY3BIND_API NX_EXPORT
-#else
-#	define NX_PY3BIND_API NX_IMPORT
-#endif
+/** Initializes the script engine and binds all compiled NxDragon modules */
+nxbool _nx_lua_setup(void); 
+
+/** Shuts down the script engine and frees all the related memory */
+nxbool _nx_lua_shutdown(void); 
+
+/** Returns the global lua state */
+struct lua_State* _nx_lua_state(void); 
+
+/** Parses the given string as a Lua script */
+NX_LUA_API nxbool nx_lua_parse(const char *script);
+
+/** Parses the given file as a Lua script */
+NX_LUA_API nxbool nx_lua_run(const char *filepath);  
 
 #endif

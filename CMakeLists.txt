@@ -11,10 +11,13 @@ set(NXDRAGON_VERSION_MAJOR 0)
 set(NXDRAGON_VERSION_MINOR 1)
 set(NXDRAGON_VERSION_PATCH 0)
 
-option(NXDRAGON_PYTHON3_SUPPORT ON)
+option(NXDRAGON_LUA_SUPPORT ON)
 
 include(cmake/nx_platform.cmake)
 include(cmake/nx_filters.cmake)
+
+# We want to mark all debug binaries with a _d suffix
+set(CMAKE_DEBUG_POSTFIX "_d")
 
 # We want to put all binaries in the same output dir	   
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
@@ -34,14 +37,18 @@ add_subdirectory(src/gui)
 add_subdirectory(src/math)
 add_subdirectory(src/utest)
 
-if(NXDRAGON_PYTHON3_SUPPORT)
-	add_subdirectory(src/py3bind)
-endif()
-
 # Unit tests 
 add_subdirectory(tests/kernel)
 add_subdirectory(tests/math)
-#add_subdirectory(tests/py3bind)
 
-# Examples
+# Language bindings 
+
+if(NXDRAGON_LUA_SUPPORT)
+	include(cmake/nx_lua.cmake) # Custom "find lua" cMake module  
+	add_subdirectory(bindings/nxlua) # Lua 5.2 bindings 
+
+	add_subdirectory(examples/lua/parse_file)
+endif() 
+
+# Example code
 add_subdirectory(examples/gui/simple_window)

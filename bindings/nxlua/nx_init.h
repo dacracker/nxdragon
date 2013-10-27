@@ -17,18 +17,20 @@
   along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 \***************************************************************************/
 
-#ifndef __NX_GUI_INIT_H__
-#define __NX_GUI_INIT_H__
+#ifndef __NX_LUA_INIT_H__
+#define __NX_LUA_INIT_H__
 
 #include "nx_def.h"
-#include "../kernel/nx_types.h"
+#include "kernel/nx_bool.h"
 
-/** Initializes the gui-module. Returns nxtrue if successful.
-  * This function must be called before using the module. */
-NX_GUI_API nxbool nx_gui_init(void);
+/** Initializes the lua-module. Returns nxtrue if successful.
+  * This function must be called before using the module. 
+  */
+NX_LUA_API nxbool nx_lua_init(void);
 
-/** Shuts down the gui-module.
-  * This function must be called when terminating. */
-NX_GUI_API void nx_gui_shutdown(void);
+/** Shuts down the lua-module.
+  * This function must be called when terminating. 
+  */
+NX_LUA_API nxbool nx_lua_shutdown(void);
 
 #endif

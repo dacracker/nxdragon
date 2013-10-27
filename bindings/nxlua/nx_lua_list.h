@@ -17,17 +17,13 @@
   along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 \***************************************************************************/
 
-#ifndef __NXPY3BIND_KERNEL_ATOMIC__
-#define __NXPY3BIND_KERNEL_ATOMIC__
+#ifndef __NX_LUA_LIST_H__
+#define __NX_LUA_LIST_H__
 
-#include "../kernel/nx_bool.h"
+#include <lua.h>
 
-#include <Python.h>
+/** Binds the nx_list object type to Lua */
+void _nx_bind_list(struct lua_State *state); 
 
-/* Initializes types related to the atomic functions in NxKernel*/
-nxbool _nx_pykernel_atomic_init(void);
+#endif
 
-/* Registers the types in the given module */
-void _nx_pykernel_atomic_reg(PyObject *module);
-
-#endif 

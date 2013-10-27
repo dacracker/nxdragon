@@ -17,13 +17,10 @@
   along with NxDragon. If not, see <http://www.gnu.org/licenses/>.
 \***************************************************************************/
 
-#ifndef __NX_PY3BIND_DOC_H__
-#define __NX_PY3BIND_DOC_H__
+#ifndef __NXDRAGON_LUA_DOC_H__
+#define __NXDRAGON_LUA_DOC_H__
 
-/** @defgroup NxPy3Bind
- * The Py3Bind module is responsible for
- * maintaining the Python API for all other
- * modules. 
+/** @defgroup NxLua
+ * Lua bindings. 
  */
-
 #endif

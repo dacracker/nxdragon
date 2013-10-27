@@ -20,14 +20,14 @@
 #include "nx_init.h"
 
 /*************************************************************/
-nxbool nx_gui_init()
+nxbool nx_gui_init(void)
 {
 	/* So far the gui-module does not need to initialize anything on win32 */
 	return nxtrue;
 }
 
 /*************************************************************/
-void nx_gui_shutdown()
+void nx_gui_shutdown(void)
 {
 
 }
