@@ -56,10 +56,10 @@ NX_GUI_API struct nx_event_source_t* nx_window_event_source(nx_window *self);
 NX_GUI_API nxhandle nx_window_handle(nx_window *self); 
 
 /** Returns the current width of the window */
-NX_GUI_API int nx_window_width(nx_window *self);
+NX_GUI_API int nx_window_width(const nx_window *self);
 
 /** Returns the current height of the window */
-NX_GUI_API int nx_window_height(nx_window *self);
+NX_GUI_API int nx_window_height(const nx_window *self);
 
 /** Resizes the window */
 NX_GUI_API void nx_window_resize(nx_window *self, int width, int height);
@@ -68,7 +68,7 @@ NX_GUI_API void nx_window_resize(nx_window *self, int width, int height);
 NX_GUI_API void nx_window_set_fullscreen(nx_window *self, nxbool on);
 
 /** Returns nxtrue if the window is currently in fullscreen mode */
-NX_GUI_API nxbool nx_window_fullscreen(nx_window *self);
+NX_GUI_API nxbool nx_window_fullscreen(const nx_window *self);
 
 /** @} @} */
 

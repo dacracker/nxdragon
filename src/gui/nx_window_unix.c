@@ -26,7 +26,6 @@
 #include "../kernel/nx_event_source.h"
 #include "../kernel/nx_thread.h"
 
-#include <stdio.h>
 #include <string.h>
 
 #include <X11/Xlib.h>
@@ -45,70 +44,60 @@ struct nx_window_t {
     Display *display;
     char *title;
     int width,
-        height;
-    nxbool frameless;
+        height,
+        screen;
+    XEvent fullscreen_event;
     nx_event_source *event_source;
     nx_mutex *mutex;
     nx_wait_condition *wait_cond;
     nx_thread *thread;
 };
 
-typedef struct {
-    unsigned long flags,
-                  functions,
-                  decorations;
-    long inputMode;
-    unsigned long status;
-} window_hints;
-
 /*************************************************************/
-static void _nx_window_set_frameless(nx_window *self, nxbool on)
+static void _nx_setup_fullscreen_event(nx_window *window)
 {
-    window_hints hints;
-
-    /* if uesr is trying to set the frameless-status ro something it already is, we abort */
-    if(on == self->frameless)
-        return;
-
-    self->frameless = on;
-
-    hints.flags = 2;
-    hints.decorations = on ? 0 : 1;
-
-    XChangeProperty(self->display,
-                    self->handle,
-                    self->wm_hints,
-                    self->wm_hints,
-                    32,
-                    PropModeReplace,
-                    (unsigned char *)&hints,
-                    5);
-
-    XFlush(self->display);
+    window->fullscreen_event.xclient.type		  = ClientMessage;
+    window->fullscreen_event.xclient.serial		  = 0;
+    window->fullscreen_event.xclient.send_event	  = True;
+    window->fullscreen_event.xclient.window		  = window->handle;
+    window->fullscreen_event.xclient.message_type = XInternAtom(window->display, "_NET_WM_STATE", False);
+    window->fullscreen_event.xclient.format		  = 32;
+    window->fullscreen_event.xclient.data.l[0]    = False; /* Set to True(1) for fullscreen, False(0) to remove fullscreen */
+    window->fullscreen_event.xclient.data.l[1]    = XInternAtom(window->display, "_NET_WM_STATE_FULLSCREEN", False);
+    window->fullscreen_event.xclient.data.l[2]    = 0;
 }
 
 /*************************************************************/
 static nxbool _nx_setup_window(nx_window *window)
 {
-    int screen;
+    XSetWindowAttributes attributes;
 
     /* Try to open the display */
     window->display = XOpenDisplay(0);
     if(window->display == 0)
         return nxfalse;
 
-    screen = DefaultScreen(window->display);
+    window->screen = DefaultScreen(window->display);
 
-    /* Create the window */
-    window->handle = XCreateSimpleWindow(window->display,
-                                         RootWindow(window->display, 0),
-                                         1, 1,
-                                         window->width, window->height,
-                                         20,
-                                         BlackPixel(window->display, screen),
-                                         BlackPixel(window->display, screen));
+    attributes.background_pixel = XBlackPixel(window->display,window->screen);
+    attributes.border_pixel = XBlackPixel(window->display,window->screen);
+    attributes.override_redirect = True;
+
+    window->handle = XCreateWindow(window->display,
+                                   RootWindow(window->display, window->screen),
+                                   0, 0,
+                                   window->width, window->height,
+                                   1,
+                                   DefaultDepth(window->display,window->screen),
+                                   InputOutput,
+                                   DefaultVisual(window->display,window->screen),
+                                   CWBackPixel | CWBorderPixel,
+                                   &attributes);
 
     window->wm_hints = XInternAtom(window->display,"_MOTIF_WM_HINTS",True);
+
+    /* prepare the fullscreen-event */
+    _nx_setup_fullscreen_event(window);
 
     /* Set the title */
     XStoreName(window->display, window->handle, window->title);
@@ -116,7 +105,7 @@ static nxbool _nx_setup_window(nx_window *window)
     window->wm_delete_window = XInternAtom(window->display, "WM_DELETE_WINDOW", 0);
     XSetWMProtocols(window->display, window->handle, &window->wm_delete_window, 1);
 
-    XSelectInput(window->display, window->handle, ExposureMask);
+    XSelectInput(window->display, window->handle, ExposureMask | StructureNotifyMask);
 
     /* Map to the display */
     XMapWindow(window->display, window->handle);
@@ -152,17 +141,32 @@ static void _nx_window_thread_proc(nx_thread *thread, nx_window *self)
 
         switch(event.type)
         {
-            case ClientMessage:
+        case ClientMessage:
+        {
+            /* close-event */
+            if(event.xclient.data.l[0] == self->wm_delete_window)
             {
-                /* close-event */
-                if(event.xclient.data.l[0] == self->wm_delete_window)
-                {
-                    running = nxfalse;
-                    window_closed_event = _nx_create_window_closed_event(self);
-                    nx_event_source_emit(self->event_source, &window_closed_event->base);
-                    break;
-                }
+                running = nxfalse;
+                window_closed_event = _nx_create_window_closed_event(self);
+                nx_event_source_emit(self->event_source, &window_closed_event->base);
+                break;
             }
+        }
+        case ConfigureNotify:
+        {
+            /* This event may occur for att kinds of intents, so we have to check if it is for a rezise */
+            nx_mutex_lock(self->mutex);
+
+            if(self->width != event.xconfigure.width)
+                self->width = event.xconfigure.width;
+
+            if(self->height != event.xconfigure.height)
+                self->height = event.xconfigure.height;
+
+            nx_mutex_unlock(self->mutex);
+
+            break;
+        }
         }
     }
 }
@@ -176,7 +180,6 @@ nx_window *nx_window_create(const char *title, int width, int height)
     window = nx_malloc(sizeof(nx_window));
 
     window->handle = 0;
-    window->frameless = nxfalse;
     window->title = strdup(title);
     window->width = width;
     window->height = height;
@@ -234,7 +237,7 @@ nx_event_source* nx_window_event_source(nx_window *self)
 }
 
 /*************************************************************/
-int nx_window_width(nx_window *self)
+int nx_window_width(const nx_window *self)
 {
     int width;
 
@@ -248,7 +251,7 @@ int nx_window_width(nx_window *self)
 }
 
 /*************************************************************/
-int nx_window_height(nx_window *self)
+int nx_window_height(const nx_window *self)
 {
     int height;
 
@@ -275,13 +278,33 @@ void nx_window_resize(nx_window *self, int width, int height)
 /*************************************************************/
 void nx_window_set_fullscreen(nx_window *self, nxbool on)
 {
-    /* TODO: implement */
-    NX_UNUSED(self);
-    NX_UNUSED(on);
+    /* If the user is didn't change anything we abort */
+    if(nx_window_fullscreen(self) == on)
+        return;
+
+    nx_mutex_lock(self->mutex);
+
+    /* Toggle the fullscreen's on/off value in the event */
+    self->fullscreen_event.xclient.data.l[0] = on == nxtrue ? True : False;
+
+    XSendEvent(self->display, RootWindow(self->display, self->screen), False, SubstructureRedirectMask | SubstructureNotifyMask, &self->fullscreen_event);
+
+    XFlush(self->display);
+
+    nx_mutex_unlock(self->mutex);
+
 }
 
 /*************************************************************/
-nxbool nx_window_fullscreen(nx_window *self)
+nxbool nx_window_fullscreen(const nx_window *self)
 {
-    return nxfalse;
+    nxbool fullscreen;
+
+    nx_mutex_lock(self->mutex);
+
+    fullscreen = self->fullscreen_event.xclient.data.l[0] == True ? nxtrue : nxfalse;
+
+    nx_mutex_unlock(self->mutex);
+
+    return fullscreen;
 }
