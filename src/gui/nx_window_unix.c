@@ -56,15 +56,16 @@ struct nx_window_t {
 /*************************************************************/
 static void _nx_setup_fullscreen_event(nx_window *window)
 {
-    window->fullscreen_event.xclient.type		  = ClientMessage;
-    window->fullscreen_event.xclient.serial		  = 0;
-    window->fullscreen_event.xclient.send_event	  = True;
-    window->fullscreen_event.xclient.window		  = window->handle;
-    window->fullscreen_event.xclient.message_type = XInternAtom(window->display, "_NET_WM_STATE", False);
-    window->fullscreen_event.xclient.format		  = 32;
-    window->fullscreen_event.xclient.data.l[0]    = False; /* Set to True(1) for fullscreen, False(0) to remove fullscreen */
-    window->fullscreen_event.xclient.data.l[1]    = XInternAtom(window->display, "_NET_WM_STATE_FULLSCREEN", False);
-    window->fullscreen_event.xclient.data.l[2]    = 0;
+    XClientMessageEvent *xclient = &window->fullscreen_event.xclient;
+    memset(xclient, 0, sizeof(XClientMessageEvent));
+
+    xclient->type = ClientMessage;
+    xclient->send_event = True;
+    xclient->window = window->handle;
+    xclient->message_type = XInternAtom(window->display, "_NET_WM_STATE", False);
+    xclient->format = 32;
+    xclient->data.l[0] = False; /* Set to True(1) for fullscreen, False(0) to remove fullscreen */
+    xclient->data.l[1] = XInternAtom(window->display, "_NET_WM_STATE_FULLSCREEN", False);
 }
 
 /*************************************************************/
