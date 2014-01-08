@@ -44,7 +44,10 @@ typedef nxuint32 (*nx_timer_proc)(nxuint32,void*);
   */
 NX_KERNEL_API nxuint32 nx_timer_start(nxuint32 interval,
 									  nx_timer_proc proc,
-									  void *param); 
+									  void *param);
+
+/** Stops the timer with the given id. Returns nxtrue on success. */
+NX_KERNEL_API nxbool nx_timer_stop(nxuint32 timer_id); 
 
 /** Returns the number of ticks since application startup */ 
 NX_KERNEL_API nxuint32 nx_get_ticks(void);

@@ -117,6 +117,31 @@ nxuint32 nx_timer_start(nxuint32 interval,
 }
 
 /*************************************************************/
+nxbool nx_timer_stop(nxuint32 timer_id)
+{
+	struct _nx_timer *timer;
+	int index; 
+
+	nx_mutex_lock(_nx_timers_mutex); 
+	for(index = 0; index < nx_list_size(&_nx_timer_list); ++index)
+	{
+		timer = nx_list_at(&_nx_timer_list,index);
+
+		if(timer->id == timer_id)
+		{
+			nx_list_remove_at(&_nx_timer_list,index);
+			nx_free(timer);
+			
+			nx_mutex_unlock(_nx_timers_mutex); 
+			return nxtrue;
+		}
+	}
+	nx_mutex_unlock(_nx_timers_mutex); 
+
+	return nxfalse; 
+}
+
+/*************************************************************/
 nxbool _nx_start_timer_thread(void)
 {
 	if(_nx_timer_thread != 0)
