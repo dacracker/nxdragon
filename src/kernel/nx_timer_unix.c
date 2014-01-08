@@ -64,7 +64,7 @@ static nxuint32 (*_nx_get_ticks)(void) = _nx_time_get_ticks_tod;
 
 
 /*************************************************************/
-void nx_ticks_init(void) 
+void _nx_timer_init(void) 
 {
 #if !defined(NX_OS_MACX)
 	/* The monotonic clock is preferable since it's faster

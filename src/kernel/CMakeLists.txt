@@ -22,7 +22,8 @@ set(nxkernel_inc
 	nx_memory.h
 	nx_library.h
 	nx_thread.h
-	nx_wait_condition.h)
+	nx_wait_condition.h
+	nx_init.h)
 			    
 set(nxkernel_src 
 	nx_linkedlist.c
@@ -30,7 +31,9 @@ set(nxkernel_src
 	nx_queue.c
 	nx_event.c
 	nx_event_source.c
-	nx_event_queue.c)
+	nx_event_queue.c
+	nx_init.c
+	nx_timer.c)
 
 if(NX_PLATFORM_WIN32)
 	set(nxkernel_platform_src 

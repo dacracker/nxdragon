@@ -23,4 +23,7 @@
 /* Test basic initialization of the tick functions */
 void test_ticks(void *status);
 
+/* Test if a timer can be started/stopped */
+void test_timer_start_stop(void *status); 
+
 #endif 

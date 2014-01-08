@@ -33,12 +33,6 @@
 static DWORD _tick_start;
 
 /*************************************************************/
-void nx_ticks_init(void) 
-{
-	_tick_start = GetTickCount();
-}
-
-/*************************************************************/
 nxuint32 nx_get_ticks(void) 
 {
 	return _tick_start - GetTickCount();
@@ -48,4 +42,10 @@ nxuint32 nx_get_ticks(void)
 void nx_sleep(nxuint32 ms)
 {
 	Sleep(ms);
+}
+
+/*************************************************************/
+void _nx_timer_init(void) 
+{
+	_tick_start = GetTickCount();
 }

@@ -34,14 +34,35 @@
   * @{
   */
 
-/** Initializes tick count system */
-NX_KERNEL_API void nx_ticks_init(void);
+typedef nxuint32 (*nx_timer_proc)(nxuint32,void*); 
+
+/** Creates a new timer which will fire the chosen
+  *	function at the given interval. The param will
+  *	be sent to the function when it's fired. The function
+  *	should return the new interval as it's return value.
+  *	the timer is stoped if a value of 0 is returned.
+  */
+NX_KERNEL_API nxuint32 nx_timer_start(nxuint32 interval,
+									  nx_timer_proc proc,
+									  void *param); 
 
 /** Returns the number of ticks since application startup */ 
 NX_KERNEL_API nxuint32 nx_get_ticks(void);
 
 /** Puts the current thread to sleep for at least <ms> milliseconds*/ 
 NX_KERNEL_API void nx_sleep(nxuint32 ms);
+
+
+
+
+/* WARNING: the following functions are private and most _only_ 
+			be called from _within_ the kernel module. */
+
+/** Initializes timer subsystem */
+void _nx_timer_init(void);
+
+nxbool _nx_start_timer_thread(void); 
+nxbool _nx_stop_timer_thread(void);  
 
 /** @} @} */
 

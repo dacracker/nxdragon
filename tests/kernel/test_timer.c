@@ -22,13 +22,18 @@
 #include "kernel/nx_timer.h"
 #include "utest/nx_utest.h"
 
+/* This function represents our timer */
+nxuint32 int_counter_timer(nxuint32 interval, void *param)
+{
+	/* Increase the counter variable */
+	int *counter = param; 
+	return --(*counter) <= 0 ? 0 : interval;
+}
+
 /*************************************************************/
 void test_ticks(void *status)
 {
 	nxuint32 _start_point;
-
-	/* Initialize ticks module */ 
-	nx_ticks_init();
 
 	/* Sleep for a few milliseconds*/ 
 	nx_sleep(25);
@@ -42,4 +47,23 @@ void test_ticks(void *status)
 	nx_sleep(25);
 
 	nx_assert(_start_point != nx_get_ticks());
+}
+
+/*************************************************************/
+void test_timer_start_stop(void *status)
+{
+	int counter1 = 10,
+		counter2 = 5; 
+	nxuint32 id1,id2; 
+
+	id1 = nx_timer_start(25,int_counter_timer,&counter1);
+	id2 = nx_timer_start(60,int_counter_timer,&counter2); 
+
+	nx_assert_greater(id1,0);
+	nx_assert_greater(id2,0);
+
+	nx_assert(id1 != id2); 
+	
+	while((counter1 != 0) && (counter2 != 0))
+		nx_sleep(100); 
 }

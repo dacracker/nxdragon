@@ -242,6 +242,12 @@ nx_window *nx_window_create(const char *title, int width, int height)
 
 	nx_mutex_unlock(window->mutex);
 
+	nx_mutex_delete(window->mutex);
+	window->mutex = 0;
+
+	nx_wait_condition_delete(window->wait_cond);
+	window->wait_cond = 0;
+
 	return window;	
 }
 
@@ -254,10 +260,6 @@ void nx_window_delete(nx_window *self)
 	nx_thread_end(self->thread);
 
 	nx_event_source_delete(self->event_source);
-
-	nx_mutex_delete(self->mutex);
-
-	nx_wait_condition_delete(self->wait_cond);
 
 	nx_free(self->title);
 
